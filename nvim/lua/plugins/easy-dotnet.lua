@@ -6,6 +6,10 @@ return {
       picker = "snacks",
       lsp = { enabled = false },
       diagnostics = { enabled = false },
+      debugger = {
+        enabled = true,
+        path = "netcoredbg", -- uses the one you just tested
+      },
     })
 
     -- <leader>dd -> kill dotnet, then EasyDotnet picker
