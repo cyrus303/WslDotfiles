@@ -1,17 +1,4 @@
 return {
-  {
-    -- Lackluster theme configuration
-    "slugbyte/lackluster.nvim",
-    lazy = true,
-    priority = 1000,
-    config = function()
-      -- NOTE: Uncomment one of the following lines to use a different theme variant
-      -- vim.cmd [[colorscheme lackluster]]
-      -- vim.cmd.colorscheme 'lackluster-hack'
-      -- vim.cmd.colorscheme("lackluster-mint")
-    end,
-  },
-
   -- Define the rose-pine theme
   {
     "rose-pine/neovim",
