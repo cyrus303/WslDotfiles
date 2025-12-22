@@ -3,14 +3,17 @@ return {
   dependencies = { "nvim-lua/plenary.nvim" },
   config = function()
     require("easy-dotnet").setup({
-      picker = "snacks", -- optional; or omit to let it auto-detect
-      lsp = { enabled = false }, -- disable its LSP client
-      diagnostics = { enabled = false }, -- optional: let roslyn handle diags
+      picker = "snacks",
+      lsp = { enabled = false },
+      diagnostics = { enabled = false },
     })
 
-    -- <leader>dd -> EasyDotnet picker
-    vim.keymap.set("n", "<leader>dd", "<cmd>Dotnet<cr>", {
-      desc = "EasyDotnet menu",
-    })
+    -- <leader>dd -> kill dotnet, then EasyDotnet picker
+    vim.keymap.set("n", "<leader>dd", function()
+      -- kill any running dotnet processes (dev-only)
+      vim.fn.system("pkill dotnet || true")
+      -- then open the EasyDotnet picker
+      vim.cmd("Dotnet")
+    end, { desc = "kill + EasyDotnet" })
   end,
 }
