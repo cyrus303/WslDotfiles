@@ -1,0 +1,30 @@
+return {
+  "folke/noice.nvim",
+  opts = {
+    presets = {
+      lsp_doc_border = true, -- adds border to hover & signature docs
+    },
+    lsp = {
+      hover = {
+        enabled = true,
+        silent = true,
+        view = nil,
+        opts = {
+          border = "rounded",
+          -- you can tweak size/position if needed
+          -- max_width = 80,
+          -- max_height = 20,
+        },
+      },
+      signature = {
+        enabled = true,
+        auto_open = {
+          enabled = true,
+        },
+        opts = {
+          border = "rounded",
+        },
+      },
+    },
+  },
+}
