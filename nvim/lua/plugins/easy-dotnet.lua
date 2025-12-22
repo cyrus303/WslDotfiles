@@ -12,12 +12,15 @@ return {
       },
     })
 
-    -- <leader>dd -> kill dotnet, then EasyDotnet picker
-    vim.keymap.set("n", "<leader>dd", function()
+    -- <leader>dk -> kill dotnet
+    vim.keymap.set("n", "<leader>dk", function()
       -- kill any running dotnet processes (dev-only)
       vim.fn.system("pkill dotnet || true")
-      -- then open the EasyDotnet picker
+    end, { desc = "Kill dotnet processes" })
+
+    -- <leader>dd -> EasyDotnet picker
+    vim.keymap.set("n", "<leader>dd", function()
       vim.cmd("Dotnet")
-    end, { desc = "kill + EasyDotnet" })
+    end, { desc = "EasyDotnet picker" })
   end,
 }
