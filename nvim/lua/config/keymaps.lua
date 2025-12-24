@@ -9,6 +9,7 @@ map("x", "p", '"_dP', { desc = "Paste without overwriting yank" })
 
 -- 2. Delete / change without yanking
 map("n", "<leader>d", '"_d', { desc = "Delete without yank" })
+map("v", "<leader>d", '"_d', { desc = "Delete without yank" })
 map("n", "<leader>D", '"_D', { desc = "Delete line without yank" })
 map("n", "<leader>c", '"_c', { desc = "Change without yank" })
 map("n", "<leader>C", '"_C', { desc = "Change line without yank" })
