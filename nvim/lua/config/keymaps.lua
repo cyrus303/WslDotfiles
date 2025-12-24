@@ -39,3 +39,26 @@ map("n", "<leader>p", function()
   -- strip CR at end of lines
   vim.cmd([[%s/\r$//e]])
 end, { desc = "Paste from clipboard (strip CRLF)" })
+
+-- helper: show line diagnostics without tiny-inline
+local function show_line_diag_without_inline()
+  -- disable tiny-inline
+  require("tiny-inline-diagnostic").disable()
+
+  -- open float and close it on movement / leave
+  vim.diagnostic.open_float(nil, {
+    scope = "line",
+    close_events = { "CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave" },
+    border = "rounded",
+  })
+
+  -- re-enable tiny-inline after those events
+  vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave" }, {
+    once = true,
+    callback = function()
+      require("tiny-inline-diagnostic").enable()
+    end,
+  })
+end
+
+vim.keymap.set("n", "<leader>cd", show_line_diag_without_inline, { desc = "Line diagnostics (no inline)" })
