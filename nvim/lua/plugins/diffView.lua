@@ -6,13 +6,11 @@ return {
       view = {
         default = {
           layout = "diff2_horizontal",
+          disable_diagnostics = true,
         },
         merge_tool = {
           layout = "diff3_horizontal",
           disable_diagnostics = true,
-        },
-        file_history = {
-          layout = "diff2_horizontal",
         },
       },
       use_icons = true,

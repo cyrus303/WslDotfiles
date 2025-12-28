@@ -30,3 +30,6 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
 
 -- Disable all animations
 vim.g.snacks_animate = false
+
+-- Force all swap files into this directory
+vim.opt.directory = "/home/mahesh_s/.local/state/nvim/swap//"
