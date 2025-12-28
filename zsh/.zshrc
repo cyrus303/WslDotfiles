@@ -6,10 +6,13 @@ fi
 # --- fastfetch first, no conditions ---
 if command -v fastfetch >/dev/null 2>&1; then
   fastfetch
+  echo
 fi
 
-# Always start in $HOME when launched as login shell
-[[ $PWD != $HOME ]] && cd "$HOME"
+# Always start in $HOME for the first shell, but not inside tmux
+if [[ -z "$TMUX" ]] && [[ $PWD != $HOME ]]; then
+  cd "$HOME"
+fi
 
 # ----- Powerlevel10k instant prompt (keep at top) -----
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
