@@ -1,3 +1,16 @@
+# Clear screen on shell start
+if [[ $- == *i* ]]; then
+  clear
+fi
+
+# --- fastfetch first, no conditions ---
+if command -v fastfetch >/dev/null 2>&1; then
+  fastfetch
+fi
+
+# Always start in $HOME when launched as login shell
+[[ $PWD != $HOME ]] && cd "$HOME"
+
 # ----- Powerlevel10k instant prompt (keep at top) -----
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
@@ -21,11 +34,41 @@ source "$ZSH/oh-my-zsh.sh"
 # Powerlevel10k config
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
+
 # ----- Environment -----
 export EDITOR='nvim'
 export PATH="$HOME/.dotnet/tools:$HOME/.local/netcoredbg:$PATH"
 
+# ----- zoxide -----
 eval "$(zoxide init --cmd cd zsh)"
+
+# --- copy original zoxide functions ---
+eval "$(typeset -f __zoxide_z  | sed '1s/__zoxide_z/__zoxide_z_orig/')"
+eval "$(typeset -f __zoxide_zi | sed '1s/__zoxide_zi/__zoxide_zi_orig/')"
+
+# --- onefetch repo-aware hook (ADD THIS BLOCK HERE) ---
+_last_onefetch_repo=""
+
+_onefetch_maybe() {
+  local current_repo
+  current_repo=$(git rev-parse --show-toplevel 2>/dev/null) || return
+
+  if [[ "$current_repo" != "$_last_onefetch_repo" ]]; then
+    _last_onefetch_repo="$current_repo"
+    onefetch
+  fi
+}
+
+__zoxide_z() {
+  __zoxide_z_orig "$@" || return
+  _onefetch_maybe
+}
+
+__zoxide_zi() {
+  __zoxide_zi_orig "$@" || return
+  _onefetch_maybe
+}
+# --- end onefetch hook ---
 
 # ----- fzf history (unique, bound to Ctrl-P) -----
 fzf_hist_unique() {
@@ -69,6 +112,3 @@ bindkey -r '^[C'  # remove Alt-C cd (optional)
 
 # Ctrl-F: fzf file search (was Ctrl-T)
 bindkey '^F' fzf-file-widget
-
-# Ctrl-G: fzf directory search (was Alt-C)
-bindkey '^G' fzf-cd-widget
