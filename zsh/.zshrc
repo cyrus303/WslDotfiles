@@ -115,3 +115,5 @@ bindkey -r '^[C'  # remove Alt-C cd (optional)
 
 # Ctrl-F: fzf file search (was Ctrl-T)
 bindkey '^F' fzf-file-widget
+
+export ZSH_COMPDUMP="${ZSH_CACHE_DIR:-$HOME/.cache}/zcompdump"
