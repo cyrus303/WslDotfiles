@@ -27,5 +27,15 @@ return {
         end
       end,
     })
+
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "VeryLazy", -- LATER event
+      callback = function()
+        vim.schedule(function() -- DELAYED
+          pcall(vim.keymap.del, "n", "<leader>gd") -- Delete Snacks gd
+          pcall(vim.keymap.set, "n", "<leader>gd", "<cmd>DiffviewOpen<cr>") -- Re-add yours
+        end)
+      end,
+    })
   end,
 }

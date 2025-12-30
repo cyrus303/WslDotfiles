@@ -4,6 +4,22 @@ return {
     local wk = require("which-key")
 
     wk.add({
+      -- Hide Snacks git SOURCES (not your gd)
+      { "<leader>gB", hidden = true },
+      { "<leader>gf", hidden = true },
+      { "<leader>gi", hidden = true },
+      { "<leader>gI", hidden = true },
+      { "<leader>gl", hidden = true },
+      { "<leader>gL", hidden = true },
+      { "<leader>gp", hidden = true },
+      { "<leader>gP", hidden = true },
+      { "<leader>gs", hidden = true },
+      { "<leader>gS", hidden = true },
+      { "<leader>gY", hidden = true },
+      -- DON'T hide gd - let yours win
+    }, { mode = "n" })
+
+    wk.add({
       -- hidden but still mapped
       { "<leader>1", "<cmd>Harpoon to File 1<cr>", hidden = true },
       { "<leader>2", "<cmd>Harpoon to File 2<cr>", hidden = true },

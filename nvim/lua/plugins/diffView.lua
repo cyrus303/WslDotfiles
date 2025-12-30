@@ -14,12 +14,14 @@ return {
         },
       },
       use_icons = true,
+      file_panel = {
+        listing_style = "list", -- One of 'list' or 'tree'
+      },
     },
+    cmd = { "DiffviewOpen", "DiffviewClose" }, -- ✅ Autoloads on command
     keys = {
       -- Diff current working tree vs HEAD
       { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diff (Diffview)" },
-      -- Diff against a specific commit
-      { "<leader>gD", "<cmd>DiffviewOpen HEAD~1<cr>", desc = "Diff HEAD~1" },
       -- Close diffview
       { "<leader>gq", "<cmd>DiffviewClose<cr>", desc = "Close Diffview" },
     },
