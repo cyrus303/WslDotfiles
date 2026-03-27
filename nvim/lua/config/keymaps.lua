@@ -20,13 +20,34 @@ map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear highlight" })
 -- Line diagnostics helper
 local function show_line_diag_without_inline()
   require("tiny-inline-diagnostic").disable()
-  vim.diagnostic.open_float(nil, {
+
+  -- Find highest severity on current line
+  local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
+  local diags = vim.diagnostic.get(0, { lnum = lnum })
+  local severity = vim.diagnostic.severity.HINT
+  for _, d in ipairs(diags) do
+    if d.severity < severity then severity = d.severity end
+  end
+
+  local border_hl = {
+    [vim.diagnostic.severity.ERROR] = "DiagnosticError",
+    [vim.diagnostic.severity.WARN]  = "DiagnosticWarn",
+    [vim.diagnostic.severity.INFO]  = "DiagnosticInfo",
+    [vim.diagnostic.severity.HINT]  = "DiagnosticHint",
+  }
+
+  local _, winid = vim.diagnostic.open_float(nil, {
     scope = "line",
     close_events = { "CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave" },
     border = "rounded",
     max_width = 60,
     wrap = true,
   })
+
+  if winid then
+    vim.wo[winid].winhighlight = "FloatBorder:" .. (border_hl[severity] or "DiagnosticHint")
+  end
+
   vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave" }, {
     once = true,
     callback = function()
