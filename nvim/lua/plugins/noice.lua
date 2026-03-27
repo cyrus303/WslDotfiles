@@ -4,6 +4,12 @@ return {
     presets = {
       lsp_doc_border = true, -- adds border to hover & signature docs
     },
+    routes = {
+      {
+        filter = { find = "%[nuget%]" },
+        opts = { skip = true },
+      },
+    },
     lsp = {
       hover = {
         enabled = true,
