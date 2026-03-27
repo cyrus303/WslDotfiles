@@ -4,11 +4,6 @@
 
 local map = vim.keymap.set
 
--- Move lines up/down (normal + visual)
-map("n", "<A-j>", ":m .+1<CR>==", { desc = "Move line down" })
-map("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line up" })
-map("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
-map("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
 -- Keep cursor centered on half-page jumps
 map("n", "<C-d>", "<C-d>zz", { desc = "Half-page down, center" })
