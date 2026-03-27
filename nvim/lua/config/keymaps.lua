@@ -17,11 +17,10 @@ map("n", "<C-u>", "<C-u>zz", { desc = "Half-page up, center" })
 -- Clear highlight
 map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear highlight" })
 
--- Line diagnostics helper
-local function show_line_diag_without_inline()
+-- Shared styled diagnostic float
+local function show_styled_diag_float()
   require("tiny-inline-diagnostic").disable()
 
-  -- Find highest severity on current line
   local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
   local diags = vim.diagnostic.get(0, { lnum = lnum })
   local severity = vim.diagnostic.severity.HINT
@@ -36,12 +35,17 @@ local function show_line_diag_without_inline()
     [vim.diagnostic.severity.HINT]  = "DiagnosticHint",
   }
 
+  local screen_row = vim.fn.winline()
+  local lines_below = vim.api.nvim_win_get_height(0) - screen_row
+  local anchor = lines_below < 5 and "above" or "below"
+
   local _, winid = vim.diagnostic.open_float(nil, {
     scope = "line",
     close_events = { "CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave" },
     border = "rounded",
     max_width = 60,
     wrap = true,
+    anchor_bias = anchor,
   })
 
   if winid then
@@ -56,4 +60,15 @@ local function show_line_diag_without_inline()
   })
 end
 
-map("n", "<leader>cd", show_line_diag_without_inline, { desc = "Line diagnostics (no inline)" })
+map("n", "<leader>cd", show_styled_diag_float, { desc = "Line diagnostics (no inline)" })
+
+-- Go to next/prev diagnostic with styled float
+map("n", "]d", function()
+  vim.diagnostic.goto_next({ float = false })
+  vim.defer_fn(show_styled_diag_float, 50)
+end, { desc = "Next diagnostic" })
+
+map("n", "[d", function()
+  vim.diagnostic.goto_prev({ float = false })
+  vim.defer_fn(show_styled_diag_float, 50)
+end, { desc = "Prev diagnostic" })
