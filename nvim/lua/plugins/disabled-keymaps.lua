@@ -11,7 +11,6 @@ return {
         for _, lhs in ipairs({
           "<leader>gB", -- Git Browse (open)
           "<leader>gf", -- Git Current File History / Snacks file history
-          "<leader>gd", -- Git Diff (hunks) from Snacks picker
           "<leader>gi", -- GitHub Issues (open)
           "<leader>gI", -- GitHub Issues (all)
           "<leader>gl", -- Git Log

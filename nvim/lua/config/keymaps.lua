@@ -25,7 +25,7 @@ local function show_line_diag_without_inline()
     close_events = { "CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave" },
     border = "rounded",
   })
-  vim.api.nvim_create_autoccmd({ "CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave" }, {
+  vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave" }, {
     once = true,
     callback = function()
       require("tiny-inline-diagnostic").enable()
