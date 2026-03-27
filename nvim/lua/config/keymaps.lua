@@ -24,6 +24,8 @@ local function show_line_diag_without_inline()
     scope = "line",
     close_events = { "CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave" },
     border = "rounded",
+    max_width = 60,
+    wrap = true,
   })
   vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave" }, {
     once = true,
