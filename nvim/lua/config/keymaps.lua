@@ -57,6 +57,18 @@ end
 
 map("n", "<leader>cd", show_styled_diag_float, { desc = "Line diagnostics (no inline)" })
 
+-- New .NET item in current file's directory
+map("n", "<leader>dn", function()
+  local path = vim.fn.expand("%:p:h")
+  coroutine.wrap(function()
+    require("easy-dotnet.actions.new").create_new_item(path, function(file_path)
+      vim.schedule(function()
+        vim.cmd("edit " .. vim.fn.fnameescape(file_path))
+      end)
+    end)
+  end)()
+end, { desc = "New .NET item" })
+
 -- gc = comment current line, remove unused gco/gcO
 vim.keymap.del("n", "gco")
 vim.keymap.del("n", "gcO")
