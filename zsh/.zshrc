@@ -1,3 +1,9 @@
+# ----- Powerlevel10k instant prompt (must be first) -----
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Clear screen on shell start
 if [[ $- == *i* ]]; then
   clear
@@ -11,12 +17,7 @@ fi
 
 # Always start in $HOME for the first shell, but not inside tmux
 if [[ -z "$TMUX" ]] && [[ $PWD != $HOME ]]; then
-  cd "$HOME"
-fi
-
-# ----- Powerlevel10k instant prompt (keep at top) -----
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+  builtin cd "$HOME"
 fi
 
 # ----- Oh My Zsh -----
@@ -42,14 +43,7 @@ source "$ZSH/oh-my-zsh.sh"
 export EDITOR='nvim'
 export PATH="$HOME/.dotnet/tools:$HOME/.local/netcoredbg:$PATH"
 
-# ----- zoxide -----
-eval "$(zoxide init --cmd cd zsh)"
-
-# --- copy original zoxide functions ---
-eval "$(typeset -f __zoxide_z  | sed '1s/__zoxide_z/__zoxide_z_orig/')"
-eval "$(typeset -f __zoxide_zi | sed '1s/__zoxide_zi/__zoxide_zi_orig/')"
-
-# --- onefetch repo-aware hook (ADD THIS BLOCK HERE) ---
+# ----- onefetch repo-aware hook -----
 _last_onefetch_repo=""
 
 _onefetch_maybe() {
@@ -62,16 +56,7 @@ _onefetch_maybe() {
   fi
 }
 
-__zoxide_z() {
-  __zoxide_z_orig "$@" || return
-  _onefetch_maybe
-}
-
-__zoxide_zi() {
-  __zoxide_zi_orig "$@" || return
-  _onefetch_maybe
-}
-# --- end onefetch hook ---
+add-zsh-hook chpwd _onefetch_maybe
 
 # ----- fzf history (unique, bound to Ctrl-P) -----
 fzf_hist_unique() {
@@ -117,3 +102,7 @@ bindkey -r '^[C'  # remove Alt-C cd (optional)
 bindkey '^F' fzf-file-widget
 
 export ZSH_COMPDUMP="${ZSH_CACHE_DIR:-$HOME/.cache}/zcompdump"
+
+# ----- zoxide (must be last) -----
+export _ZO_DOCTOR=0
+eval "$(zoxide init --cmd cd zsh)"
