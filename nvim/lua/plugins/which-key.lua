@@ -17,6 +17,8 @@ return {
       { "<leader>gS", hidden = true },
       { "<leader>gY", hidden = true },
       -- DON'T hide gd - let yours win
+      -- Hide gcc since gc is the intended mapping
+      { "gcc", hidden = true },
     }, { mode = "n" })
 
     wk.add({

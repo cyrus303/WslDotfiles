@@ -57,6 +57,13 @@ end
 
 map("n", "<leader>cd", show_styled_diag_float, { desc = "Line diagnostics (no inline)" })
 
+-- gc = comment current line, remove unused gco/gcO
+vim.keymap.del("n", "gco")
+vim.keymap.del("n", "gcO")
+map("n", "gc", function()
+  vim.api.nvim_feedkeys("gcc", "m", false)
+end, { desc = "Comment line" })
+
 -- Go to next/prev diagnostic with styled float
 map("n", "]d", function()
   vim.diagnostic.goto_next({ float = false })
