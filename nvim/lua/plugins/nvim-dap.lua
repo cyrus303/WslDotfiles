@@ -34,6 +34,11 @@ return {
         dap.terminate()
         dap.clear_breakpoints()
       end, { desc = "DAP Stop and Clear Breakpoint" })
+
+      -- Hover variable value while debugging
+      map("n", "<leader>dh", function()
+        require("dap.ui.widgets").hover()
+      end, { desc = "DAP Hover variable" })
     end,
   },
 
