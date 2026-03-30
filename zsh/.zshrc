@@ -40,6 +40,7 @@ source "$ZSH/oh-my-zsh.sh"
 
 
 # ----- Environment -----
+export TERM=wezterm
 export EDITOR='nvim'
 export PATH="$HOME/.dotnet/tools:$HOME/.local/netcoredbg:$PATH"
 
