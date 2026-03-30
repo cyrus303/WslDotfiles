@@ -7,6 +7,7 @@ return {
       opts.picker.sources = opts.picker.sources or {}
       opts.picker.sources.explorer = vim.tbl_deep_extend("force", opts.picker.sources.explorer or {}, {
         hidden = true, -- show hidden files immediately
+        ignored = true, -- show gitignored files
       })
 
       -- Optional: also set for regular files picker
