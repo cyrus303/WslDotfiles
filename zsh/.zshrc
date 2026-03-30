@@ -104,6 +104,17 @@ bindkey '^F' fzf-file-widget
 
 export ZSH_COMPDUMP="${ZSH_CACHE_DIR:-$HOME/.cache}/zcompdump"
 
+# ----- Windows clipboard image paste (Alt+V) -----
+_wclip_paste() {
+  if wl-paste --type image/bmp > /tmp/clip.bmp 2>/dev/null && convert /tmp/clip.bmp /tmp/clip.png 2>/dev/null; then
+    wl-copy --type image/png < /tmp/clip.png 2>/dev/null
+    LBUFFER+="/tmp/clip.png"
+    zle reset-prompt
+  fi
+}
+zle -N _wclip_paste
+bindkey '^[v' _wclip_paste
+
 # ----- zoxide (must be last) -----
 export _ZO_DOCTOR=0
 eval "$(zoxide init --cmd cd zsh)"
