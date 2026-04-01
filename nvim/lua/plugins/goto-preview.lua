@@ -9,7 +9,7 @@ return {
     post_open_hook = function(buf, win)
       -- Esc inside peek = close just this window (step back one level)
       vim.keymap.set("n", "<Esc>", function()
-        vim.api.nvim_win_close(win, true)
+        vim.api.nvim_win_close(0, true)
       end, { buffer = buf, silent = true })
     end,
   },
