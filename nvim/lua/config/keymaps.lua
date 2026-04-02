@@ -4,6 +4,9 @@
 
 local map = vim.keymap.set
 
+-- Save all buffers
+map({ "n", "i", "v" }, "<C-S-s>", "<cmd>wa<CR>", { desc = "Save all buffers" })
+
 -- Keep cursor centered on half-page jumps
 map("n", "<C-d>", "<C-d>zz", { desc = "Half-page down, center" })
 map("n", "<C-u>", "<C-u>zz", { desc = "Half-page up, center" })
@@ -69,6 +72,10 @@ map("n", "<leader>dn", function()
     end)
   end)()
 end, { desc = "New .NET item" })
+
+-- Remap vertical split from <leader>| to <leader>/
+pcall(vim.keymap.del, "n", "<leader>|")
+map("n", "<leader>/", "<C-W>v", { desc = "Split Window Right", remap = true })
 
 -- gc = comment current line, remove unused gco/gcO
 vim.keymap.del("n", "gco")
