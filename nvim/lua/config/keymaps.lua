@@ -4,7 +4,6 @@
 
 local map = vim.keymap.set
 
-
 -- Keep cursor centered on half-page jumps
 map("n", "<C-d>", "<C-d>zz", { desc = "Half-page down, center" })
 map("n", "<C-u>", "<C-u>zz", { desc = "Half-page up, center" })
@@ -20,14 +19,16 @@ local function show_styled_diag_float()
   local diags = vim.diagnostic.get(0, { lnum = lnum })
   local severity = vim.diagnostic.severity.HINT
   for _, d in ipairs(diags) do
-    if d.severity < severity then severity = d.severity end
+    if d.severity < severity then
+      severity = d.severity
+    end
   end
 
   local border_hl = {
     [vim.diagnostic.severity.ERROR] = "DiagnosticError",
-    [vim.diagnostic.severity.WARN]  = "DiagnosticWarn",
-    [vim.diagnostic.severity.INFO]  = "DiagnosticInfo",
-    [vim.diagnostic.severity.HINT]  = "DiagnosticHint",
+    [vim.diagnostic.severity.WARN] = "DiagnosticWarn",
+    [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
+    [vim.diagnostic.severity.HINT] = "DiagnosticHint",
   }
 
   local screen_row = vim.fn.winline()
