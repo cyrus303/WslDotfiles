@@ -204,7 +204,7 @@ return {
     lazy = false,
     priority = 1000,
     opts = {
-      flavor = "mocha",
+      flavour = "mocha",
       transparent_background = false,
       color_overrides = {
         mocha = {
