@@ -110,9 +110,6 @@ return {
         },
         cmp = true,
         gitsigns = true,
-        telescope = {
-          enabled = true,
-        },
         which_key = true,
         mini = { enabled = true },
         dap = true,
@@ -131,7 +128,7 @@ return {
           NormalNC = { bg = bg },
           SignColumn = { bg = bg },
           LineNr = { fg = "#6c7086", bg = bg },
-          CursorLineNr = { fg = "#f38ba8", bold = true, bg = panel },
+          CursorLineNr = { fg = colors.peach, bold = true, bg = panel },
           Visual = { bg = "#2a2740" },
           CursorLine = { bg = "#1c1a28" },
           ColorColumn = { bg = panel },
@@ -153,33 +150,26 @@ return {
           PmenuSel = { bg = colors.surface1, bold = true },
           PmenuThumb = { bg = colors.overlay0 },
           PmenuSbar = { bg = panel },
+          QuickFixLine = { bg = "#302040", fg = colors.peach, bold = true },
+          QfCursorLine = { bg = "#332f50" },
 
           -- LSP
           LspInlayHint = { fg = colors.overlay1, italic = true },
 
           -- C# / .NET semantic token highlights
           ["@lsp.type.namespace"] = { fg = colors.yellow },
+          ["@lsp.type.class"] = { fg = colors.blue },
           ["@lsp.type.interface"] = { fg = colors.green, italic = true },
           ["@lsp.type.struct"] = { fg = colors.peach },
+          ["@lsp.type.record"] = { fg = colors.sapphire },
           ["@lsp.type.enum"] = { fg = colors.teal },
           ["@lsp.type.enumMember"] = { fg = colors.teal, bold = true },
-          ["@lsp.type.property"] = { fg = colors.lavender },
-          ["@lsp.type.event"] = { fg = colors.flamingo },
           ["@lsp.type.delegate"] = { fg = colors.mauve, italic = true },
           ["@lsp.type.typeParameter"] = { fg = colors.pink },
-          ["@lsp.type.record"] = { fg = colors.sapphire },
-
-          -- Telescope
-          TelescopeNormal = { bg = bg },
-          TelescopeBorder = { fg = colors.surface2, bg = bg },
-          TelescopeTitle = { fg = colors.blue, bg = bg },
-          TelescopePromptNormal = { bg = panel },
-          TelescopePromptBorder = { fg = colors.surface2, bg = panel },
-          TelescopePromptTitle = { fg = colors.mauve, bg = panel },
-          TelescopeResultsNormal = { bg = bg },
-          TelescopeResultsBorder = { fg = colors.surface2, bg = bg },
-          TelescopePreviewNormal = { bg = bg },
-          TelescopePreviewBorder = { fg = colors.surface2, bg = bg },
+          ["@lsp.type.method"] = { fg = colors.blue },
+          ["@lsp.type.property"] = { fg = colors.lavender },
+          ["@lsp.type.parameter"] = { fg = colors.maroon, italic = true },
+          ["@lsp.type.event"] = { fg = colors.flamingo },
 
           -- Snacks
           SnacksNormal = { bg = bg },
@@ -204,16 +194,11 @@ return {
           NeoTreeNormalNC = { bg = bg },
           NeoTreeEndOfBuffer = { bg = bg },
 
-          -- NvimTree
-          NvimTreeNormal = { bg = bg },
-          NvimTreeNormalNC = { bg = bg },
-
-          -- Diffview / Git diff
-          -- Diffview / Git diff (using catppuccin palette blends)
-          DiffAdd = { bg = "#1e4030" }, -- green/bg blend (stronger)
-          DiffChange = { bg = "#2d2950" }, -- mauve/bg blend (stronger)
-          DiffDelete = { bg = "#5c2030" }, -- red/bg blend (much stronger)
-          DiffText = { bg = "#3d3668" }, -- mauve/bg inline change (pop)
+          -- Diffview / Git diff (catppuccin palette blends)
+          DiffAdd = { bg = "#1e4030" },
+          DiffChange = { bg = "#2d2950" },
+          DiffDelete = { bg = "#5c2030" },
+          DiffText = { bg = "#3d3668" },
           DiffviewDiffAdd = { bg = "#1e4030" },
           DiffviewDiffAddAsDelete = { bg = "#5c2030" },
           DiffviewDiffDelete = { fg = colors.surface2, bg = "#2a1420" },
