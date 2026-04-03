@@ -30,17 +30,8 @@ source "$ZSH/oh-my-zsh.sh"
 export TERM=wezterm
 export EDITOR='nvim'
 export PATH="$HOME/.dotnet/tools:$HOME/.local/netcoredbg:$PATH"
-# ----- onefetch repo-aware hook -----
-_last_onefetch_repo=""
-_onefetch_maybe() {
-  local current_repo
-  current_repo=$(git rev-parse --show-toplevel 2>/dev/null) || return
-  if [[ "$current_repo" != "$_last_onefetch_repo" ]]; then
-    _last_onefetch_repo="$current_repo"
-    onefetch
-  fi
-}
-add-zsh-hook chpwd _onefetch_maybe
+# ----- onefetch (manual) -----
+alias gf='onefetch'
 # ----- fzf history (unique, bound to Ctrl-P) -----
 fzf_hist_unique() {
   local cmd
