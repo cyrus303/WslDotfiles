@@ -67,8 +67,9 @@ alias tn='tmux new -s "$(basename "$PWD")"'
 alias cat='bat --paging=never'
 # ----- fzf preview -----
 export FZF_DEFAULT_OPTS="
-  --preview 'bat --color=always --style=numbers --line-range=:200 {} 2>/dev/null || ls -la {}'
-  --preview-window=right:55%:wrap"
+  --preview 'bat --color=always --style=numbers --theme=Catppuccin\ Mocha --line-range=:200 {} 2>/dev/null || ls -la {}'
+  --preview-window=right:55%:wrap
+  --bind 'ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down,ctrl-l:accept'"
 
 # fzf shell integration (Arch installs these)
 [ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
