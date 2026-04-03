@@ -180,14 +180,15 @@ return {
           SnacksPicker = { bg = bg },
           SnacksPickerBorder = { fg = colors.surface2, bg = bg },
           SnacksPickerTitle = { fg = colors.blue, bg = bg },
-          SnacksPickerInput = { bg = panel },
-          SnacksPickerInputBorder = { fg = colors.surface2, bg = panel },
+          SnacksPickerInput = { bg = bg },
+          SnacksPickerInputBorder = { fg = colors.surface2, bg = bg },
           SnacksPickerBox = { bg = bg },
           SnacksPickerPreview = { bg = bg },
           SnacksPickerPreviewBorder = { fg = colors.surface2, bg = bg },
           SnacksPickerList = { bg = bg },
           SnacksPickerListBorder = { fg = colors.surface2, bg = bg },
           SnacksPickerMatch = { fg = colors.peach, bold = true },
+          SnacksPickerCursorLine = { bg = colors.surface1, bold = true },
 
           -- Neo-tree
           NeoTreeNormal = { bg = bg },
