@@ -74,8 +74,8 @@ map("n", "<leader>dn", function()
 end, { desc = "New .NET item" })
 
 -- Remap vertical split from <leader>| to <leader>/
-pcall(vim.keymap.del, "n", "<leader>|")
-map("n", "<leader>/", "<C-W>v", { desc = "Split Window Right", remap = true })
+-- pcall(vim.keymap.del, "n", "<leader>|")
+map("n", "<leader>\\", "<C-W>v", { desc = "Split Window Right", remap = true })
 
 -- gc = comment current line, remove unused gco/gcO
 vim.keymap.del("n", "gco")
