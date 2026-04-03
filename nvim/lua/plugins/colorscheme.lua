@@ -135,6 +135,7 @@ return {
           EndOfBuffer = { fg = bg, bg = bg },
           WinSeparator = { fg = colors.surface2 },
           VertSplit = { fg = colors.surface2 },
+          Folded = { bg = bg, fg = colors.surface2 },
 
           -- Statusline
           StatusLine = { bg = panel },
