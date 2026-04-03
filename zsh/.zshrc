@@ -14,6 +14,7 @@ if [[ -z "$TMUX" ]] && [[ $PWD != $HOME ]]; then
 fi
 # ----- Oh My Zsh -----
 export ZSH="$HOME/.oh-my-zsh"
+export ZSH_COMPDUMP="$HOME/.cache/zsh/zcompdump"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 # Oh My Zsh update behavior
 zstyle ':omz:update' mode reminder
@@ -83,7 +84,6 @@ bindkey -r '^T'   # remove Ctrl-T file search
 bindkey -r '^[C'  # remove Alt-C cd (optional)
 # Ctrl-F: fzf file search (was Ctrl-T)
 bindkey '^F' fzf-file-widget
-export ZSH_COMPDUMP="${ZSH_CACHE_DIR:-$HOME/.cache}/zcompdump"
 # ----- Windows clipboard image paste (Alt+V) -----
 _wclip_paste() {
   if wl-paste --type image/bmp > /tmp/clip.bmp 2>/dev/null && convert /tmp/clip.bmp /tmp/clip.png 2>/dev/null; then
