@@ -34,3 +34,7 @@ vim.g.snacks_animate = false
 -- Force all swap files into this directory
 vim.opt.directory = "/home/mahesh_s/.local/state/nvim/swap//"
 vim.opt.fillchars:append({ diff = " " })
+
+-- Case insensitive for grep
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
