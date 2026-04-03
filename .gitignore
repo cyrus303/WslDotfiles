@@ -1,0 +1,15 @@
+# Zsh compiled/cache files
+zsh/.zcompdump*
+zsh/.zsh_sessions/
+
+# Yazi cache and state
+yazi/cache/
+yazi/state/
+
+# Nvim cache/state (keep config, ignore runtime data)
+nvim/.netrwhist
+
+# General
+*.zwc
+*.log
+.DS_Store
