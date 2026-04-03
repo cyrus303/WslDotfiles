@@ -65,6 +65,11 @@ alias ll='eza -alh'
 alias tree='eza --tree'
 alias tn='tmux new -s "$(basename "$PWD")"'
 alias cat='bat --paging=never'
+# ----- fzf preview -----
+export FZF_DEFAULT_OPTS="
+  --preview 'bat --color=always --style=numbers --line-range=:200 {} 2>/dev/null || ls -la {}'
+  --preview-window=right:55%:wrap"
+
 # fzf shell integration (Arch installs these)
 [ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
 [ -f /usr/share/fzf/completion.zsh ]   && source /usr/share/fzf/completion.zsh
