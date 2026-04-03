@@ -9,9 +9,10 @@
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "qf",
-  callback = function()
+  callback = function(ev)
     vim.opt_local.cursorline = true
     vim.opt_local.cursorlineopt = "both"
     vim.opt_local.winhighlight = "CursorLine:QfCursorLine"
+    vim.keymap.set("n", "l", "<CR>", { buffer = ev.buf, silent = true })
   end,
 })
