@@ -79,6 +79,16 @@ fzf_hist_unique() {
 zle -N fzf_hist_unique
 bindkey '^P' fzf_hist_unique
 
+# ----- Yazi -----
+function y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+  yazi "$@" --cwd-file="$tmp"
+  if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+    cd "$cwd"
+  fi
+  rm -f -- "$tmp"
+}
+
 # ----- Aliases -----
 alias ls='eza'
 alias ll='eza -alh'
