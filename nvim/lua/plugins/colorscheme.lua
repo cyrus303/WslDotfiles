@@ -151,7 +151,7 @@ return {
           PmenuThumb = { bg = colors.overlay0 },
           PmenuSbar = { bg = panel },
           QuickFixLine = { bg = "#302040", fg = colors.peach, bold = true },
-          QfCursorLine = { bg = "#332f50" },
+          QfCursorLine = { bg = "#252236" },
 
           -- LSP
           LspInlayHint = { fg = colors.overlay1, italic = true },
