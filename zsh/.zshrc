@@ -91,6 +91,10 @@ _wclip_paste() {
 }
 zle -N _wclip_paste
 bindkey '^[v' _wclip_paste
+
+export ASPNETCORE_Kestrel__Certificates__Default__Path="/mnt/c/Users/sachi/.config/https/localhost.pfx"
+export ASPNETCORE_Kestrel__Certificates__Default__Password="Dev@12345!"
+
 # ----- zoxide (must be last) -----
 export _ZO_DOCTOR=0
 eval "$(zoxide init --cmd cd zsh)"
