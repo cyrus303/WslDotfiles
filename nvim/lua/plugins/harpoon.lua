@@ -10,12 +10,15 @@ return {
           local harpoon = require("harpoon")
           local function build_items()
             local items = {}
-            for i, item in ipairs(harpoon:list().items) do
-              table.insert(items, {
-                text = item.value,
-                file = item.value,
-                idx = i,
-              })
+            local list = harpoon:list()
+            for i = 1, list:length() do
+              local h_item = list.items[i]
+              if h_item then
+                table.insert(items, {
+                  text = h_item.value,
+                  file = h_item.value,
+                })
+              end
             end
             return items
           end
@@ -27,7 +30,7 @@ return {
             preview = "file",
             actions = {
               harpoon_remove = function(picker, item)
-                harpoon:list():remove_at(item.idx)
+                harpoon:list():remove({ value = item.file })
                 picker:find({ refresh = true })
               end,
             },
