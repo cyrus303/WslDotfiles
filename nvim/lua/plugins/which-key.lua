@@ -6,6 +6,7 @@ return {
     wk.add({
       -- Override stale LazyVim descriptions
       { "<leader>E", desc = "Git Status" },
+      { "<leader>h", desc = "Harpoon Picker" },
     }, { mode = "n" })
 
     wk.add({
