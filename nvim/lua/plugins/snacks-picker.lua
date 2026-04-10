@@ -18,6 +18,11 @@ return {
       opts.picker.sources.files = vim.tbl_deep_extend("force", opts.picker.sources.files or {}, {
         hidden = true,
       })
+
+      -- Git status: open as left sidebar
+      opts.picker.sources.git_status = vim.tbl_deep_extend("force", opts.picker.sources.git_status or {}, {
+        layout = { preset = "default" },
+      })
     end,
   },
 }

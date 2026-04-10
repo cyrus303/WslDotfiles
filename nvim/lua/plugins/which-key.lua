@@ -4,6 +4,11 @@ return {
     local wk = require("which-key")
 
     wk.add({
+      -- Override stale LazyVim descriptions
+      { "<leader>E", desc = "Git Status" },
+    }, { mode = "n" })
+
+    wk.add({
       -- Hide Snacks git SOURCES (not your gd)
       { "<leader>gB", hidden = true },
       { "<leader>gf", hidden = true },
