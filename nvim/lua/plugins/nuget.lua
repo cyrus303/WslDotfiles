@@ -24,6 +24,12 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope.nvim",
     },
-    opts = {},
+    opts = {
+      keys = {
+        install = { "n", "<leader>dpi" },
+        remove = { "n", "<leader>dpr" },
+        clear_cache = { "n", "<leader>dpc" },
+      },
+    },
   },
 }

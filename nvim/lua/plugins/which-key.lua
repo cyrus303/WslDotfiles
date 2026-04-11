@@ -7,6 +7,8 @@ return {
       -- Override stale LazyVim descriptions
       { "<leader>E", desc = "Git Status" },
       { "<leader>h", desc = "Harpoon Picker" },
+      { "<leader>d", group = "dotnet" },
+      { "<leader>dp", group = "packages" },
     }, { mode = "n" })
 
     wk.add({

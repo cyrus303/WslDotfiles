@@ -106,6 +106,14 @@ map("n", "[e", function()
   vim.defer_fn(show_styled_diag_float, 50)
 end, { desc = "Prev error" })
 
+-- Remove snacks profiler keymaps and reclaim <leader>dp for nuget packages
+vim.keymap.del("n", "<leader>dpp")
+vim.keymap.del("n", "<leader>dph")
+vim.keymap.del("n", "<leader>dps")
+vim.schedule(function()
+  require("which-key").add({ { "<leader>dp", group = "packages" } })
+end)
+
 -- Trouble diagnostics
 map("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Diagnostics (Trouble)" })
 map("n", "<leader>xb", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", { desc = "Buffer diagnostics (Trouble)" })
