@@ -106,6 +106,34 @@ map("n", "[e", function()
   vim.defer_fn(show_styled_diag_float, 50)
 end, { desc = "Prev error" })
 
+-- Remove noisy ][ variants (LazyVim + mini.bracketed)
+vim.schedule(function()
+  for _, lhs in ipairs({
+    "]B", "[B", "]D", "[D", "]Q", "[Q", "]T", "[T", -- LazyVim last/first variants
+    "]a", "[a", "]A", "[A",   -- mini.bracketed argument
+    "]i", "[i",               -- mini.bracketed indent scope
+    "]l", "[l", "]L", "[L",   -- mini.bracketed location list
+    "]s", "[s",               -- mini.bracketed misspelled
+    "]%", "[%",               -- mini.bracketed unmatched
+    "](", "[(",               -- mini.bracketed paren
+    "]<", "[<",               -- mini.bracketed angle bracket
+    "]{", "[{",               -- mini.bracketed curly
+    "]<C-L>", "[<C-L>",       -- mini.bracketed file level
+    "]<C-Q>", "[<C-Q>",
+    "]<C-T>", "[<C-T>",
+    "]<CR>", "[<CR>",         -- mini.bracketed empty line
+    "]P", "[P",               -- duplicate of ]p [p
+    "]s", "[s",               -- vim spell (not useful without spell enabled)
+    "]%", "[%",               -- treesitter/matchup
+    "](", "[(",  "])", "[)",
+    "]<", "[<",  "]>", "[>",
+    "]{", "[{",  "]}", "[}",
+    "]<CR>", "[<CR>",         -- empty line
+  }) do
+    pcall(vim.keymap.del, "n", lhs)
+  end
+end)
+
 -- Remove snacks profiler keymaps and reclaim <leader>dp for nuget packages
 vim.keymap.del("n", "<leader>dpp")
 vim.keymap.del("n", "<leader>dph")

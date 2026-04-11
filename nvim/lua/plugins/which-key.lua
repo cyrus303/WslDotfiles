@@ -27,6 +27,13 @@ return {
       -- DON'T hide gd - let yours win
       -- Hide gcc since gc is the intended mapping
       { "gcc", hidden = true },
+      { "[%", hidden = true }, { "]%", hidden = true },
+      { "[(", hidden = true }, { "](", hidden = true },
+      { "[{", hidden = true }, { "]{", hidden = true },
+      { "[<", hidden = true }, { "]<", hidden = true },
+      { "[)", hidden = true }, { "])", hidden = true },
+      { "[}", hidden = true }, { "]}", hidden = true },
+      { "[>", hidden = true }, { "]>", hidden = true },
     }, { mode = "n" })
 
     wk.add({
