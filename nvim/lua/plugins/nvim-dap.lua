@@ -51,6 +51,11 @@ return {
       map("n", "<leader>dR", function()
         dap.run_to_cursor()
       end, { desc = "DAP Run to Cursor" })
+
+      map("n", "<leader>dw", function()
+        require("dap-view").add_expr()
+      end, { desc = "DAP Add Watch Expression" })
+
     end,
   },
 

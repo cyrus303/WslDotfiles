@@ -113,7 +113,6 @@ return {
         which_key = true,
         mini = { enabled = true },
         dap = true,
-        dap_ui = true,
         indent_blankline = { enabled = true },
         neotree = true,
         fidget = true,
