@@ -26,6 +26,23 @@ plugins=(
 source "$ZSH/oh-my-zsh.sh"
 # Powerlevel10k config
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+
+# Vi mode
+bindkey -v
+KEYTIMEOUT=1
+bindkey -M viins '^I' expand-or-complete
+
+# Cursor shape using add-zle-hook-widget to avoid overriding p10k hooks
+function _vi_cursor_shape() {
+  if [[ $KEYMAP == vicmd ]]; then
+    echo -ne '\e[6 q'  # steady beam (normal mode)
+  else
+    echo -ne '\e[4 q'  # steady underline (insert mode)
+  fi
+}
+add-zle-hook-widget zle-keymap-select _vi_cursor_shape
+# Reset to steady underline on each new prompt
+echo -ne '\e[4 q'
 # ----- Environment -----
 export TERM=wezterm
 export EDITOR='nvim'
