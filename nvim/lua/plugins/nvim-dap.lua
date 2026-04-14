@@ -55,7 +55,6 @@ return {
       map("n", "<leader>dw", function()
         require("dap-view").add_expr()
       end, { desc = "DAP Add Watch Expression" })
-
     end,
   },
 
@@ -69,10 +68,17 @@ return {
       auto_toggle = true,
       windows = {
         position = "right",
-        size = 0.45,
+        size = 0.42,
         terminal = {
           position = "below",
-          size = 0.45,
+          size = 0.35,
+        },
+      },
+      winbar = {
+        controls = {
+          enabled = true,
+          position = "right",
+          buttons = { "play", "step_into", "step_over", "step_out", "terminate" },
         },
       },
     },
