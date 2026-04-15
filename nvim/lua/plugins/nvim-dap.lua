@@ -89,6 +89,17 @@ return {
         pattern = "dap-view",
         callback = function(args)
           vim.keymap.set("n", "<C-l>", "<CR>", { buffer = args.buf, remap = true, desc = "DAP View Expand" })
+          -- Defer so our overrides land after the plugin's own set_keymaps() call
+          vim.schedule(function()
+            if not vim.api.nvim_buf_is_valid(args.buf) then return end
+            -- Add missing descriptions
+            vim.keymap.set("n", "[v", function() dapview.navigate({ count = -vim.v.count1, wrap = true }) end, { buffer = args.buf, desc = "DAP View Prev Tab" })
+            vim.keymap.set("n", "]v", function() dapview.navigate({ count = vim.v.count1, wrap = true }) end, { buffer = args.buf, desc = "DAP View Next Tab" })
+            -- Delete broken/undescribed keymaps ([V/]V use vim._maxint which no longer exists)
+            pcall(vim.keymap.del, "n", "[[", { buffer = args.buf })
+            pcall(vim.keymap.del, "n", "[V", { buffer = args.buf })
+            pcall(vim.keymap.del, "n", "]V", { buffer = args.buf })
+          end)
         end,
       })
       vim.api.nvim_create_autocmd("FileType", {
