@@ -14,7 +14,6 @@ return {
     wk.add({
       -- Hide Snacks git SOURCES (not your gd)
       { "<leader>gB", hidden = true },
-      { "<leader>gf", hidden = true },
       { "<leader>gi", hidden = true },
       { "<leader>gI", hidden = true },
       { "<leader>gl", hidden = true },
