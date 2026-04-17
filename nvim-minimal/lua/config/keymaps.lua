@@ -34,7 +34,11 @@ map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
 
--- Move lines (visual)
+-- Move lines
+map("n", "<A-j>", "<cmd>m .+1<CR>==",        { desc = "Move line down" })
+map("n", "<A-k>", "<cmd>m .-2<CR>==",        { desc = "Move line up" })
+map("v", "<A-j>", ":m '>+1<CR>gv=gv",        { desc = "Move selection down" })
+map("v", "<A-k>", ":m '<-2<CR>gv=gv",        { desc = "Move selection up" })
 map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
