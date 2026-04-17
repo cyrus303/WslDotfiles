@@ -48,50 +48,47 @@ return {
         keys = {
           { icon = "󰈞", key = "f", desc = "Find file", action = "<leader>ff" },
           { icon = "󰊄", key = "g", desc = "Live grep", action = "<leader>fg" },
-          { icon = "", key = "l", desc = "Plugins", action = "<cmd>Lazy<CR>" },
-          { icon = "󰅚", key = "q", desc = "Quit", action = "<cmd>qa<CR>" },
+          { icon = "󰒲", key = "l", desc = "Plugins",   action = "<cmd>Lazy<CR>" },
+          { icon = "󰅚", key = "q", desc = "Quit",      action = "<cmd>qa<CR>" },
         },
       },
       sections = {
-        { section = "header", position = "center", padding = 2 },
+        -- pane 1
+        function()
+          local header_width = 62
+          local indent = math.max(0, math.floor((vim.o.columns - header_width) / 2))
+          return { section = "header", indent = indent, padding = { 2, 0, 2, 0 } }
+        end,
         { section = "keys", gap = 1, padding = 1 },
-        { icon = " ", title = "Recent Files", section = "recent_files", padding = 1 },
         {
-          icon = " ",
-          title = "Git Status",
+          text = { { "󰈞  Recent Files", hl = "SnacksDashboardTitle" } },
+          padding = { 1, 0, 1, 0 },
+        },
+        {
+          section = "recent_files",
+          cwd = true,
+          limit = 5,
+          indent = 2,
+          padding = { 0, 0, 1, 0 },
+        },
+
+        -- pane 2
+        { pane = 2, text = "", padding = 6 },
+        {
+          pane = 2,
+          text = { { "󰊢  Recent Commits", hl = "SnacksDashboardTitle" } },
+          padding = { 1, 0, 1, 0 },
+        },
+        {
+          pane = 2,
           section = "terminal",
           enabled = function() return require("snacks.git").get_root() ~= nil end,
-          cmd = "git status --short --branch --renames",
-          height = 5,
+          cmd = "git --no-pager log --color=always -15 --format='%C(yellow)%h%C(reset) %<(35,trunc)%s %C(240)%<(12,trunc)%cr'",
+          height = 17,
           padding = 1,
           ttl = 5 * 60,
+          indent = 2,
         },
-        function()
-          local stats = require("lazy").stats()
-          local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
-          local text = string.format("⚡ Neovim loaded %d/%d plugins in %.2fms", stats.loaded, stats.count, ms)
-          return { align = "center", text = text, padding = 1, pane = 2 }
-        end,
-        function()
-          local in_git = require("snacks.git").get_root() ~= nil
-          local cmds = {
-            {
-              title = "Git Graph",
-              icon = " ",
-              cmd = [[echo -e "$(/usr/sbin/git-graph --style round --color always --wrap 50 0 8 -f 'oneline')" ]],
-              indent = 2,
-              height = 25,
-            },
-          }
-          return vim.tbl_map(function(cmd)
-            return vim.tbl_extend("force", {
-              pane = 2,
-              section = "terminal",
-              enabled = function() return in_git and vim.o.columns > 130 end,
-              padding = 1,
-            }, cmd)
-          end, cmds)
-        end,
       },
     },
 
