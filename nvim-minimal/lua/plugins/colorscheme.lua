@@ -95,7 +95,7 @@ return {
 
           -- Snacks indent
           SnacksIndent = { fg = "#1e1c2e" },
-          SnacksIndentScope = { fg = colors.mauve },
+          SnacksIndentScope = { fg = colors.overlay1 },
 
           -- Snacks
           SnacksNormal = { bg = bg },
