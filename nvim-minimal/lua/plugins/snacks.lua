@@ -1,0 +1,140 @@
+local is_git_item = function(item, git_nodes)
+  return vim.iter(git_nodes):any(function(node)
+    if node.dir_status then
+      return vim.fs.relpath(node.path, item.file) ~= nil
+    end
+    return vim.fs.relpath(item.file, node.path) ~= nil
+  end)
+end
+
+return {
+  "folke/snacks.nvim",
+  priority = 1000,
+  lazy = false,
+  keys = {
+    { "<leader>E", function() Snacks.picker.git_status() end, desc = "Git Status (sidebar)" },
+    { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
+    { "<leader>fg", function() Snacks.picker.grep() end, desc = "Live Grep" },
+    { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
+    { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent Files" },
+    { "<leader>fh", function() Snacks.picker.help() end, desc = "Help" },
+    { "<leader>fk", function() Snacks.picker.keymaps() end, desc = "Keymaps" },
+    { "<leader>/",  function() Snacks.picker.grep() end, desc = "Grep" },
+    { "<leader>:",  function() Snacks.picker.command_history() end, desc = "Command History" },
+    { "<leader>e",  function() Snacks.explorer() end, desc = "Explorer" },
+    { "<leader>n",  function() Snacks.notifier.show_history() end, desc = "Notifications" },
+  },
+  opts = {
+    bigfile = { enabled = true },
+    indent = { enabled = true },
+    input = { enabled = true },
+    notifier = { enabled = true, timeout = 3000 },
+    quickfile = { enabled = true },
+    scope = { enabled = true },
+    statuscolumn = { enabled = true },
+    words = { enabled = true },
+    scroll = { enabled = false },
+    animate = { enabled = false },
+
+    dashboard = {
+      enabled = true,
+      preset = {
+        keys = {
+          { icon = "󰈞", key = "f", desc = "Find file", action = "<leader>ff" },
+          { icon = "󰊄", key = "g", desc = "Live grep", action = "<leader>fg" },
+          { icon = "", key = "l", desc = "Plugins", action = "<cmd>Lazy<CR>" },
+          { icon = "󰅚", key = "q", desc = "Quit", action = "<cmd>qa<CR>" },
+        },
+      },
+      sections = {
+        { section = "header", position = "center", padding = 2 },
+        { section = "keys", gap = 1, padding = 1 },
+        { icon = " ", title = "Recent Files", section = "recent_files", padding = 1 },
+        {
+          icon = " ",
+          title = "Git Status",
+          section = "terminal",
+          enabled = function() return require("snacks.git").get_root() ~= nil end,
+          cmd = "git status --short --branch --renames",
+          height = 5,
+          padding = 1,
+          ttl = 5 * 60,
+        },
+        function()
+          local stats = require("lazy").stats()
+          local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
+          local text = string.format("⚡ Neovim loaded %d/%d plugins in %.2fms", stats.loaded, stats.count, ms)
+          return { align = "center", text = text, padding = 1, pane = 2 }
+        end,
+        function()
+          local in_git = require("snacks.git").get_root() ~= nil
+          local cmds = {
+            {
+              title = "Git Graph",
+              icon = " ",
+              cmd = [[echo -e "$(/usr/sbin/git-graph --style round --color always --wrap 50 0 8 -f 'oneline')" ]],
+              indent = 2,
+              height = 25,
+            },
+          }
+          return vim.tbl_map(function(cmd)
+            return vim.tbl_extend("force", {
+              pane = 2,
+              section = "terminal",
+              enabled = function() return in_git and vim.o.columns > 130 end,
+              padding = 1,
+            }, cmd)
+          end, cmds)
+        end,
+      },
+    },
+
+    picker = {
+      win = {
+        input = {
+          keys = {
+            ["<C-l>"] = { "confirm", mode = { "i", "n" } },
+          },
+        },
+      },
+      sources = {
+        files = { hidden = true },
+        git_status = { layout = { preset = "default" } },
+        explorer = {
+          hidden = true,
+          ignored = true,
+          finder = function(o, ctx)
+            local Tree = require("snacks.explorer.tree")
+            local git_nodes = {}
+            Tree:walk(Tree:find(ctx.picker:cwd()), function(node)
+              if node.status then
+                table.insert(git_nodes, node)
+              end
+            end)
+            ctx.picker.git_nodes = git_nodes
+            return require("snacks.picker.source.explorer").explorer(o, ctx)
+          end,
+          transform = function(item, ctx)
+            if ctx.picker.opts.only_git then
+              return is_git_item(item, ctx.picker.git_nodes)
+            end
+          end,
+          only_git = false,
+          toggles = { only_git = "S" },
+          win = {
+            list = {
+              keys = {
+                ["<CR>"] = { "edit", mode = "n" },
+                ["s"] = { "edit_split", mode = "n" },
+                ["v"] = { "edit_vsplit", mode = "n" },
+                ["S"] = "toggle_only_git",
+              },
+            },
+          },
+        },
+      },
+    },
+
+    explorer = {},
+  },
+}

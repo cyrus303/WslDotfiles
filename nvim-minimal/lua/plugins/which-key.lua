@@ -1,0 +1,39 @@
+return {
+  "folke/which-key.nvim",
+  event = "VeryLazy",
+  opts = {
+    preset = "helix",
+    spec = {
+      { "<leader>b", group = "buffer" },
+      { "<leader>c", group = "code" },
+      { "<leader>d", group = "dotnet" },
+      { "<leader>dp", group = "packages" },
+      { "<leader>f", group = "find" },
+      { "<leader>g", group = "git" },
+      { "<leader>q", group = "quit" },
+      { "<leader>x", group = "diagnostics" },
+      { "<leader>E", desc = "Git Status" },
+      { "<leader>e", desc = "Explorer" },
+      { "<leader>H", desc = "Harpoon Add File" },
+      { "<leader>h", desc = "Harpoon Picker" },
+    },
+  },
+  config = function(_, opts)
+    local wk = require("which-key")
+    wk.setup(opts)
+
+    -- Harpoon numeric shortcuts: registered but hidden to keep UI tidy.
+    wk.add({
+      { "<leader>1", "<cmd>lua require('harpoon'):list():select(1)<cr>", hidden = true },
+      { "<leader>2", "<cmd>lua require('harpoon'):list():select(2)<cr>", hidden = true },
+      { "<leader>3", "<cmd>lua require('harpoon'):list():select(3)<cr>", hidden = true },
+      { "<leader>4", "<cmd>lua require('harpoon'):list():select(4)<cr>", hidden = true },
+      { "<leader>5", "<cmd>lua require('harpoon'):list():select(5)<cr>", hidden = true },
+      { "<leader>6", "<cmd>lua require('harpoon'):list():select(6)<cr>", hidden = true },
+      { "<leader>7", "<cmd>lua require('harpoon'):list():select(7)<cr>", hidden = true },
+      { "<leader>8", "<cmd>lua require('harpoon'):list():select(8)<cr>", hidden = true },
+      { "<leader>9", "<cmd>lua require('harpoon'):list():select(9)<cr>", hidden = true },
+      { "gcc", hidden = true },
+    })
+  end,
+}
