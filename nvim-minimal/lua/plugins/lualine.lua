@@ -17,38 +17,59 @@ return {
       return type(v) == "string" and v or ""
     end
 
+    local function project_root()
+      local ok, root = pcall(function() return require("snacks.git").get_root() end)
+      if ok and root then
+        return " " .. vim.fn.fnamemodify(root, ":t")
+      end
+      return " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+    end
+
     return {
       options = {
         theme = "auto",
         globalstatus = true,
-        component_separators = { left = "", right = "" },
-        section_separators = { left = "", right = "" },
+        component_separators = { left = "\u{E0B1}", right = "\u{E0B3}" },
+        section_separators = { left = "\u{E0B0}", right = "\u{E0B2}" },
         disabled_filetypes = { statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" } },
       },
       sections = {
         lualine_a = { "mode" },
-        lualine_b = { "branch" },
+        lualine_b = { project_root, "branch" },
         lualine_c = {
           {
             "filename",
             path = 0,
             newfile_status = false,
           },
-          {
-            "diagnostics",
-            symbols = { error = " ", warn = " ", info = " ", hint = "󰝶 " },
-          },
         },
         lualine_x = {
           job_indicator_fn,
           {
-            "diff",
-            symbols = { added = " ", modified = " ", removed = " " },
+            "diagnostics",
+            symbols = {
+              error = "\u{F057} ",
+              warn  = "\u{F071} ",
+              info  = "\u{F05A} ",
+              hint  = "\u{F0EB} ",
+            },
           },
-          "filetype",
         },
-        lualine_y = { "progress" },
-        lualine_z = { "location" },
+        lualine_y = {
+          {
+            "diff",
+            symbols = {
+              added    = "\u{F067} ",
+              modified = "\u{F040} ",
+              removed  = "\u{F068} ",
+            },
+          },
+          "progress",
+          "location",
+        },
+        lualine_z = {
+          function() return " " .. os.date("%H:%M") end,
+        },
       },
       extensions = { "lazy", "trouble", "mason", "quickfix" },
     }
