@@ -152,3 +152,21 @@ map("n", "K", function() vim.lsp.buf.hover({ border = "rounded", max_width = 80 
 map("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
 map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
 map("n", "<leader>cf", function() vim.lsp.buf.format({ async = true }) end, { desc = "Format" })
+map("n", "<leader>ci", function()
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+end, { desc = "Toggle inlay hints" })
+map("n", "<leader>cl", function()
+  local enabled = not vim.g.codelens_enabled
+  vim.g.codelens_enabled = enabled
+  if enabled then
+    vim.lsp.codelens.refresh()
+    vim.api.nvim_create_autocmd({ "BufEnter" }, {
+      group = vim.api.nvim_create_augroup("codelens_refresh", { clear = true }),
+      callback = function() vim.lsp.codelens.refresh() end,
+    })
+  else
+    vim.lsp.codelens.clear()
+    vim.api.nvim_create_augroup("codelens_refresh", { clear = true })
+  end
+  vim.notify("Codelens " .. (enabled and "enabled" or "disabled"))
+end, { desc = "Toggle codelens" })
