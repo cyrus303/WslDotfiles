@@ -30,15 +30,7 @@ return {
         ["vim.lsp.util.stylize_markdown"] = true,
       },
       hover = {
-        enabled = true,
-        silent = true,
-        view = nil,
-        opts = {
-          border = "rounded",
-          -- you can tweak size/position if needed
-          -- max_width = 80,
-          -- max_height = 20,
-        },
+        enabled = false,
       },
       signature = {
         enabled = true,
