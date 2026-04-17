@@ -14,8 +14,8 @@ return {
       { "<leader>gd", "<cmd>DiffviewOpen<cr>",          desc = "Diff Working Tree" },
       { "<leader>gD", "<cmd>DiffviewOpen HEAD~1<cr>",  desc = "Diff vs HEAD~1" },
       { "<leader>gh", "<cmd>DiffviewFileHistory<cr>",  desc = "Branch File History" },
-      { "<leader>gH", "<cmd>DiffviewFileHistory %<cr>",                 desc = "Current File History" },
-      { "<leader>gr", "<cmd>DiffviewRefresh<cr>",      desc = "Refresh Diffview" },
+      { "<leader>gH", "<cmd>DiffviewFileHistory %<cr>", desc = "Current File History" },
+      { "<leader>gU", "<cmd>DiffviewRefresh<cr>", desc = "Update/Refresh Diffview" },
       { "<leader>ge", "<cmd>DiffviewToggleFiles<cr>", desc = "Toggle File DiffView" },
     },
     opts = {

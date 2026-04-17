@@ -6,7 +6,7 @@ return {
     spec = {
       { "<leader>b", group = "buffer" },
       { "<leader>c", group = "code" },
-      { "<leader>d", group = "dotnet" },
+      { "<leader>d", group = "dotnet/debug" },
       { "<leader>dp", group = "packages" },
       { "<leader>f", group = "find" },
       { "<leader>s", group = "search" },
@@ -20,6 +20,7 @@ return {
       { "<leader>h", desc = "Harpoon Picker" },
       { "<leader>n", desc = "Notifications" },
       { "<leader>l", desc = "Lazy" },
+      { "<leader>L", desc = "Lazy Health" },
       { "<leader>cm", desc = "Mason" },
       { "s", group = "surround" },
       { "sa", desc = "Add surrounding" },
