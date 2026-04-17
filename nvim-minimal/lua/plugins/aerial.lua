@@ -1,0 +1,35 @@
+return {
+  "stevearc/aerial.nvim",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+  cmd = { "AerialToggle", "AerialOpen", "AerialClose" },
+  keys = {
+    { "<leader>xs", "<cmd>AerialToggle<cr>", desc = "Symbols (Aerial)" },
+    { "{", "<cmd>AerialPrev<cr>", desc = "Aerial prev symbol" },
+    { "}", "<cmd>AerialNext<cr>", desc = "Aerial next symbol" },
+  },
+  opts = {
+    backends = { "lsp", "treesitter" },
+    layout = {
+      max_width = { 60, 0.3 },
+      min_width = 50,
+      default_direction = "right",
+    },
+    attach_mode = "global",
+    autojump = true,
+    show_guides = true,
+    filter_kind = {
+      "Class",
+      "Constructor",
+      "Enum",
+      "Field",
+      "Function",
+      "Interface",
+      "Method",
+      "Module",
+      "Namespace",
+      "Property",
+      "Struct",
+      "Type",
+    },
+  },
+}
