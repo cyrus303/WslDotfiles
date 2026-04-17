@@ -18,4 +18,9 @@ return {
       n_lines = 500,
     },
   },
+  {
+    "nvim-mini/mini.surround",
+    event = "VeryLazy",
+    opts = {},
+  },
 }
