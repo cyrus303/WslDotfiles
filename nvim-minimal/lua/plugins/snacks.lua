@@ -28,7 +28,11 @@ return {
   opts = {
     lazygit = { enabled = true },
     bigfile = { enabled = true },
-    indent = { enabled = true },
+    indent = {
+      enabled = true,
+      char = "│",
+      hl = "SnacksIndent",
+    },
     input = { enabled = true },
     notifier = { enabled = true, timeout = 3000 },
     quickfile = { enabled = true },

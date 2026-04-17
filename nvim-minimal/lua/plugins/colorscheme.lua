@@ -94,6 +94,10 @@ return {
           ["@lsp.type.parameter"] = { fg = colors.maroon, italic = true },
           ["@lsp.type.event"] = { fg = colors.flamingo },
 
+          -- Snacks indent
+          SnacksIndent = { fg = "#1e1c2e" },
+          SnacksIndentScope = { fg = colors.mauve },
+
           -- Snacks
           SnacksNormal = { bg = bg },
           SnacksBorder = { fg = colors.surface2, bg = bg },
