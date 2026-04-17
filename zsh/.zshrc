@@ -82,7 +82,7 @@ alias ll='eza -alh'
 alias tree='eza --tree'
 alias tn='tmux new -s "$(basename "$PWD")"'
 alias cat='bat --paging=never'
-alias mnvim='NVIM_APPNAME=nvim-minimal nvim'
+alias mvim='NVIM_APPNAME=nvim-minimal nvim'
 # ----- fzf preview -----
 export FZF_DEFAULT_OPTS="
   --preview 'bat --color=always --style=numbers --theme=Catppuccin\ Mocha --line-range=:200 {} 2>/dev/null || ls -la {}'
