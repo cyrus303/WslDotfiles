@@ -17,23 +17,22 @@ return {
       styles = {
         comments = { "italic" },
       },
+      lsp_styles = {
+        virtual_text = {
+          errors = { "italic" },
+          warnings = { "italic" },
+          hints = { "italic" },
+          information = { "italic" },
+        },
+        underlines = {
+          errors = { "undercurl" },
+          warnings = { "undercurl" },
+          hints = { "underline" },
+          information = { "underline" },
+        },
+      },
       integrations = {
         treesitter = true,
-        native_lsp = {
-          enabled = true,
-          virtual_text = {
-            errors = { "italic" },
-            warnings = { "italic" },
-            hints = { "italic" },
-            information = { "italic" },
-          },
-          underlines = {
-            errors = { "undercurl" },
-            warnings = { "undercurl" },
-            hints = { "underline" },
-            information = { "underline" },
-          },
-        },
         blink_cmp = true,
         gitsigns = true,
         which_key = true,
