@@ -9,6 +9,7 @@ return {
       { "<leader>d", group = "dotnet" },
       { "<leader>dp", group = "packages" },
       { "<leader>f", group = "find" },
+      { "<leader>s", group = "search" },
       { "<leader>g", group = "git" },
       { "<leader>gg", desc = "Lazygit" },
       { "<leader>q", group = "quit" },
