@@ -7,7 +7,16 @@ return {
   },
   opts = {
     presets = {
-      lsp_doc_border = true, -- adds border to hover & signature docs
+      lsp_doc_border = true,
+    },
+    cmdline = {
+      view = "cmdline_popup",
+    },
+    views = {
+      cmdline_popup = {
+        position = { row = 2, col = "50%" },
+        size = { width = 60, min_width = 60 },
+      },
     },
     routes = {
       {
