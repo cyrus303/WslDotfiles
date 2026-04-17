@@ -119,13 +119,13 @@ return {
 
           -- Diffview / Git diff (bold red/green style)
           DiffAdd = { bg = "#1a3a1a" },
-          DiffChange = { bg = "#181620" },
+          DiffChange = { bg = "#1c1a28" },
           DiffDelete = { bg = "#4a1518" },
           DiffText = { bg = "#3d3520" },
           DiffviewDiffAdd = { bg = "#1a3a1a" },
           DiffviewDiffAddAsDelete = { bg = "#4a1518" },
           DiffviewDiffDelete = { fg = colors.surface2, bg = "#3a1215" },
-          DiffviewDiffChange = { bg = "#181620" },
+          DiffviewDiffChange = { bg = "#1c1a28" },
           DiffviewDiffText = { bg = "#3d3520" },
           DiffviewDiffDeleteDim = { bg = "#351015" },
           DiffAddAsDelete = { bg = "#4a1518" },
