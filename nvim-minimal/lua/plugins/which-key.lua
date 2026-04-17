@@ -10,6 +10,7 @@ return {
       { "<leader>dp", group = "packages" },
       { "<leader>f", group = "find" },
       { "<leader>g", group = "git" },
+      { "<leader>gg", desc = "Lazygit" },
       { "<leader>q", group = "quit" },
       { "<leader>x", group = "diagnostics" },
       { "<leader>E", desc = "Git Status" },

@@ -12,6 +12,7 @@ return {
   priority = 1000,
   lazy = false,
   keys = {
+    { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
     { "<leader>E", function() Snacks.picker.git_status() end, desc = "Git Status (sidebar)" },
     { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
     { "<leader>fg", function() Snacks.picker.grep() end, desc = "Live Grep" },
@@ -25,6 +26,7 @@ return {
     { "<leader>n",  function() Snacks.notifier.show_history() end, desc = "Notifications" },
   },
   opts = {
+    lazygit = { enabled = true },
     bigfile = { enabled = true },
     indent = { enabled = true },
     input = { enabled = true },
