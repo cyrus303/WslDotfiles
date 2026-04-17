@@ -1,5 +1,16 @@
 return {
   {
+    "echasnovski/mini.icons",
+    lazy = true,
+    opts = {},
+    init = function()
+      package.preload["nvim-web-devicons"] = function()
+        require("mini.icons").mock_nvim_web_devicons()
+        return package.loaded["nvim-web-devicons"]
+      end
+    end,
+  },
+  {
     "nvim-mini/mini.splitjoin",
     keys = {
       { "gS", mode = { "n", "x" }, desc = "Split/join arguments" },
