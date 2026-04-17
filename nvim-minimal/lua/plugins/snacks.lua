@@ -13,7 +13,9 @@ return {
   lazy = false,
   keys = {
     { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
-    { "<leader>E", function() Snacks.picker.git_status() end, desc = "Git Status (sidebar)" },
+    { "<leader>E",  function() Snacks.picker.git_status() end, desc = "Git Status (sidebar)" },
+    { "<leader>gb", function() Snacks.picker.git_log_line() end, desc = "Git Blame Line" },
+    { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Git File History" },
     { "<leader><leader>", function() Snacks.picker.files() end, desc = "Find Files" },
     { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
     { "<leader>fg", function() Snacks.picker.grep() end, desc = "Live Grep" },

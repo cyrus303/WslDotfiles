@@ -16,7 +16,7 @@ return {
       { "<leader>gh", "<cmd>DiffviewFileHistory<cr>",  desc = "Branch File History" },
       { "<leader>gH", "<cmd>DiffviewFileHistory %<cr>",                 desc = "Current File History" },
       { "<leader>gr", "<cmd>DiffviewRefresh<cr>",      desc = "Refresh Diffview" },
-      { "<leader>ge", "<cmd>DiffviewToggleFiles<cr>", desc = "Toggle File Panel" },
+      { "<leader>ge", "<cmd>DiffviewToggleFiles<cr>", desc = "Toggle File DiffView" },
     },
     opts = {
       view = {
