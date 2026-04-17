@@ -35,8 +35,19 @@ return {
       },
       sections = {
         lualine_a = { "mode" },
-        lualine_b = { project_root, "branch" },
+        lualine_b = {
+          project_root,
+          "branch",
+        },
         lualine_c = {
+          {
+            "diff",
+            symbols = {
+              added    = "\u{F067} ",
+              modified = "\u{F040} ",
+              removed  = "\u{F068} ",
+            },
+          },
           {
             "filename",
             path = 0,
@@ -45,6 +56,16 @@ return {
         },
         lualine_x = {
           job_indicator_fn,
+          {
+            function() return require("noice").api.status.command.get() end,
+            cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
+            color = function() return { fg = Snacks.util.color("Statement") } end,
+          },
+          {
+            function() return require("noice").api.status.mode.get() end,
+            cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
+            color = function() return { fg = Snacks.util.color("Constant") } end,
+          },
           {
             "diagnostics",
             symbols = {
@@ -56,14 +77,6 @@ return {
           },
         },
         lualine_y = {
-          {
-            "diff",
-            symbols = {
-              added    = "\u{F067} ",
-              modified = "\u{F040} ",
-              removed  = "\u{F068} ",
-            },
-          },
           "progress",
           "location",
         },
