@@ -15,7 +15,7 @@ return {
     { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
     { "<leader>E",  function() Snacks.picker.git_status() end, desc = "Git Status (sidebar)" },
     { "<leader>gb", function() Snacks.picker.git_log_line() end, desc = "Git Blame Line" },
-    { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Git File History" },
+    { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "File Log (picker)" },
     { "<leader><leader>", function() Snacks.picker.files() end, desc = "Find Files" },
     { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
     { "<leader>fg", function() Snacks.picker.grep() end, desc = "Live Grep" },
@@ -26,7 +26,6 @@ return {
     { "<leader>/",  function() Snacks.picker.grep() end, desc = "Grep" },
     { "<leader>:",  function() Snacks.picker.command_history() end, desc = "Command History" },
     { "<leader>e",  function() Snacks.explorer() end, desc = "Explorer" },
-    { "<leader>n",  function() Snacks.notifier.show_history() end, desc = "Notifications" },
   },
   opts = {
     lazygit = { enabled = true },

@@ -9,9 +9,8 @@ return {
       { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "DAP Toggle Breakpoint" },
       { "<leader>dx", function() require("dap").terminate() end, desc = "DAP Terminate" },
       { "<leader>dX", function() require("dap").clear_breakpoints() end, desc = "DAP Clear Breakpoints" },
-      { "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input("Condition: ")) end, desc = "DAP Conditional Breakpoint" },
       { "<leader>dr", function() require("dap").restart() end, desc = "DAP Restart" },
-      { "<leader>dR", function() require("dap").run_to_cursor() end, desc = "DAP Run to Cursor" },
+      { "<leader>dc", function() require("dap").run_to_cursor() end, desc = "DAP Continue to Cursor" },
       { "<leader>dw", function() require("dap-view").add_expr() end, desc = "DAP Add Watch Expression" },
     },
     config = function()

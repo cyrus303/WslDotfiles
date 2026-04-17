@@ -32,7 +32,6 @@ map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window w
 -- Buffers
 map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
-map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
 
 -- Move lines
 map("n", "<A-j>", "<cmd>m .+1<CR>==",        { desc = "Move line down" })
@@ -51,7 +50,6 @@ map("v", ">", ">gv", { silent = true })
 
 -- Lazy
 map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
-map("n", "<leader>L", "<cmd>LazyHealth<cr>", { desc = "Lazy Health" })
 
 -- Mason
 map("n", "<leader>cm", "<cmd>Mason<cr>", { desc = "Mason" })
@@ -105,8 +103,6 @@ local function show_styled_diag_float()
     end,
   })
 end
-
-map("n", "<leader>cd", show_styled_diag_float, { desc = "Line diagnostics (no inline)" })
 
 -- Diagnostic navigation with styled float
 map("n", "]d", function()

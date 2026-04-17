@@ -4,7 +4,6 @@ return {
   opts = {
     preset = "helix",
     spec = {
-      { "<leader>b", group = "buffer" },
       { "<leader>c", group = "code" },
       { "<leader>d", group = "dotnet/debug" },
       { "<leader>dp", group = "packages" },
@@ -18,9 +17,7 @@ return {
       { "<leader>e", desc = "Explorer" },
       { "<leader>H", desc = "Harpoon Add File" },
       { "<leader>h", desc = "Harpoon Picker" },
-      { "<leader>n", desc = "Notifications" },
       { "<leader>l", desc = "Lazy" },
-      { "<leader>L", desc = "Lazy Health" },
       { "<leader>cm", desc = "Mason" },
       { "s", group = "surround" },
       { "sa", desc = "Add surrounding" },
@@ -46,6 +43,8 @@ return {
       { "<leader>8", "<cmd>lua require('harpoon'):list():select(8)<cr>", hidden = true },
       { "<leader>9", "<cmd>lua require('harpoon'):list():select(9)<cr>", hidden = true },
       { "gcc", hidden = true },
+      { "[D", hidden = true },
+      { "]D", hidden = true },
     })
   end,
 }
