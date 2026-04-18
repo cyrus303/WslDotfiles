@@ -47,7 +47,7 @@ opt.confirm = true
 opt.updatetime = 200
 opt.timeoutlen = 300
 opt.mouse = "a"
-opt.clipboard = "unnamedplus"
+opt.clipboard = "unnamedplus" -- Sync with system clipboard
 
 -- Swap: isolate per NVIM_APPNAME
 opt.directory = vim.fn.stdpath("state") .. "/swap//"
@@ -74,4 +74,3 @@ vim.g.loaded_perl_provider = 0
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
-
