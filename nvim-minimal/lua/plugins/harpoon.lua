@@ -3,6 +3,11 @@ return {
   {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
+    opts = {
+      settings = {
+        sync_on_ui_close = true, -- persist list to disk when closing the menu
+      },
+    },
     keys = {
       {
         "<leader>H",
