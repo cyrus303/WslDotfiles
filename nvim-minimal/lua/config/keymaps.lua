@@ -1,65 +1,57 @@
 local map = vim.keymap.set
 
--- Leader
+-- Space as leader, backslash as local leader
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
--- Save / quit
+-- Save and quit
 map({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR>", { desc = "Save buffer" })
 map({ "n", "i", "v" }, "<C-S-s>", "<cmd>wa<CR>", { desc = "Save all buffers" })
 map("n", "<leader>qq", "<cmd>qa<CR>", { desc = "Quit all" })
 map("n", "<leader>qw", "<cmd>q<CR>", { desc = "Close window" })
 
--- Better scrolling (center cursor)
+-- Keep cursor centered while scrolling and searching
 map("n", "<C-d>", "<C-d>zz", { desc = "Half-page down, center" })
 map("n", "<C-u>", "<C-u>zz", { desc = "Half-page up, center" })
 map("n", "n", "nzzzv", { desc = "Next search result" })
 map("n", "N", "Nzzzv", { desc = "Prev search result" })
 
--- Clear highlight
+-- Clear search highlight
 map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear highlight" })
 
--- Splits
+-- Split windows
 map("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
 map("n", "<leader>\\", "<C-W>v", { desc = "Split Window Right", remap = true })
 
--- Window resize
+-- Resize splits with arrow keys
 map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
 map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
 map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
 map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
 
--- Buffers
+-- Cycle through open buffers
 map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 
--- Move lines
-map("n", "<A-j>", "<cmd>m .+1<CR>==",        { desc = "Move line down" })
-map("n", "<A-k>", "<cmd>m .-2<CR>==",        { desc = "Move line up" })
-map("v", "<A-j>", ":m '>+1<CR>gv=gv",        { desc = "Move selection down" })
-map("v", "<A-k>", ":m '<-2<CR>gv=gv",        { desc = "Move selection up" })
-map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
-map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+-- Move lines up/down and re-indent
+map("n", "<A-j>", "<cmd>m .+1<CR>==", { desc = "Move line down" })
+map("n", "<A-k>", "<cmd>m .-2<CR>==", { desc = "Move line up" })
+map("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+map("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
--- Keep cursor when joining lines
+-- Join line without moving cursor
 map("n", "J", "mzJ`z", { desc = "Join line" })
 
--- Better indent in visual mode
+-- Stay in visual mode after indenting
 map("v", "<", "<gv", { silent = true })
 map("v", ">", ">gv", { silent = true })
 
--- Lazy
+-- Plugin UIs
 map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
-
--- Mason
 map("n", "<leader>cm", "<cmd>Mason<cr>", { desc = "Mason" })
 
--- Comment (gc on current line)
-map("n", "gc", function()
-  vim.api.nvim_feedkeys("gcc", "m", false)
-end, { desc = "Comment line" })
-
--- Shared styled diagnostic float
+-- Diagnostic float: temporarily disables tiny-inline-diagnostic while the float
+-- is open, then re-enables it on cursor move so both don't fight each other.
 local function show_styled_diag_float()
   pcall(function() require("tiny-inline-diagnostic").disable() end)
 
@@ -74,9 +66,9 @@ local function show_styled_diag_float()
 
   local border_hl = {
     [vim.diagnostic.severity.ERROR] = "DiagnosticError",
-    [vim.diagnostic.severity.WARN] = "DiagnosticWarn",
-    [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
-    [vim.diagnostic.severity.HINT] = "DiagnosticHint",
+    [vim.diagnostic.severity.WARN]  = "DiagnosticWarn",
+    [vim.diagnostic.severity.INFO]  = "DiagnosticInfo",
+    [vim.diagnostic.severity.HINT]  = "DiagnosticHint",
   }
 
   local screen_row = vim.fn.winline()
@@ -104,7 +96,7 @@ local function show_styled_diag_float()
   })
 end
 
--- Diagnostic navigation with styled float
+-- Navigate diagnostics with styled float (all severities)
 map("n", "]d", function()
   vim.diagnostic.goto_next({ float = false })
   vim.defer_fn(show_styled_diag_float, 50)
@@ -115,6 +107,7 @@ map("n", "[d", function()
   vim.defer_fn(show_styled_diag_float, 50)
 end, { desc = "Prev diagnostic" })
 
+-- Navigate errors only
 map("n", "]e", function()
   vim.diagnostic.goto_next({ float = false, severity = vim.diagnostic.severity.ERROR })
   vim.defer_fn(show_styled_diag_float, 50)
@@ -125,12 +118,11 @@ map("n", "[e", function()
   vim.defer_fn(show_styled_diag_float, 50)
 end, { desc = "Prev error" })
 
--- Kill dotnet processes (doesn't require easy-dotnet loaded)
+-- .NET helpers
 map("n", "<leader>dk", function()
   vim.fn.system("pkill dotnet || true")
 end, { desc = "Kill dotnet processes" })
 
--- New .NET item in current file's directory
 map("n", "<leader>dn", function()
   local path = vim.fn.expand("%:p:h")
   coroutine.wrap(function()
@@ -142,7 +134,7 @@ map("n", "<leader>dn", function()
   end)()
 end, { desc = "New .NET item" })
 
--- LSP (stable set — plugins can override on LspAttach)
+-- LSP — set globally so they work before LspAttach fires; plugins can override per-buffer
 map("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
 map("n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
 map("n", "gr", vim.lsp.buf.references, { desc = "References" })
@@ -151,10 +143,14 @@ map("n", "gy", vim.lsp.buf.type_definition, { desc = "Type definition" })
 map("n", "K", function() vim.lsp.buf.hover({ border = "rounded", max_width = 80 }) end, { desc = "Hover" })
 map("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
 map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
-map("n", "<leader>cf", function() vim.lsp.buf.format({ async = true }) end, { desc = "Format" })
+map("n", "<leader>cf", function() require("conform").format({ async = true }) end, { desc = "Format" })
+
+-- Toggle inlay hints
 map("n", "<leader>ci", function()
   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 end, { desc = "Toggle inlay hints" })
+
+-- Toggle codelens — refreshes on every BufEnter while enabled
 map("n", "<leader>cl", function()
   local enabled = not vim.g.codelens_enabled
   vim.g.codelens_enabled = enabled

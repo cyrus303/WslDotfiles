@@ -2,33 +2,26 @@ local function augroup(name)
   return vim.api.nvim_create_augroup("nvim_min_" .. name, { clear = true })
 end
 
--- Highlight on yank
-vim.api.nvim_create_autocmd("TextYankPost", {
-  group = augroup("yank_highlight"),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-})
+-- Flash highlight on yank (disabled — yanky.nvim handles this via highlight.timer)
+-- vim.api.nvim_create_autocmd("TextYankPost", {
+--   group = augroup("yank_highlight"),
+--   callback = function()
+--     vim.highlight.on_yank()
+--   end,
+-- })
 
--- Close some filetypes with <q>
+-- Press <q> to close transient buffers (help, lspinfo, etc.)
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("close_with_q"),
   pattern = {
-    "PlenaryTestPopup",
     "checkhealth",
-    "dbout",
     "gitsigns-blame",
     "grug-far",
     "help",
     "lspinfo",
-    "neotest-output",
-    "neotest-output-panel",
-    "neotest-summary",
     "notify",
     "qf",
-    "spectre_panel",
     "startuptime",
-    "tsplayground",
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
@@ -41,7 +34,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Resize splits when window is resized
+-- Keep splits equal when the terminal window is resized
 vim.api.nvim_create_autocmd({ "VimResized" }, {
   group = augroup("resize_splits"),
   callback = function()
@@ -51,7 +44,7 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
   end,
 })
 
--- Go to last location when opening a buffer
+-- Restore cursor to last known position when reopening a buffer
 vim.api.nvim_create_autocmd("BufReadPost", {
   group = augroup("last_loc"),
   callback = function(event)
@@ -69,7 +62,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
--- Auto-create dirs when saving a file
+-- Create missing parent directories automatically on save
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   group = augroup("auto_create_dir"),
   callback = function(event)
@@ -79,7 +72,7 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   end,
 })
 
--- Quickfix: cursorline + l = <CR>
+-- Quickfix enhancements: cursorline highlight + <l> to jump to entry
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("qf_enhance"),
   pattern = "qf",
@@ -103,8 +96,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
--- Reload file on external change
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+-- Reload buffer when file changes on disk (e.g. git checkout, external edit)
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   group = augroup("checktime"),
   pattern = "*",
   callback = function()
@@ -114,6 +107,7 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHo
   end,
 })
 
+-- Notify when a buffer is reloaded due to external file change
 vim.api.nvim_create_autocmd("FileChangedShellPost", {
   group = augroup("file_changed"),
   pattern = "*",
@@ -122,16 +116,7 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
   end,
 })
 
--- Format C# on save via Roslyn LSP
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = augroup("format_cs"),
-  pattern = "*.cs",
-  callback = function()
-    vim.lsp.buf.format({ async = false, timeout_ms = 3000 })
-  end,
-})
-
--- Wrap + spell in text filetypes
+-- Enable line wrap and spellcheck for prose filetypes
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("wrap_spell"),
   pattern = { "text", "plaintex", "typst", "gitcommit", "markdown" },
