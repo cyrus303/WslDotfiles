@@ -2,6 +2,9 @@ local function augroup(name)
   return vim.api.nvim_create_augroup("nvim_min_" .. name, { clear = true })
 end
 
+-- Catppuccin Peach yank highlight for yanky.nvim
+vim.api.nvim_set_hl(0, "YankyYanked", { bg = "#fab387", fg = "#1e1e2e" })
+
 -- Flash highlight on yank (disabled — yanky.nvim handles this via highlight.timer)
 -- vim.api.nvim_create_autocmd("TextYankPost", {
 --   group = augroup("yank_highlight"),
@@ -113,6 +116,16 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
   pattern = "*",
   callback = function()
     vim.api.nvim_echo({ { "File changed on disk. Buffer reloaded.", "WarningMsg" } }, false, {})
+  end,
+})
+
+-- Return to normal mode when saving from insert mode
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = augroup("insert_leave_on_save"),
+  callback = function()
+    if vim.fn.mode() == "i" then
+      vim.cmd("stopinsert")
+    end
   end,
 })
 
