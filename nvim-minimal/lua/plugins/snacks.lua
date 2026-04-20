@@ -23,7 +23,7 @@ return {
     { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent Files" },
     { "<leader>fh", function() Snacks.picker.help() end, desc = "Help" },
     { "<leader>fk", function() Snacks.picker.keymaps() end, desc = "Keymaps" },
-    { "<leader>/",  function() Snacks.picker.grep() end, desc = "Grep" },
+    { "<leader>/",  function() Snacks.picker.grep({ live = true }) end, desc = "Live Grep" },
     { "<leader>:",  function() Snacks.picker.command_history() end, desc = "Command History" },
     { "<leader>e",  function() Snacks.explorer() end, desc = "Explorer" },
   },
@@ -104,6 +104,7 @@ return {
       },
       sources = {
         files = { hidden = true },
+        grep = { live = false, need_search = false },
         git_status = { layout = { preset = "default" } },
         explorer = {
           hidden = true,
