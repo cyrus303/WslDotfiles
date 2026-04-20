@@ -46,92 +46,92 @@ map("n", "J", "mzJ`z", { desc = "Join line" })
 map("v", "<", "<gv", { silent = true })
 map("v", ">", ">gv", { silent = true })
 
--- Plugin UIs
-map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
-map("n", "<leader>cm", "<cmd>Mason<cr>", { desc = "Mason" })
-
 -- Diagnostic float: temporarily disables tiny-inline-diagnostic while the float
 -- is open, then re-enables it on cursor move so both don't fight each other.
 local function show_styled_diag_float()
-  pcall(function() require("tiny-inline-diagnostic").disable() end)
+	pcall(function()
+		require("tiny-inline-diagnostic").disable()
+	end)
 
-  local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
-  local diags = vim.diagnostic.get(0, { lnum = lnum })
-  local severity = vim.diagnostic.severity.HINT
-  for _, d in ipairs(diags) do
-    if d.severity < severity then
-      severity = d.severity
-    end
-  end
+	local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
+	local diags = vim.diagnostic.get(0, { lnum = lnum })
+	local severity = vim.diagnostic.severity.HINT
+	for _, d in ipairs(diags) do
+		if d.severity < severity then
+			severity = d.severity
+		end
+	end
 
-  local border_hl = {
-    [vim.diagnostic.severity.ERROR] = "DiagnosticError",
-    [vim.diagnostic.severity.WARN]  = "DiagnosticWarn",
-    [vim.diagnostic.severity.INFO]  = "DiagnosticInfo",
-    [vim.diagnostic.severity.HINT]  = "DiagnosticHint",
-  }
+	local border_hl = {
+		[vim.diagnostic.severity.ERROR] = "DiagnosticError",
+		[vim.diagnostic.severity.WARN] = "DiagnosticWarn",
+		[vim.diagnostic.severity.INFO] = "DiagnosticInfo",
+		[vim.diagnostic.severity.HINT] = "DiagnosticHint",
+	}
 
-  local screen_row = vim.fn.winline()
-  local lines_below = vim.api.nvim_win_get_height(0) - screen_row
-  local anchor = lines_below < 5 and "above" or "below"
+	local screen_row = vim.fn.winline()
+	local lines_below = vim.api.nvim_win_get_height(0) - screen_row
+	local anchor = lines_below < 5 and "above" or "below"
 
-  local _, winid = vim.diagnostic.open_float(nil, {
-    scope = "line",
-    close_events = { "CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave" },
-    border = "rounded",
-    max_width = 60,
-    wrap = true,
-    anchor_bias = anchor,
-  })
+	local _, winid = vim.diagnostic.open_float(nil, {
+		scope = "line",
+		close_events = { "CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave" },
+		border = "rounded",
+		max_width = 60,
+		wrap = true,
+		anchor_bias = anchor,
+	})
 
-  if winid then
-    vim.wo[winid].winhighlight = "FloatBorder:" .. (border_hl[severity] or "DiagnosticHint")
-  end
+	if winid then
+		vim.wo[winid].winhighlight = "FloatBorder:" .. (border_hl[severity] or "DiagnosticHint")
+	end
 
-  vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave" }, {
-    once = true,
-    callback = function()
-      pcall(function() require("tiny-inline-diagnostic").enable() end)
-    end,
-  })
+	vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave" }, {
+		once = true,
+		callback = function()
+			pcall(function()
+				require("tiny-inline-diagnostic").enable()
+			end)
+		end,
+	})
 end
 
 -- Navigate diagnostics with styled float (all severities)
 map("n", "]d", function()
-  vim.diagnostic.goto_next({ float = false })
-  vim.defer_fn(show_styled_diag_float, 50)
+	vim.diagnostic.goto_next({ float = false })
+	vim.defer_fn(show_styled_diag_float, 50)
 end, { desc = "Next diagnostic" })
 
 map("n", "[d", function()
-  vim.diagnostic.goto_prev({ float = false })
-  vim.defer_fn(show_styled_diag_float, 50)
+	vim.diagnostic.goto_prev({ float = false })
+	vim.defer_fn(show_styled_diag_float, 50)
 end, { desc = "Prev diagnostic" })
 
 -- Navigate errors only
 map("n", "]e", function()
-  vim.diagnostic.goto_next({ float = false, severity = vim.diagnostic.severity.ERROR })
-  vim.defer_fn(show_styled_diag_float, 50)
+	vim.diagnostic.goto_next({ float = false, severity = vim.diagnostic.severity.ERROR })
+	vim.defer_fn(show_styled_diag_float, 50)
 end, { desc = "Next error" })
 
 map("n", "[e", function()
-  vim.diagnostic.goto_prev({ float = false, severity = vim.diagnostic.severity.ERROR })
-  vim.defer_fn(show_styled_diag_float, 50)
+	vim.diagnostic.goto_prev({ float = false, severity = vim.diagnostic.severity.ERROR })
+	vim.defer_fn(show_styled_diag_float, 50)
 end, { desc = "Prev error" })
 
 -- .NET helpers
 map("n", "<leader>dk", function()
-  vim.fn.system("pkill dotnet || true")
+	vim.fn.system("pkill dotnet || true")
 end, { desc = "Kill dotnet processes" })
 
 map("n", "<leader>dn", function()
-  local path = vim.fn.expand("%:p:h")
-  coroutine.wrap(function()
-    require("easy-dotnet.actions.new").create_new_item(path, function(file_path)
-      vim.schedule(function()
-        vim.cmd("edit " .. vim.fn.fnameescape(file_path))
-      end)
-    end)
-  end)()
+	local path = vim.fn.expand("%:p:h")
+	coroutine.wrap(function()
+		require("easy-dotnet.actions.new").create_new_item(path, function(file_path)
+			vim.schedule(function()
+				vim.cmd("edit " .. vim.fn.fnameescape(file_path))
+			end)
+		end)
+	end)()
 end, { desc = "New .NET item" })
 
 -- LSP — set globally so they work before LspAttach fires; plugins can override per-buffer
@@ -140,29 +140,35 @@ map("n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
 map("n", "gr", vim.lsp.buf.references, { desc = "References" })
 map("n", "gI", vim.lsp.buf.implementation, { desc = "Implementation" })
 map("n", "gy", vim.lsp.buf.type_definition, { desc = "Type definition" })
-map("n", "K", function() vim.lsp.buf.hover({ border = "rounded", max_width = 80 }) end, { desc = "Hover" })
+map("n", "K", function()
+	vim.lsp.buf.hover({ border = "rounded", max_width = 80 })
+end, { desc = "Hover" })
 map("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
 map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
-map("n", "<leader>cf", function() require("conform").format({ async = true }) end, { desc = "Format" })
+map("n", "<leader>cf", function()
+	require("conform").format({ async = true })
+end, { desc = "Format" })
 
 -- Toggle inlay hints
 map("n", "<leader>ci", function()
-  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 end, { desc = "Toggle inlay hints" })
 
 -- Toggle codelens — refreshes on every BufEnter while enabled
 map("n", "<leader>cl", function()
-  local enabled = not vim.g.codelens_enabled
-  vim.g.codelens_enabled = enabled
-  if enabled then
-    vim.lsp.codelens.refresh()
-    vim.api.nvim_create_autocmd({ "BufEnter" }, {
-      group = vim.api.nvim_create_augroup("codelens_refresh", { clear = true }),
-      callback = function() vim.lsp.codelens.refresh() end,
-    })
-  else
-    vim.lsp.codelens.clear()
-    vim.api.nvim_create_augroup("codelens_refresh", { clear = true })
-  end
-  vim.notify("Codelens " .. (enabled and "enabled" or "disabled"))
+	local enabled = not vim.g.codelens_enabled
+	vim.g.codelens_enabled = enabled
+	if enabled then
+		vim.lsp.codelens.refresh()
+		vim.api.nvim_create_autocmd({ "BufEnter" }, {
+			group = vim.api.nvim_create_augroup("codelens_refresh", { clear = true }),
+			callback = function()
+				vim.lsp.codelens.refresh()
+			end,
+		})
+	else
+		vim.lsp.codelens.clear()
+		vim.api.nvim_create_augroup("codelens_refresh", { clear = true })
+	end
+	vim.notify("Codelens " .. (enabled and "enabled" or "disabled"))
 end, { desc = "Toggle codelens" })
