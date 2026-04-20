@@ -49,7 +49,7 @@ export EDITOR='nvim'
 export PATH="$HOME/.dotnet/tools:$HOME/.local/netcoredbg:$PATH"
 # ----- onefetch (manual) -----
 alias gf='onefetch'
-# ----- fzf history (unique, bound to Ctrl-P) -----
+# ----- fzf history (unique, bound to Alt-C) -----
 fzf_hist_unique() {
   local cmd
   cmd=$(
@@ -66,7 +66,6 @@ fzf_hist_unique() {
   zle reset-prompt
 }
 zle -N fzf_hist_unique
-bindkey '^P' fzf_hist_unique
 # ----- Yazi -----
 function y() {
   local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
@@ -94,11 +93,21 @@ export FZF_DEFAULT_OPTS="
 [ -f /usr/share/fzf/completion.zsh ]   && source /usr/share/fzf/completion.zsh
 # --- Custom fzf keybindings ---
 # Unbind built-ins you don't want
-bindkey -r '^R'   # remove Ctrl-R history search
-bindkey -r '^T'   # remove Ctrl-T file search
-bindkey -r '^[C'  # remove Alt-C cd (optional)
-# Ctrl-F: fzf file search (was Ctrl-T)
-bindkey '^F' fzf-file-widget
+for km in main emacs viins vicmd; do
+  bindkey -M $km -r '^R'  2>/dev/null
+  bindkey -M $km -r '^T'  2>/dev/null
+  bindkey -M $km -r '^F'  2>/dev/null
+  bindkey -M $km -r '^P'  2>/dev/null
+  bindkey -M $km -r '^[c' 2>/dev/null
+  bindkey -M $km -r '^[d' 2>/dev/null
+  bindkey -M $km -r '^[f' 2>/dev/null
+done
+# Alt-F: fzf file picker
+bindkey '^[f' fzf-file-widget
+# Alt-D: fzf directory picker
+bindkey '^[d' fzf-cd-widget
+# Alt-C: command history picker
+bindkey '^[c' fzf_hist_unique
 # ----- Windows clipboard image paste (Alt+V) -----
 _wclip_paste() {
   if wl-paste --type image/bmp > /tmp/clip.bmp 2>/dev/null && convert /tmp/clip.bmp /tmp/clip.png 2>/dev/null; then
