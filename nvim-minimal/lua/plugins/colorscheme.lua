@@ -129,6 +129,12 @@ return {
           DiffviewDiffDeleteDim = { bg = "#351015" },
           DiffAddAsDelete = { bg = "#4a1518" },
           DiffviewFiller = { bg = "#1a1828" },
+
+          -- Flash
+          FlashBackdrop = { fg = colors.overlay0 },
+          FlashLabel = { fg = colors.base, bg = colors.red, bold = true },
+          FlashMatch = { link = "Search" },
+          FlashCurrent = { link = "Search" },
           DiffRemoved = { bg = "#4a1518", fg = colors.red },
           DiffviewNormal = { bg = bg },
           DiffviewCursorLine = { bg = "#1c1a28" },
