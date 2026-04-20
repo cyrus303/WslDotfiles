@@ -38,3 +38,11 @@ vim.opt.fillchars:append({ diff = " " })
 -- Case insensitive for grep
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
+
+-- Force xclip to avoid wl-paste primary selection errors on WSLg
+vim.g.clipboard = {
+  name = "xclip",
+  copy = { ["+"] = "xclip -selection clipboard", ["*"] = "xclip -selection clipboard" },
+  paste = { ["+"] = "xclip -selection clipboard -o", ["*"] = "xclip -selection clipboard -o" },
+  cache_enabled = 1,
+}
