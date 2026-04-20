@@ -39,10 +39,10 @@ vim.opt.fillchars:append({ diff = " " })
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
--- Force xclip to avoid wl-paste primary selection errors on WSLg
+-- Use wl-clipboard, avoiding --primary which WSLg compositor doesn't support
 vim.g.clipboard = {
-  name = "xclip",
-  copy = { ["+"] = "xclip -selection clipboard", ["*"] = "xclip -selection clipboard" },
-  paste = { ["+"] = "xclip -selection clipboard -o", ["*"] = "xclip -selection clipboard -o" },
-  cache_enabled = 1,
+  name = "wl-clipboard",
+  copy = { ["+"] = "wl-copy", ["*"] = "wl-copy" },
+  paste = { ["+"] = "wl-paste --no-newline", ["*"] = "wl-paste --no-newline" },
+  cache_enabled = 0,
 }
