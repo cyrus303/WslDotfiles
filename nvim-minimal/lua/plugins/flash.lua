@@ -9,7 +9,7 @@ return {
 	},
 	keys = {
 		{
-			"s",
+			"f",
 			mode = { "n", "x", "o" },
 			function()
 				require("flash").jump()
@@ -25,7 +25,7 @@ return {
 			desc = "Remote Flash",
 		},
 		{
-			"<c-s>",
+			"<c-f>",
 			mode = { "c" },
 			function()
 				require("flash").toggle()
