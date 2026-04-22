@@ -94,6 +94,11 @@ config.underline_position = "-4px"
 -- Ctrl+V: bridge Windows clipboard image to WSL Wayland clipboard, then paste
 config.keys = {
   {
+    key = "S",
+    mods = "CTRL|SHIFT",
+    action = wezterm.action.SendKey({ key = "S", mods = "CTRL|SHIFT" }),
+  },
+  {
     key = "v",
     mods = "CTRL",
     action = wezterm.action_callback(function(window, pane)
