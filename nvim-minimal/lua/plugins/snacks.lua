@@ -55,13 +55,6 @@ return {
 			desc = "Search Buffer Lines",
 		},
 		{
-			"<leader>sf",
-			function()
-				Snacks.picker.files()
-			end,
-			desc = "Find Files",
-		},
-		{
 			"<leader>sg",
 			function()
 				Snacks.picker.grep({ live = false, need_search = false })

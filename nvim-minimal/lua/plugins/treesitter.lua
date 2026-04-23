@@ -10,7 +10,6 @@ return {
       indent = { enable = true },
       ensure_installed = {
         "bash",
-        "regex",
         "diff",
         "html",
         "http",
