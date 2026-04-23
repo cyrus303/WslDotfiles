@@ -32,3 +32,16 @@ map("n",               "g;",  "<Nop>")
 map({ "n", "x", "o" }, "g%",  "<Nop>")
 map("n",               "g'",  "<Nop>")
 map("n",               "g`",  "<Nop>")
+
+-- Ex mode — never useful, easy to trigger accidentally
+map("n", "Q", "<Nop>")
+
+-- Suspend to background — easy to accidentally "lose" nvim
+map({ "n", "i" }, "<C-z>", "<Nop>")
+
+-- ZZ (save+quit) and ZQ (quit without saving) — accidental destructive exits
+map("n", "ZZ", "<Nop>")
+map("n", "ZQ", "<Nop>")
+
+-- F1 help — almost always an accidental Escape miss
+map({ "n", "i" }, "<F1>", "<Nop>")
