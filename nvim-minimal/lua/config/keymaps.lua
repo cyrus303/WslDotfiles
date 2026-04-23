@@ -1,15 +1,9 @@
 local map = vim.keymap.set
 
--- gc toggles comment on current line; all other comment keymaps disabled
+-- gc toggles comment on current line (disabled keymaps live in config/disabled.lua)
 map("n", "gc", function()
 	return require("vim._comment").operator() .. "_"
 end, { expr = true, desc = "Toggle comment line" })
-map("n", "gco", "<Nop>")
-map("n", "gcO", "<Nop>")
-map("n", "gcA", "<Nop>")
-map("n", "gb",  "<Nop>")
-map("n", "gbc", "<Nop>")
-map("x", "gb",  "<Nop>")
 
 -- Space as leader, backslash as local leader
 vim.g.mapleader = " "
