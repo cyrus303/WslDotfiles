@@ -141,6 +141,7 @@ return {
 				keys = {
 					{ icon = "󰈞", key = "f", desc = "Find file", action = "<leader>sf" },
 					{ icon = "󰊄", key = "g", desc = "Live grep", action = "<leader>sg" },
+					{ icon = "󰁯", key = "s", desc = "Restore Session", action = function() require("persistence").load() end },
 					{ icon = "󰒲", key = "l", desc = "Plugins", action = "<cmd>Lazy<CR>" },
 					{ icon = "󰅚", key = "q", desc = "Quit", action = "<cmd>qa<CR>" },
 				},
