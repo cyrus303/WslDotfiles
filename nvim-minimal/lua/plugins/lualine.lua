@@ -37,30 +37,22 @@ return {
         lualine_a = { "mode" },
         lualine_b = {
           project_root,
-          "branch",
         },
         lualine_c = {
           {
-            "diff",
-            symbols = {
-              added    = "\u{F067} ",
-              modified = "\u{F040} ",
-              removed  = "\u{F068} ",
+            "buffers",
+            show_filename_only = true,
+            show_modified_status = true,
+            mode = 0,
+            symbols = { modified = " ●", alternate_file = "", directory = "" },
+            filetype_names = { snacks_dashboard = false },
+            buffers_color = {
+              active = { fg = "#89b4fa", gui = "bold" },
             },
-          },
-          {
-            "filename",
-            path = 0,
-            newfile_status = false,
           },
         },
         lualine_x = {
           job_indicator_fn,
-          {
-            function() return require("noice").api.status.command.get() end,
-            cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-            color = function() return { fg = Snacks.util.color("Statement") } end,
-          },
           {
             function() return require("noice").api.status.mode.get() end,
             cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
@@ -68,17 +60,28 @@ return {
           },
           {
             "diagnostics",
+            sections = { "error", "warn" },
             symbols = {
               error = "\u{F057} ",
               warn  = "\u{F071} ",
-              info  = "\u{F05A} ",
-              hint  = "\u{F0EB} ",
             },
           },
         },
         lualine_y = {
-          "progress",
-          "location",
+          {
+            "diff",
+            source = function()
+              local gs = vim.b.gitsigns_status_dict
+              if not gs then return nil end
+              return { added = gs.added, modified = gs.changed, removed = gs.removed }
+            end,
+            symbols = {
+              added    = "\u{F067} ",
+              modified = "\u{F040} ",
+              removed  = "\u{F068} ",
+            },
+          },
+          "branch",
         },
         lualine_z = {
           function() return " " .. os.date("%H:%M") end,
