@@ -227,6 +227,23 @@ return {
 								["s"] = { "edit_split", mode = "n" },
 								["v"] = { "edit_vsplit", mode = "n" },
 								["S"] = "toggle_only_git",
+								["W"] = function(self)
+									local win_id = self.win
+									if not win_id or not vim.api.nvim_win_is_valid(win_id) then return end
+									if self._fit_width then
+										vim.api.nvim_win_set_width(win_id, self._fit_width)
+										self._fit_width = nil
+									else
+										local buf = vim.api.nvim_win_get_buf(win_id)
+										local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+										local max_w = 0
+										for _, line in ipairs(lines) do
+											max_w = math.max(max_w, vim.fn.strdisplaywidth(line))
+										end
+										self._fit_width = vim.api.nvim_win_get_width(win_id)
+										vim.api.nvim_win_set_width(win_id, max_w + 2)
+									end
+								end,
 							},
 						},
 					},
