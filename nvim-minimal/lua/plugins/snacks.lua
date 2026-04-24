@@ -193,6 +193,20 @@ return {
 				files = { hidden = true },
 				grep = { live = false, need_search = false },
 				git_status = { layout = { preset = "default" } },
+				buffers = {
+					win = {
+						input = {
+							keys = {
+								["<C-h>"] = { "bufdelete", mode = { "i", "n" } },
+							},
+						},
+						list = {
+							keys = {
+								["<C-h>"] = "bufdelete",
+							},
+						},
+					},
+				},
 				explorer = {
 					hidden = true,
 					ignored = true,
