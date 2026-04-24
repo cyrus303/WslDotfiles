@@ -48,7 +48,7 @@ return {
 			desc = "Find Files",
 		},
 		{
-			"<leader>ss",
+			"<leader>sl",
 			function()
 				Snacks.picker.lines()
 			end,
@@ -110,6 +110,20 @@ return {
 			end,
 			desc = "Explorer",
 		},
+		{
+			"<leader>.",
+			function()
+				Snacks.scratch()
+			end,
+			desc = "Scratch Buffer",
+		},
+		{
+			"<leader>ss",
+			function()
+				Snacks.scratch.select()
+			end,
+			desc = "Select Scratch Buffer",
+		},
 	},
 	opts = {
 		lazygit = { enabled = true },
@@ -125,6 +139,7 @@ return {
 		scope = { enabled = true },
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
+		scratch = { enabled = true },
 		scroll = { enabled = false },
 		animate = { enabled = false },
 
@@ -186,6 +201,11 @@ return {
 				input = {
 					keys = {
 						["<C-l>"] = { "confirm", mode = { "i", "n" } },
+					},
+				},
+				list = {
+					keys = {
+						["<C-l>"] = "confirm",
 					},
 				},
 			},
