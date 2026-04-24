@@ -1,0 +1,32 @@
+os:
+  editPreset: "nvim-remote"
+
+keybinding:
+  universal:
+    openDiffTool: <disabled>
+
+customCommands:
+  - key: '<c-d>'
+    context: 'files'
+    command: 'NVIM_APPNAME=nvim-minimal nvim --server "$NVIM" --remote-send "<cmd>DiffviewOpen<CR>"'
+    description: 'Open working tree diff in diffview'
+
+  - key: '<c-f>'
+    context: 'files'
+    command: 'NVIM_APPNAME=nvim-minimal nvim --server "$NVIM" --remote-send "<cmd>DiffviewFileHistory<CR>"'
+    description: 'Open repo file history in diffview'
+
+  - key: '<c-d>'
+    context: 'localBranches'
+    command: 'NVIM_APPNAME=nvim-minimal nvim --server "$NVIM" --remote-send "<cmd>DiffviewOpen {{.SelectedLocalBranch.Name}}<CR>"'
+    description: 'Open branch diff in diffview'
+
+  - key: '<c-f>'
+    context: 'localBranches'
+    command: 'NVIM_APPNAME=nvim-minimal nvim --server "$NVIM" --remote-send "<cmd>DiffviewFileHistory --range={{.SelectedLocalBranch.Name}}<CR>"'
+    description: 'Open branch file history in diffview'
+
+  - key: '<c-d>'
+    context: 'stash'
+    command: 'NVIM_APPNAME=nvim-minimal nvim --server "$NVIM" --remote-send "<cmd>DiffviewOpen {{.SelectedStashEntry.RefName}}<CR>"'
+    description: 'Open stash diff in diffview'
