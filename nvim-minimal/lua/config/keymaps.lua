@@ -39,6 +39,26 @@ map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Close buffer" })
 
+-- Folds: `za` (default) toggles the fold under cursor (method/block).
+-- `<leader>z` toggles VS-style method folding: collapses methods only,
+-- keeps class/namespace structure visible.
+-- If folding isn't at the right depth, change the `1` below:
+--   0 = fold everything including class
+--   1 = fold methods, keep class + namespace open (C# default)
+--   2 = fold nested blocks inside methods, keep methods visible
+map("n", "<leader>z", function()
+  if vim.wo.foldlevel > 1 then
+    vim.wo.foldlevel = 1
+  else
+    vim.wo.foldlevel = 99
+  end
+end, { desc = "Toggle method folds (VS-style)" })
+
+-- On a folded line, `l` opens the fold; otherwise normal right-motion.
+map("n", "l", function()
+  return vim.fn.foldclosed(vim.fn.line(".")) ~= -1 and "zo" or "l"
+end, { expr = true, silent = true, desc = "Open fold or move right" })
+
 -- Move lines up/down and re-indent
 map("n", "<A-j>", "<cmd>m .+1<CR>==", { desc = "Move line down" })
 map("n", "<A-k>", "<cmd>m .-2<CR>==", { desc = "Move line up" })

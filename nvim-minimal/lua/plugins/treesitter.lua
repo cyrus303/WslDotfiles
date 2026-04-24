@@ -5,11 +5,19 @@ return {
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
+    dependencies = {
+      { "nvim-treesitter/nvim-treesitter-textobjects", branch = "master" },
+    },
     opts = {
-      highlight = { enable = true },
+      highlight = {
+        enable = true,
+        -- Let Roslyn LSP handle C# highlighting; parser is still used for text objects/folds
+        disable = { "c_sharp" },
+      },
       indent = { enable = true },
       ensure_installed = {
         "bash",
+        "c_sharp",
         "diff",
         "html",
         "http",
@@ -38,6 +46,24 @@ return {
           node_incremental = "<C-space>",
           scope_incremental = false,
           node_decremental = "<bs>",
+        },
+      },
+      textobjects = {
+        select = {
+          enable = true,
+          lookahead = true,
+          keymaps = {
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["ac"] = "@class.outer",
+            ["ic"] = "@class.inner",
+            ["aa"] = "@parameter.outer",
+            ["ia"] = "@parameter.inner",
+            ["al"] = "@loop.outer",
+            ["il"] = "@loop.inner",
+            ["aC"] = "@call.outer",
+            ["iC"] = "@call.inner",
+          },
         },
       },
     },
