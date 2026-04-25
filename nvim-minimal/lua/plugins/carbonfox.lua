@@ -22,7 +22,7 @@ return {
 						Folded = { bg = "#0f0f0f" },
 						EndOfBuffer = { fg = "#0f0f0f", bg = "#0f0f0f" },
 						CursorLine = { bg = "#161616" },
-						CursorLineNr = { fg = "#ff8a3d", bg = "#161616", style = "bold" }, -- IBM Carbon orange-40, off-palette but on-brand
+						CursorLineNr = { fg = "palette.yellow.bright", bg = "#161616", style = "bold" }, -- bright IBM teal, fully on-palette
 						ColorColumn = { bg = "#0c0c0c" },
 						FloatBorder = { bg = "#0f0f0f" },
 						FloatTitle = { bg = "#0f0f0f" },
@@ -51,7 +51,10 @@ return {
 						-- Indent guides — passive lines barely above bg, active scope line stays as carbonfox default
 						SnacksIndent      = { fg = "#1c1c1c" },
 						SnacksIndentChunk = { fg = "#1c1c1c" },
-						SnacksIndentScope = { fg = "palette.pink.dim" },
+						SnacksIndentScope = { fg = "#e8c5a0" }, -- warm cream, matches active buffer in lualine — unified "current focus" cue
+
+							-- Vim marks in the statuscolumn (m{a-z}) — cream to match active buffer + scope line
+							SnacksStatusColumnMark = { fg = "#e8c5a0", style = "bold" },
 
 						-- C# / .NET semantic token highlights
 						-- Type-level kinds: each in its own hue family so class/struct/record/interface never collide
@@ -61,17 +64,18 @@ return {
 						["@lsp.type.record"] = { fg = "palette.cyan.base" }, -- data type, sky blue
 						["@lsp.type.interface"] = { fg = "palette.green.base", style = "italic" }, -- contract; italic reinforces I-prefix
 						["@lsp.type.enum"] = { fg = "palette.yellow.base" }, -- finite set, deep teal
-						["@lsp.type.enumMember"] = { fg = "palette.yellow.bright", style = "bold" }, -- same family as enum, brighter+bold
+						["@lsp.type.enumMember"] = { fg = "palette.yellow.base", style = "bold" }, -- same hue as enum, bold weight signals the member relationship
 						["@lsp.type.delegate"] = { fg = "palette.orange.base", style = "italic" }, -- function-like, lighter teal
 						["@lsp.type.typeParameter"] = { fg = "palette.pink.base", style = "italic" }, -- generic placeholder, distinct from red event/param
 
 						-- Member-level kinds: brights pair with their owning type's hue, but stay distinct from each other
-						["@lsp.type.method"] = { fg = "palette.blue.bright" }, -- methods read as bright variant of class
+						["@lsp.type.method"] = { fg = "palette.orange.bright" }, -- bright teal, distinct from class/record blues; chained calls now read with clear method/type separation
 						["@lsp.type.property"] = { fg = "palette.cyan.bright" }, -- properties bright variant of record/cyan
 						["@lsp.type.field"] = { fg = "palette.magenta.dim" }, -- instance state, ties to struct family
 						["@lsp.type.parameter"] = { fg = "palette.red.dim", style = "italic" }, -- input, dim red + italic
 						["@lsp.type.event"] = { fg = "palette.red.bright" }, -- events stand out
 						["@lsp.type.variable"] = { fg = "palette.white.base" }, -- locals, plain
+
 
 						-- LSP
 						LspInlayHint = { fg = "palette.black.bright", style = "italic" },
