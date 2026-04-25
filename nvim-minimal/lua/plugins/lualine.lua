@@ -25,34 +25,35 @@ return {
       return " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
     end
 
-    -- Custom carbonfox-derived theme: each mode gets a dimmed carbonfox-palette accent;
+    -- Custom carbonfox-derived theme — commented out while catppuccin is the default;
+    -- lualine uses theme = "auto" below so it picks up the active colorscheme.
     -- _b/_y sections lifted to give powerline arrows contrast and carry a neutral-bold secondary
-    local bg_dim    = "#0c0c0c"             -- _c / _x — darkest, matches StatusLine
-    local bg_mid    = "#262626"             -- _b / _y — lifted so arrows render against it
-    local fg_dim    = "#bcb8b1"             -- carbonfox fg2 for breadcrumbs
-    local secondary = "#e0e0e0"             -- bold neutral white — folder + branch live on brightness, not hue
-    local accent    = "#1d995c"             -- dimmed green (palette.green.base) — calm NORMAL-mode anchor
-    local theme = {
-      normal = {
-        a = { bg = accent,    fg = bg_dim, gui = "bold" },
-        b = { bg = bg_mid,    fg = secondary, gui = "bold" },
-        c = { bg = bg_dim,    fg = fg_dim },
-      },
-      insert   = { a = { bg = "#2890c8", fg = bg_dim, gui = "bold" } },
-      visual   = { a = { bg = "#9877CC", fg = bg_dim, gui = "bold" } }, -- dimmed magenta
-      command  = { a = { bg = "#069795", fg = bg_dim, gui = "bold" } }, -- dimmed deep teal
-      replace  = { a = { bg = "#BE4278", fg = bg_dim, gui = "bold" } }, -- dimmed red-pink
-      terminal = { a = { bg = "#31AFAE", fg = bg_dim, gui = "bold" } }, -- dimmed light teal
-      inactive = {
-        a = { bg = bg_dim, fg = "#5a5a5a" },
-        b = { bg = bg_dim, fg = "#5a5a5a" },
-        c = { bg = bg_dim, fg = "#5a5a5a" },
-      },
-    }
+    -- local bg_dim    = "#0c0c0c"             -- _c / _x — darkest, matches StatusLine
+    -- local bg_mid    = "#262626"             -- _b / _y — lifted so arrows render against it
+    -- local fg_dim    = "#bcb8b1"             -- carbonfox fg2 for breadcrumbs
+    -- local secondary = "#e0e0e0"             -- bold neutral white — folder + branch live on brightness, not hue
+    -- local accent    = "#1d995c"             -- dimmed green (palette.green.base) — calm NORMAL-mode anchor
+    -- local theme = {
+    --   normal = {
+    --     a = { bg = accent,    fg = bg_dim, gui = "bold" },
+    --     b = { bg = bg_mid,    fg = secondary, gui = "bold" },
+    --     c = { bg = bg_dim,    fg = fg_dim },
+    --   },
+    --   insert   = { a = { bg = "#2890c8", fg = bg_dim, gui = "bold" } },
+    --   visual   = { a = { bg = "#9877CC", fg = bg_dim, gui = "bold" } }, -- dimmed magenta
+    --   command  = { a = { bg = "#069795", fg = bg_dim, gui = "bold" } }, -- dimmed deep teal
+    --   replace  = { a = { bg = "#BE4278", fg = bg_dim, gui = "bold" } }, -- dimmed red-pink
+    --   terminal = { a = { bg = "#31AFAE", fg = bg_dim, gui = "bold" } }, -- dimmed light teal
+    --   inactive = {
+    --     a = { bg = bg_dim, fg = "#5a5a5a" },
+    --     b = { bg = bg_dim, fg = "#5a5a5a" },
+    --     c = { bg = bg_dim, fg = "#5a5a5a" },
+    --   },
+    -- }
 
     return {
       options = {
-        theme = theme,
+        theme = "auto",
         globalstatus = true,
         component_separators = { left = "\u{E0B1}", right = "\u{E0B3}" },
         section_separators = { left = "\u{E0B0}", right = "\u{E0B2}" },
@@ -72,7 +73,8 @@ return {
             symbols = { modified = " ●", alternate_file = "", directory = "" },
             filetype_names = { snacks_dashboard = false },
             buffers_color = {
-              active = { fg = "#e8c5a0", gui = "bold" }, -- warm cream, pairs softly with the citrus NORMAL anchor
+              -- active = { fg = "#e8c5a0", gui = "bold" }, -- carbonfox warm cream
+              active = { fg = "#fab387", gui = "bold" }, -- catppuccin mocha peach
             },
           },
         },

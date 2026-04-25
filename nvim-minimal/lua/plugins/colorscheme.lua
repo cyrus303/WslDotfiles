@@ -150,7 +150,7 @@ return {
     },
     config = function(_, opts)
       require("catppuccin").setup(opts)
-      -- carbonfox is applied as the default in carbonfox.lua; catppuccin remains available via :colorscheme catppuccin
+      vim.cmd.colorscheme("catppuccin")
     end,
   },
 }

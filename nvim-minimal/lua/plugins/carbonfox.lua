@@ -2,7 +2,7 @@ return {
 	{
 		"EdenEast/nightfox.nvim",
 		lazy = false,
-		priority = 900, -- loads after catppuccin (priority 1000) so it wins as the active colorscheme; catppuccin remains available via :colorscheme catppuccin
+		priority = 900, -- carbonfox stays available via :colorscheme carbonfox; catppuccin is now the default (set in colorscheme.lua)
 		config = function()
 			require("nightfox").setup({
 				options = {
@@ -102,7 +102,7 @@ return {
 					},
 				},
 			})
-			vim.cmd.colorscheme("carbonfox")
+			-- vim.cmd.colorscheme("carbonfox")
 		end,
 	},
 }
