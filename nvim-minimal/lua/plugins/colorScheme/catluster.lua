@@ -24,561 +24,561 @@
 --   orange  #ffaa88   attributes, events, warnings
 --   red     #D70000   errors
 
-return {
-	{
-		"catppuccin/nvim",
-		name = "catppuccin",
-		enabled = false,
-		lazy = false,
-		priority = 1000,
-		opts = {
-			flavour = "mocha",
-			transparent_background = false,
-			color_overrides = {
-				mocha = {
-					base = "#101010",
-					mantle = "#1A1A1A",
-					crust = "#080808",
-					surface0 = "#191919",
-					surface1 = "#242424",
-					surface2 = "#2a2a2a",
-					overlay0 = "#444444",
-					overlay1 = "#555555",
-					overlay2 = "#7a7a7a",
-					subtext0 = "#8E8E8E",
-					subtext1 = "#aaaaaa",
-					text = "#cccccc",
-					yellow = "#abab77",
-					peach = "#ffaa88",
-					sky = "#88a0c8",
-					sapphire = "#88a0c8",
-					blue = "#88a0c8",
-					teal = "#8aaa88",
-					lavender = "#7a8fa0",
-					mauve = "#7a8fa0",
-					pink = "#deeeed",
-					rosewater = "#deeeed",
-					flamingo = "#deeeed",
-					maroon = "#ffaa88",
-					red = "#D70000",
-					green = "#8aaa88",
-				},
-			},
-			styles = {
-				comments = {},
-				keywords = {},
-				functions = {},
-				types = {},
-				operators = {},
-			},
-			lsp_styles = {
-				virtual_text = {
-					errors = { "italic" },
-					warnings = { "italic" },
-					hints = { "italic" },
-					information = { "italic" },
-				},
-				underlines = {
-					errors = { "undercurl" },
-					warnings = { "undercurl" },
-					hints = { "underline" },
-					information = { "underline" },
-				},
-			},
-			integrations = {
-				treesitter = true,
-				blink_cmp = true,
-				gitsigns = true,
-				which_key = true,
-				mini = { enabled = true },
-				dap = true,
-				mason = true,
-			},
-			custom_highlights = function(c)
-				-- ── Palette locals ────────────────────────────────────
-				local bg = "#101010"
-				local panel = "#1A1A1A"
-				local statusline = "#242424"
-				local cursorline = "#191919"
-				local comment = "#3A3A3A"
-				local keyword = "#666666"
-				local luster = "#deeeed"
-				local yellow = "#abab77"
-				local blue = "#88a0c8"
-				local exception_kw = blue
-				local orange = "#ffaa88"
-				local green = "#8aaa88"
-				local lack = "#7a8fa0"
-				local rose = "#c07878"
-				local err = "#cc4444" -- desaturated brick-red for diagnostics
-
-				return {
-					-- ── Core UI ───────────────────────────────────────────
-					Normal = { fg = c.text, bg = bg },
-					NormalNC = { fg = c.text, bg = bg },
-					SignColumn = { bg = bg },
-					EndOfBuffer = { fg = bg, bg = bg },
-					LineNr = { fg = c.overlay0, bg = bg },
-					CursorLineNr = { fg = c.subtext1, bold = true, bg = cursorline },
-					CursorLine = { bg = cursorline },
-					ColorColumn = { bg = c.crust },
-					Visual = { bg = "#2a2a3a" },
-					Folded = { fg = c.overlay0, bg = bg },
-					WinSeparator = { fg = c.overlay0 },
-					VertSplit = { fg = c.overlay0 },
-					MatchParen = { fg = luster, bold = true, underline = true },
-					Whitespace = { fg = "#202020" },
-					NonText = { fg = "#202020" },
-					SpecialKey = { fg = "#202020" },
-
-					-- ── Statusline / float / popup ───────────────────────
-					StatusLine = { fg = c.subtext1, bg = statusline },
-					StatusLineNC = { fg = c.overlay0, bg = c.crust },
-					NormalFloat = { bg = bg },
-					FloatBorder = { fg = c.overlay0, bg = bg },
-					FloatTitle = { fg = c.overlay1, bg = bg },
-					Pmenu = { fg = c.overlay2, bg = bg },
-					PmenuSel = { fg = c.text, bg = c.surface1, bold = true },
-					PmenuThumb = { bg = c.overlay1 },
-					PmenuSbar = { bg = c.surface0 },
-					QuickFixLine = { bg = c.surface1, bold = true },
-					QfCursorLine = { bg = cursorline },
-
-					-- ── Search ────────────────────────────────────────────
-					Search = { fg = "#000000", bg = lack },
-					IncSearch = { fg = "#000000", bg = c.text },
-					CurSearch = { fg = "#000000", bg = c.text },
-
-					-- ── Treesitter / syntax ───────────────────────────────
-					["@comment"] = { fg = comment },
-					Comment = { fg = comment },
-
-					["@variable"] = { fg = c.text },
-					["@variable.member"] = { fg = c.text },
-					["@variable.parameter"] = { fg = c.subtext0 },
-					["@variable.builtin"] = { fg = lack, italic = true },
-
-					["@constant"] = { fg = yellow },
-					["@constant.builtin"] = { fg = lack, italic = true },
-
-					["@string"] = { fg = yellow },
-					["@string.escape"] = { fg = green },
-					["@string.special"] = { fg = green },
-					["@number"] = { fg = c.subtext1 },
-					["@number.float"] = { fg = c.subtext1 },
-					["@boolean"] = { fg = c.subtext1 },
-					["@character"] = { fg = yellow },
-
-					["@keyword"] = { fg = keyword },
-					["@keyword.modifier"] = { fg = keyword },
-					["@keyword.operator"] = { fg = keyword },
-					["@keyword.coroutine"] = { fg = keyword },
-					["@keyword.import"] = { fg = keyword },
-					["@keyword.type"] = { fg = keyword },
-					["@keyword.conditional"] = { fg = keyword },
-					["@keyword.repeat"] = { fg = keyword },
-					["@keyword.return"] = { fg = exception_kw },
-					["@keyword.exception"] = { fg = exception_kw },
-
-					["@operator"] = { fg = c.overlay2 },
-					["@punctuation"] = { fg = c.overlay2 },
-					["@punctuation.bracket"] = { fg = c.overlay2 },
-					["@punctuation.delimiter"] = { fg = c.overlay2 },
-					["@punctuation.special"] = { fg = c.overlay2 },
-
-					["@function"] = { fg = luster },
-					["@function.method"] = { fg = luster },
-					["@function.call"] = { fg = c.subtext1 },
-					["@function.method.call"] = { fg = c.subtext1 },
-					["@function.builtin"] = { fg = blue },
-					["@constructor"] = { fg = c.subtext1 },
-
-					["@type"] = { fg = luster },
-					["@type.builtin"] = { fg = lack },
-					["@type.definition"] = { fg = luster, bold = true },
-
-					["@tag"] = { fg = c.overlay1 },
-					["@attribute"] = { fg = orange },
-
-					-- ── LSP semantic tokens ───────────────────────────────
-					["@lsp.type.namespace"] = { fg = c.overlay2 },
-					["@lsp.type.namespace.cs"] = { fg = c.overlay2 },
-
-					["@lsp.type.class"] = { fg = luster },
-					["@lsp.type.class.cs"] = { fg = luster },
-					["@lsp.type.interface"] = { fg = luster, italic = true },
-					["@lsp.type.interface.cs"] = { fg = luster, italic = true },
-
-					["@lsp.type.record"] = { fg = blue },
-					["@lsp.type.record.cs"] = { fg = blue },
-					["@lsp.type.delegate"] = { fg = blue, italic = true },
-					["@lsp.type.delegate.cs"] = { fg = blue, italic = true },
-
-					["@lsp.type.struct"] = { fg = lack },
-					["@lsp.type.struct.cs"] = { fg = lack },
-
-					["@lsp.type.typeParameter"] = { fg = rose, italic = true },
-					["@lsp.type.typeParameter.cs"] = { fg = rose, italic = true },
-
-					["@lsp.type.enum"] = { fg = green },
-					["@lsp.type.enum.cs"] = { fg = green },
-					["@lsp.type.enumMember"] = { fg = green, bold = true },
-					["@lsp.type.enumMember.cs"] = { fg = green, bold = true },
-
-					["@lsp.type.method"] = { fg = c.subtext1 },
-					["@lsp.type.method.cs"] = { fg = c.subtext1 },
-					["@lsp.typemod.method.definition"] = { fg = luster },
-					["@lsp.typemod.method.definition.cs"] = { fg = luster },
-
-					["@lsp.type.property"] = { fg = c.text },
-					["@lsp.type.property.cs"] = { fg = c.text },
-
-					["@lsp.type.field"] = { fg = rose },
-					["@lsp.type.field.cs"] = { fg = rose },
-
-					["@lsp.type.variable"] = { fg = c.text },
-					["@lsp.type.variable.cs"] = { fg = c.text },
-
-					["@lsp.type.parameter"] = { fg = c.subtext0 },
-					["@lsp.type.parameter.cs"] = { fg = c.subtext0 },
-
-					["@lsp.type.event"] = { fg = orange, bold = true },
-					["@lsp.type.event.cs"] = { fg = orange, bold = true },
-					["@lsp.type.decorator"] = { fg = orange },
-					["@lsp.type.decorator.cs"] = { fg = orange },
-
-					["@lsp.typemod.variable.self"] = { fg = lack, italic = true },
-					["@lsp.mod.deprecated"] = { strikethrough = true },
-					["@lsp.typemod.method.static"] = { italic = true },
-					["@lsp.typemod.property.static"] = { italic = true },
-					["@lsp.typemod.method.async"] = { underline = true },
-
-					["@lsp.typemod.variable.readonly"] = { fg = yellow, italic = true },
-					["@lsp.typemod.variable.static"] = { fg = yellow, italic = true },
-					["@lsp.typemod.field.static"] = { fg = yellow, italic = true },
-					["@lsp.typemod.field.readonly"] = { fg = rose, italic = true },
-
-					["@lsp.typemod.comment.documentation"] = { fg = blue, italic = true },
-
-					-- ── Diagnostics ───────────────────────────────────────
-					DiagnosticError = { fg = err },
-					DiagnosticWarn = { fg = orange },
-					DiagnosticInfo = { fg = c.overlay2 },
-					DiagnosticHint = { fg = c.overlay2 },
-					DiagnosticOk = { fg = green },
-					DiagnosticUnnecessary = { fg = c.overlay0 },
-					DiagnosticDeprecated = { fg = orange, strikethrough = true },
-
-					DiagnosticVirtualTextError = { fg = err, bg = "#161010" },
-					DiagnosticVirtualTextWarn = { fg = orange, bg = "#1c1810" },
-					DiagnosticVirtualTextInfo = { fg = c.overlay2, bg = "#141618" },
-					DiagnosticVirtualTextHint = { fg = c.overlay2, bg = bg },
-					DiagnosticVirtualTextOk = { fg = green, bg = "#141a14" },
-
-					DiagnosticUnderlineError = { sp = err, undercurl = true },
-					DiagnosticUnderlineWarn = { sp = orange, undercurl = true },
-					DiagnosticUnderlineInfo = { sp = c.overlay2, underline = true },
-					DiagnosticUnderlineHint = { sp = c.overlay2, underline = true },
-
-					LspInlayHint = { fg = c.overlay0, italic = true, bg = bg },
-					LspReferenceText = { bg = c.surface1 },
-					LspReferenceRead = { bg = c.surface1 },
-					LspReferenceWrite = { bg = c.surface1, bold = true },
-
-					-- ── Snacks ────────────────────────────────────────────
-					SnacksIndent = { fg = c.surface0 },
-					SnacksIndentScope = { fg = c.overlay0 },
-					SnacksNormal = { bg = bg },
-					SnacksBorder = { fg = c.overlay0, bg = bg },
-					SnacksTitle = { fg = c.overlay1, bg = bg },
-					SnacksWinBar = { bg = bg },
-					SnacksWinBarNC = { bg = bg },
-					SnacksPicker = { bg = bg },
-					SnacksPickerBorder = { fg = c.overlay0, bg = bg },
-					SnacksPickerTitle = { fg = c.overlay1, bg = bg },
-					SnacksPickerInput = { bg = bg },
-					SnacksPickerInputBorder = { fg = c.overlay0, bg = bg },
-					SnacksPickerBox = { bg = bg },
-					SnacksPickerPreview = { bg = bg },
-					SnacksPickerPreviewBorder = { fg = c.overlay0, bg = bg },
-					SnacksPickerList = { bg = bg },
-					SnacksPickerListBorder = { fg = c.overlay0, bg = bg },
-					SnacksPickerMatch = { fg = luster, bold = true },
-					SnacksPickerCursorLine = { bg = c.surface1, bold = true },
-					SnacksPickerFile = { fg = c.text },
-					SnacksPickerDir = { fg = c.subtext0 },
-					SnacksPickerDirectory = { fg = c.subtext1 },
-					SnacksPickerDimmed = { fg = c.overlay1 },
-					SnacksPickerComment = { fg = c.overlay1 },
-
-					-- ── Diff ─────────────────────────────────────────────
-					DiffAdd = { bg = "#16241a" },
-					DiffChange = { bg = "#1c1c1c" },
-					DiffDelete = { bg = "#2a1a16" },
-					DiffText = { bg = "#22221a" },
-					DiffviewDiffAdd = { bg = "#16241a" },
-					DiffviewDiffAddAsDelete = { bg = "#2a1a16" },
-					DiffviewDiffDelete = { fg = c.surface2, bg = "#1f1412" },
-					DiffviewDiffChange = { bg = "#1c1c1c" },
-					DiffviewDiffText = { bg = "#22221a" },
-					DiffviewDiffDeleteDim = { bg = "#190f0d" },
-					DiffAddAsDelete = { bg = "#2a1a16" },
-					DiffviewFiller = { bg = bg },
-					DiffRemoved = { bg = "#2a1a16", fg = orange },
-					DiffviewNormal = { bg = bg },
-					DiffviewCursorLine = { bg = cursorline },
-					DiffviewFilePanelTitle = { fg = luster, bold = true },
-					DiffviewFilePanelCounter = { fg = c.overlay2 },
-					DiffviewFilePanelFileName = { fg = c.subtext1 },
-					DiffviewStatusAdded = { fg = green },
-					DiffviewStatusModified = { fg = c.overlay2 },
-					DiffviewStatusDeleted = { fg = orange },
-					DiffviewStatusRenamed = { fg = lack },
-
-					-- ── Gitsigns ─────────────────────────────────────────
-					GitSignsAdd = { fg = green },
-					GitSignsChange = { fg = c.overlay2 },
-					GitSignsDelete = { fg = orange },
-
-					-- ── Flash ─────────────────────────────────────────────
-					FlashBackdrop = { fg = c.overlay0 },
-					FlashLabel = { fg = panel, bg = blue, bold = true },
-					FlashMatch = { fg = c.overlay2, bg = bg },
-					FlashCurrent = { fg = "#000000", bg = c.text, bold = true },
-
-					-- ── Blink completion ─────────────────────────────────
-					BlinkCmpMenu = { bg = bg },
-					BlinkCmpMenuBorder = { fg = c.overlay0, bg = bg },
-					BlinkCmpMenuSelection = { bg = c.surface1, bold = true },
-					BlinkCmpScrollBarThumb = { bg = c.overlay1 },
-					BlinkCmpScrollBarGutter = { bg = c.surface0 },
-					BlinkCmpDoc = { bg = bg },
-					BlinkCmpDocBorder = { fg = c.overlay0, bg = bg },
-					BlinkCmpDocCursorLine = { bg = cursorline },
-					BlinkCmpSignatureHelp = { bg = bg },
-					BlinkCmpSignatureHelpBorder = { fg = c.overlay0, bg = bg },
-					BlinkCmpSignatureHelpActiveParameter = { fg = luster, bold = true },
-
-					BlinkCmpLabel = { fg = c.subtext1 },
-					BlinkCmpLabelMatch = { fg = luster, bold = true },
-					BlinkCmpLabelDeprecated = { strikethrough = true, fg = c.overlay0 },
-					BlinkCmpLabelDescription = { fg = c.overlay1 },
-					BlinkCmpLabelDetail = { fg = c.overlay1 },
-					BlinkCmpSource = { fg = c.overlay0 },
-					BlinkCmpGhostText = { fg = c.overlay0 },
-
-					BlinkCmpKind = { fg = c.subtext1 },
-					BlinkCmpKindMethod = { fg = c.subtext1 },
-					BlinkCmpKindFunction = { fg = luster },
-					BlinkCmpKindConstructor = { fg = luster },
-					BlinkCmpKindProperty = { fg = c.text },
-					BlinkCmpKindField = { fg = rose },
-					BlinkCmpKindVariable = { fg = c.text },
-					BlinkCmpKindClass = { fg = luster },
-					BlinkCmpKindInterface = { fg = luster, italic = true },
-					BlinkCmpKindStruct = { fg = lack },
-					BlinkCmpKindEnum = { fg = green },
-					BlinkCmpKindEnumMember = { fg = green, bold = true },
-					BlinkCmpKindModule = { fg = c.overlay2 },
-					BlinkCmpKindConstant = { fg = yellow },
-					BlinkCmpKindKeyword = { fg = keyword },
-					BlinkCmpKindSnippet = { fg = lack },
-					BlinkCmpKindEvent = { fg = orange, bold = true },
-					BlinkCmpKindOperator = { fg = c.overlay2 },
-					BlinkCmpKindReference = { fg = blue },
-					BlinkCmpKindFile = { fg = luster },
-					BlinkCmpKindFolder = { fg = c.subtext1 },
-					BlinkCmpKindText = { fg = c.text },
-					BlinkCmpKindUnit = { fg = c.text },
-					BlinkCmpKindValue = { fg = c.text },
-					BlinkCmpKindColor = { fg = c.text },
-					BlinkCmpKindTypeParameter = { fg = rose, italic = true },
-
-					-- ── Trouble ──────────────────────────────────────────
-					TroubleNormal = { bg = bg },
-					TroubleNormalNC = { bg = bg },
-					TroubleText = { fg = c.text, bg = bg },
-					TroubleSource = { fg = c.overlay1 },
-					TroubleCount = { fg = orange, bold = true },
-					TroubleCode = { fg = c.overlay2 },
-					TroubleFoldIcon = { fg = c.overlay0 },
-					TroubleIndent = { fg = c.surface1 },
-					TroublePos = { fg = c.overlay1 },
-					TroubleLocation = { fg = c.overlay2 },
-					TroubleFile = { fg = luster, bold = true },
-					TroubleFilename = { fg = luster, bold = true },
-					TroubleDir = { fg = c.subtext1 },
-					TroublePreview = { bg = bg },
-					TroubleHelp = { fg = c.overlay1 },
-					TroublePromptTitle = { fg = luster, bg = bg, bold = true },
-
-					TroubleSignError = { fg = err, bg = bg },
-					TroubleSignWarning = { fg = orange, bg = bg },
-					TroubleSignInformation = { fg = c.overlay2, bg = bg },
-					TroubleSignHint = { fg = c.overlay2, bg = bg },
-					TroubleSignOther = { fg = c.subtext1, bg = bg },
-
-					TroubleIconClass = { fg = luster },
-					TroubleIconInterface = { fg = luster, italic = true },
-					TroubleIconFunction = { fg = luster },
-					TroubleIconMethod = { fg = c.subtext1 },
-					TroubleIconConstructor = { fg = luster },
-					TroubleIconStruct = { fg = lack },
-					TroubleIconRecord = { fg = blue },
-					TroubleIconEnum = { fg = green },
-					TroubleIconEnumMember = { fg = green, bold = true },
-					TroubleIconField = { fg = rose },
-					TroubleIconProperty = { fg = c.text },
-					TroubleIconVariable = { fg = c.text },
-					TroubleIconConstant = { fg = yellow },
-					TroubleIconNamespace = { fg = c.overlay2 },
-					TroubleIconModule = { fg = c.overlay2 },
-					TroubleIconEvent = { fg = orange, bold = true },
-					TroubleIconTypeParameter = { fg = rose, italic = true },
-
-					-- ── Aerial ───────────────────────────────────────────
-					AerialNormal = { bg = bg },
-					AerialLine = { bg = c.surface1, bold = true },
-					AerialLineNC = { bg = cursorline },
-					AerialGuide = { fg = c.surface2 },
-
-					AerialClass = { fg = luster },
-					AerialClassIcon = { fg = luster },
-					AerialInterface = { fg = luster, italic = true },
-					AerialInterfaceIcon = { fg = luster, italic = true },
-					AerialFunction = { fg = luster },
-					AerialFunctionIcon = { fg = luster },
-					AerialMethod = { fg = c.subtext1 },
-					AerialMethodIcon = { fg = c.subtext1 },
-					AerialConstructor = { fg = luster },
-					AerialConstructorIcon = { fg = luster },
-					AerialStruct = { fg = lack },
-					AerialStructIcon = { fg = lack },
-					AerialEnum = { fg = green },
-					AerialEnumIcon = { fg = green },
-					AerialEnumMember = { fg = green, bold = true },
-					AerialEnumMemberIcon = { fg = green, bold = true },
-					AerialField = { fg = rose },
-					AerialFieldIcon = { fg = rose },
-					AerialProperty = { fg = c.text },
-					AerialPropertyIcon = { fg = c.text },
-					AerialVariable = { fg = c.text },
-					AerialVariableIcon = { fg = c.text },
-					AerialConstant = { fg = yellow },
-					AerialConstantIcon = { fg = yellow },
-					AerialNamespace = { fg = c.overlay2 },
-					AerialNamespaceIcon = { fg = c.overlay2 },
-					AerialModule = { fg = c.overlay2 },
-					AerialModuleIcon = { fg = c.overlay2 },
-					AerialEvent = { fg = orange, bold = true },
-					AerialEventIcon = { fg = orange, bold = true },
-					AerialTypeParameter = { fg = rose, italic = true },
-					AerialTypeParameterIcon = { fg = rose, italic = true },
-
-					-- ── Yanky ────────────────────────────────────────────
-					YankyPut = { link = "IncSearch" },
-					YankyYanked = { link = "IncSearch" },
-
-					-- ── Markdown / @markup.* ─────────────────────────────
-					["@markup.heading"] = { fg = luster, bold = true },
-					["@markup.heading.1"] = { fg = luster, bold = true },
-					["@markup.heading.2"] = { fg = blue, bold = true },
-					["@markup.heading.3"] = { fg = green, bold = true },
-					["@markup.heading.4"] = { fg = c.subtext1, bold = true },
-					["@markup.heading.5"] = { fg = c.subtext1, bold = true, italic = true },
-					["@markup.heading.6"] = { fg = c.overlay2, bold = true },
-					["@markup.heading.1.markdown"] = { fg = luster, bold = true },
-					["@markup.heading.2.markdown"] = { fg = blue, bold = true },
-					["@markup.heading.3.markdown"] = { fg = green, bold = true },
-					["@markup.heading.4.markdown"] = { fg = c.subtext1, bold = true },
-					["@markup.heading.5.markdown"] = { fg = c.subtext1, bold = true, italic = true },
-					["@markup.heading.6.markdown"] = { fg = c.overlay2, bold = true },
-
-					["@markup.strong"] = { fg = c.text, bold = true },
-					["@markup.italic"] = { fg = c.text, italic = true },
-					["@markup.strikethrough"] = { strikethrough = true },
-					["@markup.underline"] = { underline = true },
-
-					["@markup.raw"] = { fg = yellow },
-					["@markup.raw.markdown_inline"] = { fg = yellow },
-					["@markup.raw.block"] = { bg = c.surface0 },
-					["@markup.raw.block.markdown"] = { bg = c.surface0 },
-
-					["@markup.link"] = { fg = blue },
-					["@markup.link.label"] = { fg = blue, underline = true },
-					["@markup.link.url"] = { fg = c.overlay1, underline = true },
-
-					["@markup.list"] = { fg = orange },
-					["@markup.list.checked"] = { fg = green },
-					["@markup.list.unchecked"] = { fg = c.overlay1 },
-					["@markup.quote"] = { fg = c.overlay1, italic = true },
-					["@markup.math"] = { fg = yellow },
-					["@markup.environment"] = { fg = orange },
-
-					-- Legacy @text.* fallback
-					["@text.title"] = { fg = luster, bold = true },
-					["@text.literal"] = { fg = yellow },
-					["@text.uri"] = { fg = blue, underline = true },
-					["@text.reference"] = { fg = blue },
-					["@text.note"] = { fg = blue },
-					["@text.warning"] = { fg = orange },
-					["@text.danger"] = { fg = err, bold = true },
-					["@text.todo"] = { fg = orange },
-					["@text.emphasis"] = { italic = true },
-					["@text.strong"] = { bold = true },
-
-					["@punctuation.special.markdown"] = { fg = orange },
-
-					-- ── todo-comments.nvim ───────────────────────────────
-					TodoFgTODO = { fg = orange, bold = true },
-					TodoBgTODO = { fg = bg, bg = orange, bold = true },
-					TodoSignTODO = { fg = orange },
-
-					TodoFgFIX = { fg = c.red, bold = true },
-					TodoBgFIX = { fg = bg, bg = c.red, bold = true },
-					TodoSignFIX = { fg = c.red },
-
-					TodoFgHACK = { fg = yellow, bold = true },
-					TodoBgHACK = { fg = bg, bg = yellow, bold = true },
-					TodoSignHACK = { fg = yellow },
-
-					TodoFgWARN = { fg = orange, bold = true, italic = true },
-					TodoBgWARN = { fg = bg, bg = orange, bold = true, italic = true },
-					TodoSignWARN = { fg = orange },
-
-					TodoFgNOTE = { fg = blue, bold = true },
-					TodoBgNOTE = { fg = bg, bg = blue, bold = true },
-					TodoSignNOTE = { fg = blue },
-
-					TodoFgPERF = { fg = green, bold = true },
-					TodoBgPERF = { fg = bg, bg = green, bold = true },
-					TodoSignPERF = { fg = green },
-
-					TodoFgTEST = { fg = lack, bold = true },
-					TodoBgTEST = { fg = bg, bg = lack, bold = true },
-					TodoSignTEST = { fg = lack },
-				}
-			end,
-		},
-		config = function(_, opts)
-			require("catppuccin").setup(opts)
-			vim.cmd.colorscheme("catppuccin")
-			vim.g.terminal_color_0 = "#101010"
-			vim.g.terminal_color_1 = "#D70000"
-			vim.g.terminal_color_2 = "#8aaa88"
-			vim.g.terminal_color_3 = "#abab77"
-			vim.g.terminal_color_4 = "#88a0c8"
-			vim.g.terminal_color_5 = "#c07878"
-			vim.g.terminal_color_6 = "#7a8fa0"
-			vim.g.terminal_color_7 = "#aaaaaa"
-			vim.g.terminal_color_8 = "#444444"
-			vim.g.terminal_color_9 = "#D70000"
-			vim.g.terminal_color_10 = "#8aaa88"
-			vim.g.terminal_color_11 = "#abab77"
-			vim.g.terminal_color_12 = "#88a0c8"
-			vim.g.terminal_color_13 = "#ffaa88"
-			vim.g.terminal_color_14 = "#7a8fa0"
-			vim.g.terminal_color_15 = "#cccccc"
-		end,
-	},
-}
+return {}
+-- 	{
+-- 		"catppuccin/nvim",
+-- 		name = "catppuccin",
+-- 		enabled = false,
+-- 		lazy = false,
+-- 		priority = 1000,
+-- 		opts = {
+-- 			flavour = "mocha",
+-- 			transparent_background = false,
+-- 			color_overrides = {
+-- 				mocha = {
+-- 					base = "#101010",
+-- 					mantle = "#1A1A1A",
+-- 					crust = "#080808",
+-- 					surface0 = "#191919",
+-- 					surface1 = "#242424",
+-- 					surface2 = "#2a2a2a",
+-- 					overlay0 = "#444444",
+-- 					overlay1 = "#555555",
+-- 					overlay2 = "#7a7a7a",
+-- 					subtext0 = "#8E8E8E",
+-- 					subtext1 = "#aaaaaa",
+-- 					text = "#cccccc",
+-- 					yellow = "#abab77",
+-- 					peach = "#ffaa88",
+-- 					sky = "#88a0c8",
+-- 					sapphire = "#88a0c8",
+-- 					blue = "#88a0c8",
+-- 					teal = "#8aaa88",
+-- 					lavender = "#7a8fa0",
+-- 					mauve = "#7a8fa0",
+-- 					pink = "#deeeed",
+-- 					rosewater = "#deeeed",
+-- 					flamingo = "#deeeed",
+-- 					maroon = "#ffaa88",
+-- 					red = "#D70000",
+-- 					green = "#8aaa88",
+-- 				},
+-- 			},
+-- 			styles = {
+-- 				comments = {},
+-- 				keywords = {},
+-- 				functions = {},
+-- 				types = {},
+-- 				operators = {},
+-- 			},
+-- 			lsp_styles = {
+-- 				virtual_text = {
+-- 					errors = { "italic" },
+-- 					warnings = { "italic" },
+-- 					hints = { "italic" },
+-- 					information = { "italic" },
+-- 				},
+-- 				underlines = {
+-- 					errors = { "undercurl" },
+-- 					warnings = { "undercurl" },
+-- 					hints = { "underline" },
+-- 					information = { "underline" },
+-- 				},
+-- 			},
+-- 			integrations = {
+-- 				treesitter = true,
+-- 				blink_cmp = true,
+-- 				gitsigns = true,
+-- 				which_key = true,
+-- 				mini = { enabled = true },
+-- 				dap = true,
+-- 				mason = true,
+-- 			},
+-- 			custom_highlights = function(c)
+-- 				-- ── Palette locals ────────────────────────────────────
+-- 				local bg = "#101010"
+-- 				local panel = "#1A1A1A"
+-- 				local statusline = "#242424"
+-- 				local cursorline = "#191919"
+-- 				local comment = "#3A3A3A"
+-- 				local keyword = "#666666"
+-- 				local luster = "#deeeed"
+-- 				local yellow = "#abab77"
+-- 				local blue = "#88a0c8"
+-- 				local exception_kw = blue
+-- 				local orange = "#ffaa88"
+-- 				local green = "#8aaa88"
+-- 				local lack = "#7a8fa0"
+-- 				local rose = "#c07878"
+-- 				local err = "#cc4444" -- desaturated brick-red for diagnostics
+--
+-- 				return {
+-- 					-- ── Core UI ───────────────────────────────────────────
+-- 					Normal = { fg = c.text, bg = bg },
+-- 					NormalNC = { fg = c.text, bg = bg },
+-- 					SignColumn = { bg = bg },
+-- 					EndOfBuffer = { fg = bg, bg = bg },
+-- 					LineNr = { fg = c.overlay0, bg = bg },
+-- 					CursorLineNr = { fg = c.subtext1, bold = true, bg = cursorline },
+-- 					CursorLine = { bg = cursorline },
+-- 					ColorColumn = { bg = c.crust },
+-- 					Visual = { bg = "#2a2a3a" },
+-- 					Folded = { fg = c.overlay0, bg = bg },
+-- 					WinSeparator = { fg = c.overlay0 },
+-- 					VertSplit = { fg = c.overlay0 },
+-- 					MatchParen = { fg = luster, bold = true, underline = true },
+-- 					Whitespace = { fg = "#202020" },
+-- 					NonText = { fg = "#202020" },
+-- 					SpecialKey = { fg = "#202020" },
+--
+-- 					-- ── Statusline / float / popup ───────────────────────
+-- 					StatusLine = { fg = c.subtext1, bg = statusline },
+-- 					StatusLineNC = { fg = c.overlay0, bg = c.crust },
+-- 					NormalFloat = { bg = bg },
+-- 					FloatBorder = { fg = c.overlay0, bg = bg },
+-- 					FloatTitle = { fg = c.overlay1, bg = bg },
+-- 					Pmenu = { fg = c.overlay2, bg = bg },
+-- 					PmenuSel = { fg = c.text, bg = c.surface1, bold = true },
+-- 					PmenuThumb = { bg = c.overlay1 },
+-- 					PmenuSbar = { bg = c.surface0 },
+-- 					QuickFixLine = { bg = c.surface1, bold = true },
+-- 					QfCursorLine = { bg = cursorline },
+--
+-- 					-- ── Search ────────────────────────────────────────────
+-- 					Search = { fg = "#000000", bg = lack },
+-- 					IncSearch = { fg = "#000000", bg = c.text },
+-- 					CurSearch = { fg = "#000000", bg = c.text },
+--
+-- 					-- ── Treesitter / syntax ───────────────────────────────
+-- 					["@comment"] = { fg = comment },
+-- 					Comment = { fg = comment },
+--
+-- 					["@variable"] = { fg = c.text },
+-- 					["@variable.member"] = { fg = c.text },
+-- 					["@variable.parameter"] = { fg = c.subtext0 },
+-- 					["@variable.builtin"] = { fg = lack, italic = true },
+--
+-- 					["@constant"] = { fg = yellow },
+-- 					["@constant.builtin"] = { fg = lack, italic = true },
+--
+-- 					["@string"] = { fg = yellow },
+-- 					["@string.escape"] = { fg = green },
+-- 					["@string.special"] = { fg = green },
+-- 					["@number"] = { fg = c.subtext1 },
+-- 					["@number.float"] = { fg = c.subtext1 },
+-- 					["@boolean"] = { fg = c.subtext1 },
+-- 					["@character"] = { fg = yellow },
+--
+-- 					["@keyword"] = { fg = keyword },
+-- 					["@keyword.modifier"] = { fg = keyword },
+-- 					["@keyword.operator"] = { fg = keyword },
+-- 					["@keyword.coroutine"] = { fg = keyword },
+-- 					["@keyword.import"] = { fg = keyword },
+-- 					["@keyword.type"] = { fg = keyword },
+-- 					["@keyword.conditional"] = { fg = keyword },
+-- 					["@keyword.repeat"] = { fg = keyword },
+-- 					["@keyword.return"] = { fg = exception_kw },
+-- 					["@keyword.exception"] = { fg = exception_kw },
+--
+-- 					["@operator"] = { fg = c.overlay2 },
+-- 					["@punctuation"] = { fg = c.overlay2 },
+-- 					["@punctuation.bracket"] = { fg = c.overlay2 },
+-- 					["@punctuation.delimiter"] = { fg = c.overlay2 },
+-- 					["@punctuation.special"] = { fg = c.overlay2 },
+--
+-- 					["@function"] = { fg = luster },
+-- 					["@function.method"] = { fg = luster },
+-- 					["@function.call"] = { fg = c.subtext1 },
+-- 					["@function.method.call"] = { fg = c.subtext1 },
+-- 					["@function.builtin"] = { fg = blue },
+-- 					["@constructor"] = { fg = c.subtext1 },
+--
+-- 					["@type"] = { fg = luster },
+-- 					["@type.builtin"] = { fg = lack },
+-- 					["@type.definition"] = { fg = luster, bold = true },
+--
+-- 					["@tag"] = { fg = c.overlay1 },
+-- 					["@attribute"] = { fg = orange },
+--
+-- 					-- ── LSP semantic tokens ───────────────────────────────
+-- 					["@lsp.type.namespace"] = { fg = c.overlay2 },
+-- 					["@lsp.type.namespace.cs"] = { fg = c.overlay2 },
+--
+-- 					["@lsp.type.class"] = { fg = luster },
+-- 					["@lsp.type.class.cs"] = { fg = luster },
+-- 					["@lsp.type.interface"] = { fg = luster, italic = true },
+-- 					["@lsp.type.interface.cs"] = { fg = luster, italic = true },
+--
+-- 					["@lsp.type.record"] = { fg = blue },
+-- 					["@lsp.type.record.cs"] = { fg = blue },
+-- 					["@lsp.type.delegate"] = { fg = blue, italic = true },
+-- 					["@lsp.type.delegate.cs"] = { fg = blue, italic = true },
+--
+-- 					["@lsp.type.struct"] = { fg = lack },
+-- 					["@lsp.type.struct.cs"] = { fg = lack },
+--
+-- 					["@lsp.type.typeParameter"] = { fg = rose, italic = true },
+-- 					["@lsp.type.typeParameter.cs"] = { fg = rose, italic = true },
+--
+-- 					["@lsp.type.enum"] = { fg = green },
+-- 					["@lsp.type.enum.cs"] = { fg = green },
+-- 					["@lsp.type.enumMember"] = { fg = green, bold = true },
+-- 					["@lsp.type.enumMember.cs"] = { fg = green, bold = true },
+--
+-- 					["@lsp.type.method"] = { fg = c.subtext1 },
+-- 					["@lsp.type.method.cs"] = { fg = c.subtext1 },
+-- 					["@lsp.typemod.method.definition"] = { fg = luster },
+-- 					["@lsp.typemod.method.definition.cs"] = { fg = luster },
+--
+-- 					["@lsp.type.property"] = { fg = c.text },
+-- 					["@lsp.type.property.cs"] = { fg = c.text },
+--
+-- 					["@lsp.type.field"] = { fg = rose },
+-- 					["@lsp.type.field.cs"] = { fg = rose },
+--
+-- 					["@lsp.type.variable"] = { fg = c.text },
+-- 					["@lsp.type.variable.cs"] = { fg = c.text },
+--
+-- 					["@lsp.type.parameter"] = { fg = c.subtext0 },
+-- 					["@lsp.type.parameter.cs"] = { fg = c.subtext0 },
+--
+-- 					["@lsp.type.event"] = { fg = orange, bold = true },
+-- 					["@lsp.type.event.cs"] = { fg = orange, bold = true },
+-- 					["@lsp.type.decorator"] = { fg = orange },
+-- 					["@lsp.type.decorator.cs"] = { fg = orange },
+--
+-- 					["@lsp.typemod.variable.self"] = { fg = lack, italic = true },
+-- 					["@lsp.mod.deprecated"] = { strikethrough = true },
+-- 					["@lsp.typemod.method.static"] = { italic = true },
+-- 					["@lsp.typemod.property.static"] = { italic = true },
+-- 					["@lsp.typemod.method.async"] = { underline = true },
+--
+-- 					["@lsp.typemod.variable.readonly"] = { fg = yellow, italic = true },
+-- 					["@lsp.typemod.variable.static"] = { fg = yellow, italic = true },
+-- 					["@lsp.typemod.field.static"] = { fg = yellow, italic = true },
+-- 					["@lsp.typemod.field.readonly"] = { fg = rose, italic = true },
+--
+-- 					["@lsp.typemod.comment.documentation"] = { fg = blue, italic = true },
+--
+-- 					-- ── Diagnostics ───────────────────────────────────────
+-- 					DiagnosticError = { fg = err },
+-- 					DiagnosticWarn = { fg = orange },
+-- 					DiagnosticInfo = { fg = c.overlay2 },
+-- 					DiagnosticHint = { fg = c.overlay2 },
+-- 					DiagnosticOk = { fg = green },
+-- 					DiagnosticUnnecessary = { fg = c.overlay0 },
+-- 					DiagnosticDeprecated = { fg = orange, strikethrough = true },
+--
+-- 					DiagnosticVirtualTextError = { fg = err, bg = "#161010" },
+-- 					DiagnosticVirtualTextWarn = { fg = orange, bg = "#1c1810" },
+-- 					DiagnosticVirtualTextInfo = { fg = c.overlay2, bg = "#141618" },
+-- 					DiagnosticVirtualTextHint = { fg = c.overlay2, bg = bg },
+-- 					DiagnosticVirtualTextOk = { fg = green, bg = "#141a14" },
+--
+-- 					DiagnosticUnderlineError = { sp = err, undercurl = true },
+-- 					DiagnosticUnderlineWarn = { sp = orange, undercurl = true },
+-- 					DiagnosticUnderlineInfo = { sp = c.overlay2, underline = true },
+-- 					DiagnosticUnderlineHint = { sp = c.overlay2, underline = true },
+--
+-- 					LspInlayHint = { fg = c.overlay0, italic = true, bg = bg },
+-- 					LspReferenceText = { bg = c.surface1 },
+-- 					LspReferenceRead = { bg = c.surface1 },
+-- 					LspReferenceWrite = { bg = c.surface1, bold = true },
+--
+-- 					-- ── Snacks ────────────────────────────────────────────
+-- 					SnacksIndent = { fg = c.surface0 },
+-- 					SnacksIndentScope = { fg = c.overlay0 },
+-- 					SnacksNormal = { bg = bg },
+-- 					SnacksBorder = { fg = c.overlay0, bg = bg },
+-- 					SnacksTitle = { fg = c.overlay1, bg = bg },
+-- 					SnacksWinBar = { bg = bg },
+-- 					SnacksWinBarNC = { bg = bg },
+-- 					SnacksPicker = { bg = bg },
+-- 					SnacksPickerBorder = { fg = c.overlay0, bg = bg },
+-- 					SnacksPickerTitle = { fg = c.overlay1, bg = bg },
+-- 					SnacksPickerInput = { bg = bg },
+-- 					SnacksPickerInputBorder = { fg = c.overlay0, bg = bg },
+-- 					SnacksPickerBox = { bg = bg },
+-- 					SnacksPickerPreview = { bg = bg },
+-- 					SnacksPickerPreviewBorder = { fg = c.overlay0, bg = bg },
+-- 					SnacksPickerList = { bg = bg },
+-- 					SnacksPickerListBorder = { fg = c.overlay0, bg = bg },
+-- 					SnacksPickerMatch = { fg = luster, bold = true },
+-- 					SnacksPickerCursorLine = { bg = c.surface1, bold = true },
+-- 					SnacksPickerFile = { fg = c.text },
+-- 					SnacksPickerDir = { fg = c.subtext0 },
+-- 					SnacksPickerDirectory = { fg = c.subtext1 },
+-- 					SnacksPickerDimmed = { fg = c.overlay1 },
+-- 					SnacksPickerComment = { fg = c.overlay1 },
+--
+-- 					-- ── Diff ─────────────────────────────────────────────
+-- 					DiffAdd = { bg = "#16241a" },
+-- 					DiffChange = { bg = "#1c1c1c" },
+-- 					DiffDelete = { bg = "#2a1a16" },
+-- 					DiffText = { bg = "#22221a" },
+-- 					DiffviewDiffAdd = { bg = "#16241a" },
+-- 					DiffviewDiffAddAsDelete = { bg = "#2a1a16" },
+-- 					DiffviewDiffDelete = { fg = c.surface2, bg = "#1f1412" },
+-- 					DiffviewDiffChange = { bg = "#1c1c1c" },
+-- 					DiffviewDiffText = { bg = "#22221a" },
+-- 					DiffviewDiffDeleteDim = { bg = "#190f0d" },
+-- 					DiffAddAsDelete = { bg = "#2a1a16" },
+-- 					DiffviewFiller = { bg = bg },
+-- 					DiffRemoved = { bg = "#2a1a16", fg = orange },
+-- 					DiffviewNormal = { bg = bg },
+-- 					DiffviewCursorLine = { bg = cursorline },
+-- 					DiffviewFilePanelTitle = { fg = luster, bold = true },
+-- 					DiffviewFilePanelCounter = { fg = c.overlay2 },
+-- 					DiffviewFilePanelFileName = { fg = c.subtext1 },
+-- 					DiffviewStatusAdded = { fg = green },
+-- 					DiffviewStatusModified = { fg = c.overlay2 },
+-- 					DiffviewStatusDeleted = { fg = orange },
+-- 					DiffviewStatusRenamed = { fg = lack },
+--
+-- 					-- ── Gitsigns ─────────────────────────────────────────
+-- 					GitSignsAdd = { fg = green },
+-- 					GitSignsChange = { fg = c.overlay2 },
+-- 					GitSignsDelete = { fg = orange },
+--
+-- 					-- ── Flash ─────────────────────────────────────────────
+-- 					FlashBackdrop = { fg = c.overlay0 },
+-- 					FlashLabel = { fg = panel, bg = blue, bold = true },
+-- 					FlashMatch = { fg = c.overlay2, bg = bg },
+-- 					FlashCurrent = { fg = "#000000", bg = c.text, bold = true },
+--
+-- 					-- ── Blink completion ─────────────────────────────────
+-- 					BlinkCmpMenu = { bg = bg },
+-- 					BlinkCmpMenuBorder = { fg = c.overlay0, bg = bg },
+-- 					BlinkCmpMenuSelection = { bg = c.surface1, bold = true },
+-- 					BlinkCmpScrollBarThumb = { bg = c.overlay1 },
+-- 					BlinkCmpScrollBarGutter = { bg = c.surface0 },
+-- 					BlinkCmpDoc = { bg = bg },
+-- 					BlinkCmpDocBorder = { fg = c.overlay0, bg = bg },
+-- 					BlinkCmpDocCursorLine = { bg = cursorline },
+-- 					BlinkCmpSignatureHelp = { bg = bg },
+-- 					BlinkCmpSignatureHelpBorder = { fg = c.overlay0, bg = bg },
+-- 					BlinkCmpSignatureHelpActiveParameter = { fg = luster, bold = true },
+--
+-- 					BlinkCmpLabel = { fg = c.subtext1 },
+-- 					BlinkCmpLabelMatch = { fg = luster, bold = true },
+-- 					BlinkCmpLabelDeprecated = { strikethrough = true, fg = c.overlay0 },
+-- 					BlinkCmpLabelDescription = { fg = c.overlay1 },
+-- 					BlinkCmpLabelDetail = { fg = c.overlay1 },
+-- 					BlinkCmpSource = { fg = c.overlay0 },
+-- 					BlinkCmpGhostText = { fg = c.overlay0 },
+--
+-- 					BlinkCmpKind = { fg = c.subtext1 },
+-- 					BlinkCmpKindMethod = { fg = c.subtext1 },
+-- 					BlinkCmpKindFunction = { fg = luster },
+-- 					BlinkCmpKindConstructor = { fg = luster },
+-- 					BlinkCmpKindProperty = { fg = c.text },
+-- 					BlinkCmpKindField = { fg = rose },
+-- 					BlinkCmpKindVariable = { fg = c.text },
+-- 					BlinkCmpKindClass = { fg = luster },
+-- 					BlinkCmpKindInterface = { fg = luster, italic = true },
+-- 					BlinkCmpKindStruct = { fg = lack },
+-- 					BlinkCmpKindEnum = { fg = green },
+-- 					BlinkCmpKindEnumMember = { fg = green, bold = true },
+-- 					BlinkCmpKindModule = { fg = c.overlay2 },
+-- 					BlinkCmpKindConstant = { fg = yellow },
+-- 					BlinkCmpKindKeyword = { fg = keyword },
+-- 					BlinkCmpKindSnippet = { fg = lack },
+-- 					BlinkCmpKindEvent = { fg = orange, bold = true },
+-- 					BlinkCmpKindOperator = { fg = c.overlay2 },
+-- 					BlinkCmpKindReference = { fg = blue },
+-- 					BlinkCmpKindFile = { fg = luster },
+-- 					BlinkCmpKindFolder = { fg = c.subtext1 },
+-- 					BlinkCmpKindText = { fg = c.text },
+-- 					BlinkCmpKindUnit = { fg = c.text },
+-- 					BlinkCmpKindValue = { fg = c.text },
+-- 					BlinkCmpKindColor = { fg = c.text },
+-- 					BlinkCmpKindTypeParameter = { fg = rose, italic = true },
+--
+-- 					-- ── Trouble ──────────────────────────────────────────
+-- 					TroubleNormal = { bg = bg },
+-- 					TroubleNormalNC = { bg = bg },
+-- 					TroubleText = { fg = c.text, bg = bg },
+-- 					TroubleSource = { fg = c.overlay1 },
+-- 					TroubleCount = { fg = orange, bold = true },
+-- 					TroubleCode = { fg = c.overlay2 },
+-- 					TroubleFoldIcon = { fg = c.overlay0 },
+-- 					TroubleIndent = { fg = c.surface1 },
+-- 					TroublePos = { fg = c.overlay1 },
+-- 					TroubleLocation = { fg = c.overlay2 },
+-- 					TroubleFile = { fg = luster, bold = true },
+-- 					TroubleFilename = { fg = luster, bold = true },
+-- 					TroubleDir = { fg = c.subtext1 },
+-- 					TroublePreview = { bg = bg },
+-- 					TroubleHelp = { fg = c.overlay1 },
+-- 					TroublePromptTitle = { fg = luster, bg = bg, bold = true },
+--
+-- 					TroubleSignError = { fg = err, bg = bg },
+-- 					TroubleSignWarning = { fg = orange, bg = bg },
+-- 					TroubleSignInformation = { fg = c.overlay2, bg = bg },
+-- 					TroubleSignHint = { fg = c.overlay2, bg = bg },
+-- 					TroubleSignOther = { fg = c.subtext1, bg = bg },
+--
+-- 					TroubleIconClass = { fg = luster },
+-- 					TroubleIconInterface = { fg = luster, italic = true },
+-- 					TroubleIconFunction = { fg = luster },
+-- 					TroubleIconMethod = { fg = c.subtext1 },
+-- 					TroubleIconConstructor = { fg = luster },
+-- 					TroubleIconStruct = { fg = lack },
+-- 					TroubleIconRecord = { fg = blue },
+-- 					TroubleIconEnum = { fg = green },
+-- 					TroubleIconEnumMember = { fg = green, bold = true },
+-- 					TroubleIconField = { fg = rose },
+-- 					TroubleIconProperty = { fg = c.text },
+-- 					TroubleIconVariable = { fg = c.text },
+-- 					TroubleIconConstant = { fg = yellow },
+-- 					TroubleIconNamespace = { fg = c.overlay2 },
+-- 					TroubleIconModule = { fg = c.overlay2 },
+-- 					TroubleIconEvent = { fg = orange, bold = true },
+-- 					TroubleIconTypeParameter = { fg = rose, italic = true },
+--
+-- 					-- ── Aerial ───────────────────────────────────────────
+-- 					AerialNormal = { bg = bg },
+-- 					AerialLine = { bg = c.surface1, bold = true },
+-- 					AerialLineNC = { bg = cursorline },
+-- 					AerialGuide = { fg = c.surface2 },
+--
+-- 					AerialClass = { fg = luster },
+-- 					AerialClassIcon = { fg = luster },
+-- 					AerialInterface = { fg = luster, italic = true },
+-- 					AerialInterfaceIcon = { fg = luster, italic = true },
+-- 					AerialFunction = { fg = luster },
+-- 					AerialFunctionIcon = { fg = luster },
+-- 					AerialMethod = { fg = c.subtext1 },
+-- 					AerialMethodIcon = { fg = c.subtext1 },
+-- 					AerialConstructor = { fg = luster },
+-- 					AerialConstructorIcon = { fg = luster },
+-- 					AerialStruct = { fg = lack },
+-- 					AerialStructIcon = { fg = lack },
+-- 					AerialEnum = { fg = green },
+-- 					AerialEnumIcon = { fg = green },
+-- 					AerialEnumMember = { fg = green, bold = true },
+-- 					AerialEnumMemberIcon = { fg = green, bold = true },
+-- 					AerialField = { fg = rose },
+-- 					AerialFieldIcon = { fg = rose },
+-- 					AerialProperty = { fg = c.text },
+-- 					AerialPropertyIcon = { fg = c.text },
+-- 					AerialVariable = { fg = c.text },
+-- 					AerialVariableIcon = { fg = c.text },
+-- 					AerialConstant = { fg = yellow },
+-- 					AerialConstantIcon = { fg = yellow },
+-- 					AerialNamespace = { fg = c.overlay2 },
+-- 					AerialNamespaceIcon = { fg = c.overlay2 },
+-- 					AerialModule = { fg = c.overlay2 },
+-- 					AerialModuleIcon = { fg = c.overlay2 },
+-- 					AerialEvent = { fg = orange, bold = true },
+-- 					AerialEventIcon = { fg = orange, bold = true },
+-- 					AerialTypeParameter = { fg = rose, italic = true },
+-- 					AerialTypeParameterIcon = { fg = rose, italic = true },
+--
+-- 					-- ── Yanky ────────────────────────────────────────────
+-- 					YankyPut = { link = "IncSearch" },
+-- 					YankyYanked = { link = "IncSearch" },
+--
+-- 					-- ── Markdown / @markup.* ─────────────────────────────
+-- 					["@markup.heading"] = { fg = luster, bold = true },
+-- 					["@markup.heading.1"] = { fg = luster, bold = true },
+-- 					["@markup.heading.2"] = { fg = blue, bold = true },
+-- 					["@markup.heading.3"] = { fg = green, bold = true },
+-- 					["@markup.heading.4"] = { fg = c.subtext1, bold = true },
+-- 					["@markup.heading.5"] = { fg = c.subtext1, bold = true, italic = true },
+-- 					["@markup.heading.6"] = { fg = c.overlay2, bold = true },
+-- 					["@markup.heading.1.markdown"] = { fg = luster, bold = true },
+-- 					["@markup.heading.2.markdown"] = { fg = blue, bold = true },
+-- 					["@markup.heading.3.markdown"] = { fg = green, bold = true },
+-- 					["@markup.heading.4.markdown"] = { fg = c.subtext1, bold = true },
+-- 					["@markup.heading.5.markdown"] = { fg = c.subtext1, bold = true, italic = true },
+-- 					["@markup.heading.6.markdown"] = { fg = c.overlay2, bold = true },
+--
+-- 					["@markup.strong"] = { fg = c.text, bold = true },
+-- 					["@markup.italic"] = { fg = c.text, italic = true },
+-- 					["@markup.strikethrough"] = { strikethrough = true },
+-- 					["@markup.underline"] = { underline = true },
+--
+-- 					["@markup.raw"] = { fg = yellow },
+-- 					["@markup.raw.markdown_inline"] = { fg = yellow },
+-- 					["@markup.raw.block"] = { bg = c.surface0 },
+-- 					["@markup.raw.block.markdown"] = { bg = c.surface0 },
+--
+-- 					["@markup.link"] = { fg = blue },
+-- 					["@markup.link.label"] = { fg = blue, underline = true },
+-- 					["@markup.link.url"] = { fg = c.overlay1, underline = true },
+--
+-- 					["@markup.list"] = { fg = orange },
+-- 					["@markup.list.checked"] = { fg = green },
+-- 					["@markup.list.unchecked"] = { fg = c.overlay1 },
+-- 					["@markup.quote"] = { fg = c.overlay1, italic = true },
+-- 					["@markup.math"] = { fg = yellow },
+-- 					["@markup.environment"] = { fg = orange },
+--
+-- 					-- Legacy @text.* fallback
+-- 					["@text.title"] = { fg = luster, bold = true },
+-- 					["@text.literal"] = { fg = yellow },
+-- 					["@text.uri"] = { fg = blue, underline = true },
+-- 					["@text.reference"] = { fg = blue },
+-- 					["@text.note"] = { fg = blue },
+-- 					["@text.warning"] = { fg = orange },
+-- 					["@text.danger"] = { fg = err, bold = true },
+-- 					["@text.todo"] = { fg = orange },
+-- 					["@text.emphasis"] = { italic = true },
+-- 					["@text.strong"] = { bold = true },
+--
+-- 					["@punctuation.special.markdown"] = { fg = orange },
+--
+-- 					-- ── todo-comments.nvim ───────────────────────────────
+-- 					TodoFgTODO = { fg = orange, bold = true },
+-- 					TodoBgTODO = { fg = bg, bg = orange, bold = true },
+-- 					TodoSignTODO = { fg = orange },
+--
+-- 					TodoFgFIX = { fg = c.red, bold = true },
+-- 					TodoBgFIX = { fg = bg, bg = c.red, bold = true },
+-- 					TodoSignFIX = { fg = c.red },
+--
+-- 					TodoFgHACK = { fg = yellow, bold = true },
+-- 					TodoBgHACK = { fg = bg, bg = yellow, bold = true },
+-- 					TodoSignHACK = { fg = yellow },
+--
+-- 					TodoFgWARN = { fg = orange, bold = true, italic = true },
+-- 					TodoBgWARN = { fg = bg, bg = orange, bold = true, italic = true },
+-- 					TodoSignWARN = { fg = orange },
+--
+-- 					TodoFgNOTE = { fg = blue, bold = true },
+-- 					TodoBgNOTE = { fg = bg, bg = blue, bold = true },
+-- 					TodoSignNOTE = { fg = blue },
+--
+-- 					TodoFgPERF = { fg = green, bold = true },
+-- 					TodoBgPERF = { fg = bg, bg = green, bold = true },
+-- 					TodoSignPERF = { fg = green },
+--
+-- 					TodoFgTEST = { fg = lack, bold = true },
+-- 					TodoBgTEST = { fg = bg, bg = lack, bold = true },
+-- 					TodoSignTEST = { fg = lack },
+-- 				}
+-- 			end,
+-- 		},
+-- 		config = function(_, opts)
+-- 			require("catppuccin").setup(opts)
+-- 			vim.cmd.colorscheme("catppuccin")
+-- 			vim.g.terminal_color_0 = "#101010"
+-- 			vim.g.terminal_color_1 = "#D70000"
+-- 			vim.g.terminal_color_2 = "#8aaa88"
+-- 			vim.g.terminal_color_3 = "#abab77"
+-- 			vim.g.terminal_color_4 = "#88a0c8"
+-- 			vim.g.terminal_color_5 = "#c07878"
+-- 			vim.g.terminal_color_6 = "#7a8fa0"
+-- 			vim.g.terminal_color_7 = "#aaaaaa"
+-- 			vim.g.terminal_color_8 = "#444444"
+-- 			vim.g.terminal_color_9 = "#D70000"
+-- 			vim.g.terminal_color_10 = "#8aaa88"
+-- 			vim.g.terminal_color_11 = "#abab77"
+-- 			vim.g.terminal_color_12 = "#88a0c8"
+-- 			vim.g.terminal_color_13 = "#ffaa88"
+-- 			vim.g.terminal_color_14 = "#7a8fa0"
+-- 			vim.g.terminal_color_15 = "#cccccc"
+-- 		end,
+-- 	},
+-- }
