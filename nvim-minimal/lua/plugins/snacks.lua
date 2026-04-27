@@ -126,7 +126,17 @@ return {
 		},
 	},
 	opts = {
-		lazygit = { enabled = true },
+		lazygit = {
+			enabled = true,
+			config = {
+				gui = {
+					theme = {
+						activeBorderColor = { "#f07098", "bold" },
+						inactiveBorderColor = { "#5e5e7a" },
+					},
+				},
+			},
+		},
 		bigfile = { enabled = true },
 		indent = {
 			enabled = true,

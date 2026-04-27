@@ -1,6 +1,14 @@
 os:
   editPreset: "nvim-remote"
 
+gui:
+  theme:
+    activeBorderColor:
+      - '#f07098'
+      - bold
+    inactiveBorderColor:
+      - '#5e5e7a'
+
 keybinding:
   universal:
     openDiffTool: <disabled>
