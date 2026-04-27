@@ -72,6 +72,8 @@ return {
 		vim.opt.signcolumn = "auto:1"
 
 		vim.api.nvim_set_hl(0, "SnacksPickerCursorLine", { bg = "#2a3150" })
+		vim.api.nvim_set_hl(0, "SnacksPickerMatch", { fg = "#f07098", bold = true })
+		vim.api.nvim_set_hl(0, "SnacksPickerTree", { fg = "#383848" })
 		vim.api.nvim_set_hl(0, "SnacksPickerSelected", { bg = "#3b4261", bold = true })
 
 		-- Quickfix
