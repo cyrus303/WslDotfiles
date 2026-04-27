@@ -75,7 +75,7 @@ return {
 		vim.api.nvim_set_hl(0, "@lsp.mod.deprecated",                { strikethrough = true })
 
 		-- DAP breakpoints
-		vim.api.nvim_set_hl(0, "DapBreakpoint", { fg = "#ef5060" })
+		vim.api.nvim_set_hl(0, "DapBreakpoint", { fg = "#ef8a90" })
 		vim.api.nvim_set_hl(0, "DapBreakpointCondition", { fg = "#e0903a" })
 		vim.api.nvim_set_hl(0, "DapStopped", { fg = "#8ac490" })
 

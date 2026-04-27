@@ -11,7 +11,7 @@ return {
 	config = function(_, opts)
 		require("yanky").setup(opts)
 		-- Override after yanky's highlight.setup() sets its default link = "Search"
-		vim.api.nvim_set_hl(0, "YankyYanked", { bg = "#40c8c8", fg = "#0a0a14" })
+		vim.api.nvim_set_hl(0, "YankyYanked", { bg = "#70a8a8", fg = "#0e0e16" })
 	end,
 	keys = {
 		{
