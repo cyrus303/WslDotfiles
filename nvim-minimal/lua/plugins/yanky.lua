@@ -8,6 +8,11 @@ return {
 		-- Let yanky handle the yank highlight instead of vim.highlight.on_yank()
 		highlight = { timer = 100 },
 	},
+	config = function(_, opts)
+		require("yanky").setup(opts)
+		-- Override after yanky's highlight.setup() sets its default link = "Search"
+		vim.api.nvim_set_hl(0, "YankyYanked", { bg = "#d1b77a", fg = "#0e0e16" })
+	end,
 	keys = {
 		{
 			"<leader>y",
