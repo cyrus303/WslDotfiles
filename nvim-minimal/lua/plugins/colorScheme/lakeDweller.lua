@@ -84,6 +84,9 @@ return {
 		vim.api.nvim_set_hl(0, "GitSignsChange", { fg = "#70a8a8" }) -- no bg, just cyan bar
 		vim.api.nvim_set_hl(0, "GitSignsDelete", { fg = "#ef8a90" }) -- no bg, just red bar
 
+		-- Visual selection
+		vim.api.nvim_set_hl(0, "Visual", { bg = "#2e2e3a" })
+
 		-- Line numbers
 		vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#f07098", bg = "#2a1020", bold = true })
 
