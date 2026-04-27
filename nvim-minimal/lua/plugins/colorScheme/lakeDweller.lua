@@ -53,7 +53,6 @@ return {
 		vim.api.nvim_set_hl(0, "TelescopePreviewBorder", { fg = dim_border })
 
 		-- Mason / WhichKey
-		vim.api.nvim_set_hl(0, "MasonNormal", { fg = dim_border })
 		vim.api.nvim_set_hl(0, "WhichKeyBorder", { fg = dim_border })
 
 		-- indent-blankline.nvim
@@ -72,7 +71,7 @@ return {
 		vim.api.nvim_set_hl(0, "@lsp.type.interface.cs",             { fg = "#70a8a8" })
 		vim.api.nvim_set_hl(0, "@lsp.type.namespace.cs",              { fg = "#707c8c" })
 		vim.api.nvim_set_hl(0, "@lsp.typemod.method.static.cs",      { fg = "#b0c0e0", italic = true })
-vim.api.nvim_set_hl(0, "@lsp.typemod.field.static.cs",       { fg = "#d8d8d8", italic = true })
+		vim.api.nvim_set_hl(0, "@lsp.typemod.field.static.cs",       { fg = "#d8d8d8", italic = true })
 		vim.api.nvim_set_hl(0, "@lsp.mod.deprecated",                { strikethrough = true })
 
 		-- DAP breakpoints
@@ -87,9 +86,6 @@ vim.api.nvim_set_hl(0, "@lsp.typemod.field.static.cs",       { fg = "#d8d8d8", i
 
 		-- Line numbers
 		vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#f07098", bg = "#2a1020", bold = true })
-
-		-- Ensure sign column is exactly 1 cell wide
-		vim.opt.signcolumn = "auto:1"
 
 		vim.api.nvim_set_hl(0, "SnacksPickerCursorLine", { bg = "#2a3150" })
 		vim.api.nvim_set_hl(0, "SnacksPickerMatch", { fg = "#f07098", bold = true })

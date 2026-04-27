@@ -25,7 +25,7 @@ opt.grepformat = "%f:%l:%c:%m"
 
 -- UI
 opt.termguicolors = true
-opt.signcolumn = "yes"      -- always show; prevents layout shift on diagnostics
+opt.signcolumn = "auto:1"   -- show when needed, max 1 cell wide
 opt.showmode = false        -- mode shown by lualine instead
 opt.cmdheight = 0           -- hide cmdline when not in use
 opt.laststatus = 3          -- single global statusline
