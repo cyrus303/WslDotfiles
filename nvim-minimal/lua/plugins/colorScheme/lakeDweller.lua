@@ -64,8 +64,15 @@ return {
 		vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", { fg = active_scope })
 		vim.api.nvim_set_hl(0, "MiniIndentscopeSymbolOff", { fg = indent_line })
 
-		-- -- Roslyn semantic tokens — Priority 1 only
-		vim.api.nvim_set_hl(0, "@lsp.type.parameter.cs", { fg = "#c0a0c8" })
+		-- Roslyn semantic tokens
+		vim.api.nvim_set_hl(0, "@lsp.type.class.cs",                 { fg = "#a0d4d4" })
+		vim.api.nvim_set_hl(0, "@lsp.type.struct.cs",                { fg = "#a0d4d4" })
+		vim.api.nvim_set_hl(0, "@lsp.type.parameter.cs",             { fg = "#c0a0c8" })
+		vim.api.nvim_set_hl(0, "@lsp.type.typeParameter.cs",         { fg = "#e8b86d" })
+		vim.api.nvim_set_hl(0, "@lsp.type.interface.cs",             { fg = "#7dd0b0" })
+		vim.api.nvim_set_hl(0, "@lsp.typemod.method.static.cs",      { fg = "#b0c0e0", italic = true })
+		vim.api.nvim_set_hl(0, "@lsp.typemod.field.static.cs",       { fg = "#d8d8d8", italic = true })
+		vim.api.nvim_set_hl(0, "@lsp.typemod.property.static.cs",    { fg = "#d8d8d8", italic = true })
 
 		-- DAP breakpoints
 		vim.api.nvim_set_hl(0, "DapBreakpoint", { fg = "#ef5060" })
