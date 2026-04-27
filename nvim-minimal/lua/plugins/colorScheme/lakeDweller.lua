@@ -13,6 +13,10 @@ return {
 		local indent_line = "#1a1a24" -- ghost guides
 		local active_scope = "#5e5e7a" -- bumped up, clearly visible
 
+		-- Search highlights
+		vim.api.nvim_set_hl(0, "CurSearch", { fg = "#f07098", bg = "#2a1020", bold = true, underline = true })
+		vim.api.nvim_set_hl(0, "Search", { bg = "#3a1525" })
+
 		-- Core UI borders
 		vim.api.nvim_set_hl(0, "FloatBorder", { fg = dim_border })
 		vim.api.nvim_set_hl(0, "WinSeparator", { fg = dim_border })
