@@ -17,6 +17,11 @@ return {
 		vim.api.nvim_set_hl(0, "CurSearch", { fg = "#f07098", bg = "#2a1020", bold = true, underline = true })
 		vim.api.nvim_set_hl(0, "Search", { bg = "#3a1525" })
 
+		-- Flash
+		vim.api.nvim_set_hl(0, "FlashCurrent", { fg = "#f07098", bg = "#2a1020", bold = true, underline = true })
+		vim.api.nvim_set_hl(0, "FlashMatch", { bg = "#3a1525" })
+		vim.api.nvim_set_hl(0, "FlashLabel", { fg = "#0a0a14", bg = "#40c8c8", bold = true })
+
 		-- Core UI borders
 		vim.api.nvim_set_hl(0, "FloatBorder", { fg = dim_border })
 		vim.api.nvim_set_hl(0, "WinSeparator", { fg = dim_border })
