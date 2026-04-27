@@ -157,7 +157,7 @@ return {
 			enabled = true,
 			preset = {
 				keys = {
-					{ icon = "󰈞", key = "f", desc = "Find file", action = "<leader>sf" },
+					{ icon = "󰈞", key = "f", desc = "Find file", action = "<leader><leader>" },
 					{ icon = "󰊄", key = "g", desc = "Live grep", action = "<leader>sg" },
 					{ icon = "󰁯", key = "s", desc = "Restore Session", action = function() require("persistence").load() end },
 					{ icon = "󰒲", key = "l", desc = "Plugins", action = "<cmd>Lazy<CR>" },

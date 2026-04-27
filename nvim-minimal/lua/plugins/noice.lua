@@ -33,13 +33,7 @@ return {
         enabled = false,
       },
       signature = {
-        enabled = true,
-        auto_open = {
-          enabled = true,
-        },
-        opts = {
-          border = "rounded",
-        },
+        enabled = false,
       },
     },
   },
