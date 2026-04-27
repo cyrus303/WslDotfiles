@@ -64,10 +64,13 @@ return {
 		vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", { fg = active_scope })
 		vim.api.nvim_set_hl(0, "MiniIndentscopeSymbolOff", { fg = indent_line })
 
-		-- Data flow: only parameters
-		vim.api.nvim_set_hl(0, "@variable.parameter", { fg = "#c0a0c8", italic = true })
-		vim.api.nvim_set_hl(0, "@lsp.type.parameter.cs", { link = "@variable.parameter" })
-		vim.api.nvim_set_hl(0, "@lsp.type.variable", { fg = "#d8d8d8" })
+		-- -- Roslyn semantic tokens — Priority 1 only
+		vim.api.nvim_set_hl(0, "@lsp.type.parameter.cs", { fg = "#c0a0c8" })
+
+		-- DAP breakpoints
+		vim.api.nvim_set_hl(0, "DapBreakpoint", { fg = "#ef5060" })
+		vim.api.nvim_set_hl(0, "DapBreakpointCondition", { fg = "#e0903a" })
+		vim.api.nvim_set_hl(0, "DapStopped", { fg = "#8ac490" })
 
 		-- After lake-dweller colorscheme loads
 		vim.api.nvim_set_hl(0, "GitSignsAdd", { fg = "#8ac490" }) -- no bg, just green bar

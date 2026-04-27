@@ -92,7 +92,7 @@ return {
 						symbols = { modified = " ●", alternate_file = "", directory = "" },
 						filetype_names = { snacks_dashboard = false },
 						buffers_color = {
-							active = { fg = "#b0c0e0", gui = "bold" },
+							active = { fg = "#f07098", gui = "bold" },
 							inactive = { fg = "#6a7080" },
 						},
 					},
