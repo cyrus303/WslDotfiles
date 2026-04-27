@@ -59,5 +59,13 @@ return {
 		vim.api.nvim_set_hl(0, "@variable.parameter", { fg = "#c0a0c8", italic = true })
 		vim.api.nvim_set_hl(0, "@lsp.type.parameter.cs", { link = "@variable.parameter" })
 		vim.api.nvim_set_hl(0, "@lsp.type.variable", { fg = "#d8d8d8" })
+
+		-- After lake-dweller colorscheme loads
+		vim.api.nvim_set_hl(0, "GitSignsAdd", { fg = "#8ac490" }) -- no bg, just green bar
+		vim.api.nvim_set_hl(0, "GitSignsChange", { fg = "#70a8a8" }) -- no bg, just cyan bar
+		vim.api.nvim_set_hl(0, "GitSignsDelete", { fg = "#ef8a90" }) -- no bg, just red bar
+
+		-- Ensure sign column is exactly 1 cell wide
+		vim.opt.signcolumn = "auto:1"
 	end,
 }
