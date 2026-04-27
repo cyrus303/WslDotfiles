@@ -65,7 +65,17 @@ return {
 		vim.api.nvim_set_hl(0, "GitSignsChange", { fg = "#70a8a8" }) -- no bg, just cyan bar
 		vim.api.nvim_set_hl(0, "GitSignsDelete", { fg = "#ef8a90" }) -- no bg, just red bar
 
+		-- Line numbers
+		vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#f07098", bg = "#2a1020", bold = true })
+
 		-- Ensure sign column is exactly 1 cell wide
 		vim.opt.signcolumn = "auto:1"
+
+		vim.api.nvim_set_hl(0, "SnacksPickerCursorLine", { bg = "#2a3150" })
+		vim.api.nvim_set_hl(0, "SnacksPickerSelected", { bg = "#3b4261", bold = true })
+
+		-- Quickfix
+		vim.api.nvim_set_hl(0, "QuickFixLine", { bg = "#2e3550" })
+		vim.api.nvim_set_hl(0, "QfCursorLine", { bg = "#252030" })
 	end,
 }
