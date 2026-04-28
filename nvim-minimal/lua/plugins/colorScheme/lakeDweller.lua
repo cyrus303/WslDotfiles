@@ -70,8 +70,10 @@ return {
 		vim.api.nvim_set_hl(0, "@lsp.type.typeParameter.cs",         { fg = "#e8b86d" })
 		vim.api.nvim_set_hl(0, "@lsp.type.interface.cs",             { fg = "#70a8a8" })
 		vim.api.nvim_set_hl(0, "@lsp.type.namespace.cs",              { fg = "#707c8c" })
-		vim.api.nvim_set_hl(0, "@lsp.typemod.method.static.cs",      { fg = "#b0c0e0", italic = true })
+		vim.api.nvim_set_hl(0, "@lsp.typemod.method.static.cs",        { fg = "#b0c0e0", italic = true })
+		vim.api.nvim_set_hl(0, "@lsp.type.extensionMethod.cs",         { fg = "#b0c0e0" })
 		vim.api.nvim_set_hl(0, "@lsp.typemod.field.static.cs",       { fg = "#d8d8d8", italic = true })
+		vim.api.nvim_set_hl(0, "@lsp.type.operator.cs",              { fg = "#858d95" })
 		vim.api.nvim_set_hl(0, "@lsp.mod.deprecated",                { strikethrough = true })
 
 		-- DAP breakpoints
