@@ -29,10 +29,19 @@ map("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
 map("n", "<leader>\\", function()
 	local cur = vim.api.nvim_get_current_buf()
 	local alt = vim.fn.bufnr("#")
+	local target = (alt ~= -1 and alt ~= cur and vim.fn.buflisted(alt) == 1) and alt or nil
+	if not target then
+		for _, buf in ipairs(vim.fn.getbufinfo({ buflisted = 1 })) do
+			if buf.bufnr ~= cur then
+				target = buf.bufnr
+				break
+			end
+		end
+	end
 	vim.cmd("vsplit")
-	if alt ~= -1 and alt ~= cur then
+	if target then
 		vim.cmd("wincmd h")
-		vim.api.nvim_set_current_buf(alt)
+		vim.api.nvim_set_current_buf(target)
 		vim.cmd("wincmd l")
 	end
 end, { desc = "Split Window Right (alt buf left)" })
