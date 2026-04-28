@@ -69,7 +69,7 @@ return {
 			desc = "Buffers",
 		},
 		{
-			"<leader>sr",
+			"<leader>sf",
 			function()
 				Snacks.picker.recent()
 			end,
