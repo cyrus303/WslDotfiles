@@ -24,7 +24,7 @@ config.launch_menu = {
 
 -- Appearance -------------------------------------------------
 config.colors = {
-	background = "#111019",
+	background = "#0e0e16",
 	foreground = "#e0def4",
 	cursor_bg = "#e0def4",
 	cursor_fg = "#111019",
