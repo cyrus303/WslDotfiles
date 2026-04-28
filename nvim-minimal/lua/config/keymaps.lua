@@ -26,7 +26,16 @@ map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear highlight" })
 
 -- Split windows
 map("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
-map("n", "<leader>\\", "<C-W>v", { desc = "Split Window Right", remap = true })
+map("n", "<leader>\\", function()
+	local cur = vim.api.nvim_get_current_buf()
+	local alt = vim.fn.bufnr("#")
+	vim.cmd("vsplit")
+	if alt ~= -1 and alt ~= cur then
+		vim.cmd("wincmd h")
+		vim.api.nvim_set_current_buf(alt)
+		vim.cmd("wincmd l")
+	end
+end, { desc = "Split Window Right (alt buf left)" })
 
 -- Resize splits with arrow keys
 map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
@@ -179,6 +188,15 @@ end, { desc = "Format" })
 map("n", "<leader>ci", function()
 	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 end, { desc = "Toggle inlay hints" })
+
+-- Toggle line wrap across all windows
+map("n", "<leader>cw", function()
+	local new_wrap = not vim.wo.wrap
+	for _, win in ipairs(vim.api.nvim_list_wins()) do
+		vim.wo[win].wrap = new_wrap
+	end
+	vim.notify("Wrap " .. (new_wrap and "enabled" or "disabled"))
+end, { desc = "Toggle wrap" })
 
 -- Toggle codelens — refreshes on every BufEnter while enabled
 map("n", "<leader>cl", function()
