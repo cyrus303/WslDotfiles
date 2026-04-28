@@ -64,17 +64,17 @@ return {
 		vim.api.nvim_set_hl(0, "MiniIndentscopeSymbolOff", { fg = indent_line })
 
 		-- Roslyn semantic tokens
-		vim.api.nvim_set_hl(0, "@lsp.type.class.cs",                 { fg = "#7dd0b0" })
-		vim.api.nvim_set_hl(0, "@lsp.type.struct.cs",                { fg = "#7dd0b0" })
-		vim.api.nvim_set_hl(0, "@lsp.type.parameter.cs",             { fg = "#c0a0c8" })
-		vim.api.nvim_set_hl(0, "@lsp.type.typeParameter.cs",         { fg = "#e8b86d" })
-		vim.api.nvim_set_hl(0, "@lsp.type.interface.cs",             { fg = "#70a8a8" })
-		vim.api.nvim_set_hl(0, "@lsp.type.namespace.cs",              { fg = "#707c8c" })
-		vim.api.nvim_set_hl(0, "@lsp.typemod.method.static.cs",        { fg = "#b0c0e0", italic = true })
-		vim.api.nvim_set_hl(0, "@lsp.type.extensionMethod.cs",         { fg = "#b0c0e0" })
-		vim.api.nvim_set_hl(0, "@lsp.typemod.field.static.cs",       { fg = "#d8d8d8", italic = true })
-		vim.api.nvim_set_hl(0, "@lsp.type.operator.cs",              { fg = "#858d95" })
-		vim.api.nvim_set_hl(0, "@lsp.mod.deprecated",                { strikethrough = true })
+		vim.api.nvim_set_hl(0, "@lsp.type.class.cs", { fg = "#7dd0b0" })
+		vim.api.nvim_set_hl(0, "@lsp.type.struct.cs", { fg = "#7dd0b0" })
+		vim.api.nvim_set_hl(0, "@lsp.type.parameter.cs", { fg = "#c0a0c8" })
+		vim.api.nvim_set_hl(0, "@lsp.type.typeParameter.cs", { fg = "#e8b86d" })
+		vim.api.nvim_set_hl(0, "@lsp.type.interface.cs", { fg = "#70a8a8" })
+		vim.api.nvim_set_hl(0, "@lsp.type.namespace.cs", { fg = "#707c8c" })
+		vim.api.nvim_set_hl(0, "@lsp.typemod.method.static.cs", { fg = "#b0c0e0", italic = true })
+		vim.api.nvim_set_hl(0, "@lsp.type.extensionMethod.cs", { fg = "#b0c0e0" })
+		vim.api.nvim_set_hl(0, "@lsp.typemod.field.static.cs", { fg = "#d8d8d8", italic = true })
+		vim.api.nvim_set_hl(0, "@lsp.type.operator.cs", { fg = "#858d95" })
+		vim.api.nvim_set_hl(0, "@lsp.mod.deprecated", { strikethrough = true })
 
 		-- DAP breakpoints
 		vim.api.nvim_set_hl(0, "DapBreakpoint", { fg = "#ef8a90" })
@@ -92,13 +92,13 @@ return {
 		-- Line numbers
 		vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#f07098", bg = "#2a1020", bold = true })
 
-		vim.api.nvim_set_hl(0, "SnacksPickerCursorLine", { bg = "#2a3150" })
+		vim.api.nvim_set_hl(0, "SnacksPickerListCursorLine", { bg = "#1e2235" })
 		vim.api.nvim_set_hl(0, "SnacksPickerMatch", { fg = "#f07098", bold = true })
 		vim.api.nvim_set_hl(0, "SnacksPickerTree", { fg = "#383848" })
 		vim.api.nvim_set_hl(0, "SnacksPickerSelected", { bg = "#3b4261", bold = true })
 
 		-- Quickfix
-		vim.api.nvim_set_hl(0, "QuickFixLine", { bg = "#2e3550" })
-		vim.api.nvim_set_hl(0, "QfCursorLine", { bg = "#252030" })
+		vim.api.nvim_set_hl(0, "QuickFixLine", { bg = "#2d3855" })
+		vim.api.nvim_set_hl(0, "QfCursorLine", { bg = "#1e2235" })
 	end,
 }
