@@ -122,6 +122,15 @@ bindkey '^[v' _wclip_paste
 export ASPNETCORE_Kestrel__Certificates__Default__Path="/mnt/c/Users/sachi/.config/https/localhost.pfx"
 export ASPNETCORE_Kestrel__Certificates__Default__Password="Dev@12345!"
 
+# ----- SSH agent -----
+export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
+if ! ssh-add -l &>/dev/null; then
+  rm -f "$SSH_AUTH_SOCK"
+  eval "$(ssh-agent -a "$SSH_AUTH_SOCK")" > /dev/null
+  ssh-add ~/.ssh/id_ed25519_personal 2>/dev/null
+  ssh-add ~/.ssh/id_rsa_azure_work 2>/dev/null
+fi
+
 # ----- zoxide (must be last) -----
 export _ZO_DOCTOR=0
 eval "$(zoxide init --cmd cd zsh)"
