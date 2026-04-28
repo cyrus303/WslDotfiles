@@ -4,6 +4,7 @@ return {
 	event = "BufWritePre",
 	opts = {
 		formatters_by_ft = {
+			-- cs = { "csharpier" },
 			json = { "biome" },
 			lua = { "stylua" },
 		},
