@@ -5,6 +5,30 @@ return {
 		preset = "helix",
 		spec = {
 			{ "<leader>c", group = "code" },
+			{ "<leader>cf", desc = "Toggle autoformat", icon = function()
+				if vim.g.disable_autoformat then
+					return { icon = "\u{F204}", color = "grey" }
+				end
+				return { icon = "\u{F205}", color = "yellow" }
+			end },
+			{ "<leader>ci", desc = "Toggle inlay hints", icon = function()
+				if vim.lsp.inlay_hint.is_enabled() then
+					return { icon = "\u{F205}", color = "yellow" }
+				end
+				return { icon = "\u{F204}", color = "grey" }
+			end },
+			{ "<leader>cw", desc = "Toggle wrap", icon = function()
+				if vim.wo.wrap then
+					return { icon = "\u{F205}", color = "yellow" }
+				end
+				return { icon = "\u{F204}", color = "grey" }
+			end },
+			{ "<leader>cl", desc = "Toggle codelens", icon = function()
+				if vim.g.codelens_enabled then
+					return { icon = "\u{F205}", color = "yellow" }
+				end
+				return { icon = "\u{F204}", color = "grey" }
+			end },
 			{ "<leader>d", group = "dotnet/debug" },
 			{ "<leader>dp", group = "packages" },
 			{ "<leader>f", group = "find" },

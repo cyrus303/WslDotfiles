@@ -198,8 +198,9 @@ end, { desc = "Hover" })
 map("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
 map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
 map("n", "<leader>cf", function()
-	require("conform").format({ async = true })
-end, { desc = "Format" })
+	vim.g.disable_autoformat = not vim.g.disable_autoformat
+	vim.notify("Autoformat " .. (vim.g.disable_autoformat and "disabled" or "enabled"), vim.log.levels.INFO)
+end, { desc = "Toggle autoformat" })
 
 -- Toggle inlay hints
 map("n", "<leader>ci", function()
