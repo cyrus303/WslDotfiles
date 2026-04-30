@@ -11,7 +11,6 @@ vim.g.maplocalleader = "\\"
 
 -- Save and quit
 map({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR>", { desc = "Save buffer" })
-map({ "n", "i", "v" }, "<C-S-s>", "<cmd>wa<CR>", { desc = "Save all buffers" })
 map("n", "<leader>qq", "<cmd>qa<CR>", { desc = "Quit all" })
 map("n", "<leader>qw", "<cmd>q<CR>", { desc = "Close window" })
 
