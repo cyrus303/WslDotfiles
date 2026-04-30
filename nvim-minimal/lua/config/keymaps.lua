@@ -56,6 +56,14 @@ map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window w
 map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Close buffer" })
+map("n", "<leader>bo", function()
+  local cur = vim.api.nvim_get_current_buf()
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if buf ~= cur and vim.api.nvim_buf_is_loaded(buf) then
+      vim.api.nvim_buf_delete(buf, { force = false })
+    end
+  end
+end, { desc = "Close other buffers" })
 
 -- Folds: `za` (default) toggles the fold under cursor (method/block).
 -- `<leader>z` toggles VS-style method folding: collapses methods only,
