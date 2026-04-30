@@ -7,6 +7,9 @@ return {
   },
   opts = {
     focus = true,
+    keys = {
+      ["l"] = "jump",
+    },
     modes = {
       symbols = {
         focus = true,
