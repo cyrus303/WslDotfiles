@@ -1,5 +1,6 @@
 # --- fastfetch on interactive shell start (before p10k instant prompt) ---
-if [[ $- == *i* ]] && command -v fastfetch >/dev/null 2>&1 && [[ "$(tmux display-message -p '#S' 2>/dev/null)" != "popup" ]]; then
+_tmux_session="$(tmux display-message -p '#S' 2>/dev/null)"
+if [[ $- == *i* ]] && command -v fastfetch >/dev/null 2>&1 && [[ "$_tmux_session" != "popup" ]] && [[ "$_tmux_session" != "scratch" ]]; then
   fastfetch
   echo
 fi
