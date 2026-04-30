@@ -80,13 +80,19 @@ alias ls='eza'
 alias ll='eza -alh'
 alias tree='eza --tree'
 alias tn='tmux new -s "$(basename "$PWD")"'
+alias ta='tmux attach'
+alias tl='tmux list-sessions'
 alias cat='bat --paging=never'
 alias mvim='NVIM_APPNAME=nvim-minimal nvim'
 # ----- fzf preview -----
 export FZF_DEFAULT_OPTS="
   --preview 'bat --color=always --style=numbers --theme=Catppuccin\ Mocha --line-range=:200 {} 2>/dev/null || ls -la {}'
   --preview-window=right:55%:wrap
-  --bind 'ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down,ctrl-l:accept'"
+  --bind 'ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down,ctrl-l:accept'
+  --color=bg:#0e0e16,bg+:#1a1a24,fg:#d8d8d8,fg+:#d8d8d8
+  --color=preview-bg:#0e0e16,border:#2a2a3a,separator:#2a2a3a
+  --color=hl:#f07098,hl+:#f07098,prompt:#f07098,pointer:#f07098
+  --color=info:#707c8c,header:#707c8c,marker:#8ac490,spinner:#f07098"
 
 # fzf shell integration (Arch installs these)
 [ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
