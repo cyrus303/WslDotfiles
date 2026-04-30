@@ -4,6 +4,7 @@ DIR="${1:-$HOME}"
 
 tmux has-session -t "$SESSION" 2>/dev/null || tmux new-session -d -s "$SESSION" -c "$DIR"
 
+tmux set-option -t "$SESSION" detach-on-destroy on
 tmux set-option -t "$SESSION" status on
 tmux set-option -t "$SESSION" status-position top
 tmux set-option -t "$SESSION" status-style "bg=#0e0e16"
