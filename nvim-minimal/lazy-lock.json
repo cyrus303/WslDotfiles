@@ -1,5 +1,6 @@
 {
   "aerial.nvim": { "branch": "master", "commit": "645d108a5242ec7b378cbe643eb6d04d4223f034" },
+  "azfunc.nvim": { "branch": "main", "commit": "7464b72ee2c359f392c2f9779d4b2190de4d1d46" },
   "blink.cmp": { "branch": "main", "commit": "78336bc89ee5365633bcf754d93df01678b5c08f" },
   "conform.nvim": { "branch": "master", "commit": "dca1a190aa85f9065979ef35802fb77131911106" },
   "diffview.nvim": { "branch": "main", "commit": "385f26fd6a50e3b0b11cc9623f1f96cde00ef08c" },
