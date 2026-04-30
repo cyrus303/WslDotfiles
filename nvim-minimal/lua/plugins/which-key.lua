@@ -30,6 +30,13 @@ return {
 				return { icon = "\u{F204}", color = "grey" }
 			end },
 			{ "<leader>d", group = "dotnet/debug" },
+			{ "<leader>df", desc = "Toggle AzFunc Debug", icon = function()
+				local ok, terminal = pcall(require, "azfunc.terminal")
+				if ok and terminal.get_state().channel then
+					return { icon = "\u{F205}", color = "yellow" }
+				end
+				return { icon = "\u{F204}", color = "grey" }
+			end },
 			{ "<leader>dp", group = "packages" },
 			{ "<leader>f", group = "find" },
 			{ "<leader>s", group = "search" },

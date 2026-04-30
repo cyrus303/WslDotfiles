@@ -2,15 +2,11 @@ return {
 	"fschaal/azfunc.nvim",
 	dependencies = { "mfussenegger/nvim-dap" },
 	keys = {
-		{ "<leader>fa", desc = "AzFunc Start Debug" },
-		{ "<leader>fA", desc = "AzFunc Stop Debug" },
+		{ "<leader>df", desc = "Toggle AzFunc Debug" },
 	},
 	config = function()
 		require("azfunc").setup({
-			mappings = {
-				start = "<leader>fa",
-				stop = "<leader>fA",
-			},
+			mappings = {},
 			debug = {
 				adapter_type = "coreclr",
 				attach_retry_count = 20,
@@ -21,5 +17,14 @@ return {
 				split = "split",
 			},
 		})
+		vim.keymap.set("n", "<leader>df", function()
+			local azfunc = require("azfunc")
+			local state = require("azfunc.terminal").get_state()
+			if state.channel then
+				azfunc.stop()
+			else
+				azfunc.start()
+			end
+		end, { desc = "Toggle AzFunc Debug" })
 	end,
 }
