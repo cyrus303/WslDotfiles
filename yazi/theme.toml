@@ -1,3 +1,28 @@
 [flavor]
-dark = "catppuccin-mocha"
-light = "catppuccin-mocha"
+dark = "rose-pine"
+light = "rose-pine"
+
+[app]
+overall = { bg = "#0e0e16", fg = "#3d2030" }
+
+
+[mode]
+normal_main = { fg = "#0e0e16", bg = "#b0c0e0", bold = true }
+normal_alt  = { fg = "#b0c0e0", bg = "#1a1a24" }
+select_main = { fg = "#0e0e16", bg = "#eb6f92", bold = true }
+select_alt  = { fg = "#eb6f92", bg = "#1a1a24" }
+unset_main  = { fg = "#0e0e16", bg = "#f6c177", bold = true }
+unset_alt   = { fg = "#f6c177", bg = "#1a1a24" }
+
+[status]
+overall = { bg = "#0e0e16" }
+progress_normal = { fg = "#31748f", bg = "#1a1a24" }
+progress_error  = { fg = "#eb6f92", bg = "#1a1a24" }
+
+[which]
+mask = { bg = "#0e0e16" }
+
+[filetype]
+rules = [
+	{ url = "*/", fg = "#9ccfd8" },
+]
