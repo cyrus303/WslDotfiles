@@ -140,10 +140,16 @@ fi
 
 # ----- Azure log tailing (fzf picker) -----
 azlog() {
+  setopt LOCAL_OPTIONS
+  unsetopt MONITOR
   local selection name rg
-  selection=$(az webapp list --query "[].{name:name, rg:resourceGroup}" -o tsv 2>/dev/null \
-    | tr -d '\r' \
-    | fzf --prompt="Select app: " --preview '' --preview-window=hidden --layout=reverse) || return
+  selection=$(
+    {
+      az webapp list --query "[].{name:name, rg:resourceGroup}" -o tsv 2>/dev/null &
+      az functionapp list --query "[].{name:name, rg:resourceGroup}" -o tsv 2>/dev/null &
+      wait
+    } | tr -d '\r' | fzf --prompt="Select app: " --preview '' --preview-window=hidden --layout=reverse
+  )
   [[ -z "$selection" ]] && return
   name=$(awk '{print $1}' <<< "$selection")
   rg=$(awk '{print $2}' <<< "$selection")
