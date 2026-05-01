@@ -138,6 +138,18 @@ if ! ssh-add -l &>/dev/null; then
   ssh-add ~/.ssh/id_rsa_azure_work 2>/dev/null
 fi
 
+# ----- Azure log tailing (fzf picker) -----
+azlog() {
+  local selection name rg
+  selection=$(az webapp list --query "[].{name:name, rg:resourceGroup}" -o tsv 2>/dev/null \
+    | tr -d '\r' \
+    | fzf --prompt="Select app: " --preview '' --preview-window=hidden --layout=reverse) || return
+  [[ -z "$selection" ]] && return
+  name=$(awk '{print $1}' <<< "$selection")
+  rg=$(awk '{print $2}' <<< "$selection")
+  az webapp log tail --name "$name" --resource-group "$rg"
+}
+
 # ----- zoxide (must be last) -----
 export _ZO_DOCTOR=0
 eval "$(zoxide init --cmd cd zsh)"
