@@ -153,7 +153,7 @@ azlog() {
   [[ -z "$selection" ]] && return
   name=$(awk '{print $1}' <<< "$selection")
   rg=$(awk '{print $2}' <<< "$selection")
-  az webapp log tail --name "$name" --resource-group "$rg"
+  az webapp log tail --name "$name" --resource-group "$rg" 2>&1 | tspin
 }
 
 # ----- zoxide (must be last) -----
