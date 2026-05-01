@@ -25,6 +25,8 @@ plugins=(
   zsh-syntax-highlighting
 )
 source "$ZSH/oh-my-zsh.sh"
+autoload -U +X bashcompinit && bashcompinit
+source /usr/share/bash-completion/completions/az
 # Powerlevel10k config
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
@@ -47,7 +49,7 @@ echo -ne '\e[4 q'
 # ----- Environment -----
 export TERM=wezterm
 export EDITOR='nvim'
-export PATH="$HOME/.dotnet/tools:$HOME/.local/netcoredbg:$PATH"
+export PATH="$HOME/.dotnet/tools:$HOME/.local/netcoredbg:/usr/bin:$PATH"
 # ----- onefetch (manual) -----
 alias gf='onefetch'
 # ----- fzf history (unique, bound to Alt-C) -----
