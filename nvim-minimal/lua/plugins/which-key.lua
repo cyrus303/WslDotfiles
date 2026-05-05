@@ -52,6 +52,7 @@ return {
 				return { icon = "\u{F204}", color = "grey" }
 			end },
 			{ "<leader>dp", group = "packages" },
+			{ "<leader>lr", desc = "Line references (codelens)" },
 			{ "<leader>f", group = "find" },
 			{ "<leader>s", group = "search" },
 			{ "<leader>g", group = "git" },

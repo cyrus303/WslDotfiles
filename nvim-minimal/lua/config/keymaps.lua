@@ -189,6 +189,27 @@ end, { desc = "New .NET item" })
 map("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
 map("n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
 map("n", "gr", vim.lsp.buf.references, { desc = "References" })
+map("n", "<leader>lr", function()
+	local bufnr = vim.api.nvim_get_current_buf()
+	local row = vim.api.nvim_win_get_cursor(0)[1] - 1
+	local lenses = vim.lsp.codelens.get({ bufnr = bufnr })
+	local found
+	for _, item in ipairs(lenses) do
+		if item.lens.range.start.line == row then
+			found = item
+			break
+		end
+	end
+	if not found then
+		vim.notify("No codelens on current line", vim.log.levels.WARN)
+		return
+	end
+	local pos = found.lens.range.start
+	local saved = vim.api.nvim_win_get_cursor(0)
+	vim.api.nvim_win_set_cursor(0, { pos.line + 1, pos.character })
+	vim.lsp.buf.references()
+	vim.api.nvim_win_set_cursor(0, saved)
+end, { desc = "Line references (codelens)" })
 map("n", "gI", vim.lsp.buf.implementation, { desc = "Implementation" })
 map("n", "gy", vim.lsp.buf.type_definition, { desc = "Type definition" })
 map("n", "K", function()
@@ -220,15 +241,9 @@ map("n", "<leader>cl", function()
 	local enabled = not vim.g.codelens_enabled
 	vim.g.codelens_enabled = enabled
 	if enabled then
-		vim.lsp.codelens.refresh()
-		vim.api.nvim_create_autocmd({ "BufEnter" }, {
-			group = vim.api.nvim_create_augroup("codelens_refresh", { clear = true }),
-			callback = function()
-				vim.lsp.codelens.refresh()
-			end,
-		})
+		vim.lsp.codelens.enable(true)
 	else
-		vim.lsp.codelens.clear()
+		vim.lsp.codelens.enable(false)
 		vim.api.nvim_create_augroup("codelens_refresh", { clear = true })
 	end
 	vim.notify("Codelens " .. (enabled and "enabled" or "disabled"))
