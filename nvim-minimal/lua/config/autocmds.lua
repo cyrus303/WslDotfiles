@@ -100,6 +100,80 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
+-- Override codelens rendering: show inline at EOL instead of virtual lines above.
+-- Neovim 0.12 renders codelens via an internal decoration provider (Provider:on_win).
+-- We replace it by extracting the private Provider table via debug.getupvalue.
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = augroup("codelens_inline"),
+  once = true,
+  callback = function()
+    vim.schedule(function()
+      local ok, cm = pcall(require, "vim.lsp.codelens")
+      if not ok then return end
+
+      local Provider
+      for i = 1, 50 do
+        local name, val = debug.getupvalue(cm.on_refresh, i)
+        if not name then break end
+        if name == "Provider" then Provider = val; break end
+      end
+      if not Provider then return end
+
+      local api = vim.api
+      local ns = api.nvim_create_namespace("nvim.lsp.codelens")
+
+      api.nvim_set_decoration_provider(ns, {
+        on_win = function(_, _, bufnr, toprow, botrow)
+          local p = Provider.active[bufnr]
+          if not p then return end
+
+          for row = toprow, botrow do
+            if p.row_version[row] ~= p.version then
+              for client_id, state in pairs(p.client_state) do
+                api.nvim_buf_clear_namespace(bufnr, state.namespace, row, row + 1)
+                local lenses = state.row_lenses[row]
+                if lenses then
+                  local client = vim.lsp.get_client_by_id(client_id)
+                  if client then
+                    table.sort(lenses, function(a, b)
+                      return a.range.start.character < b.range.start.character
+                    end)
+                    local chunks = {}
+                    for idx, lens in ipairs(lenses) do
+                      if not lens.command then
+                        p:resolve(client, lens)
+                      else
+                        if idx > 1 then
+                          table.insert(chunks, { " | ", "LspCodeLensSeparator" })
+                        end
+                        table.insert(chunks, { lens.command.title, "LspCodeLens" })
+                      end
+                    end
+                    if #chunks > 0 then
+                      api.nvim_buf_set_extmark(bufnr, state.namespace, row, 0, {
+                        virt_text = chunks,
+                        virt_text_pos = "eol",
+                        hl_mode = "combine",
+                      })
+                    end
+                  end
+                end
+                p.row_version[row] = p.version
+              end
+            end
+          end
+
+          if botrow == api.nvim_buf_line_count(bufnr) - 1 then
+            for _, state in pairs(p.client_state) do
+              api.nvim_buf_clear_namespace(bufnr, state.namespace, botrow + 1, -1)
+            end
+          end
+        end,
+      })
+    end)
+  end,
+})
+
 -- Reload buffer when file changes on disk (e.g. git checkout, external edit)
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   group = augroup("checktime"),
