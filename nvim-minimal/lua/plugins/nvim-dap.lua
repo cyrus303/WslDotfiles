@@ -94,6 +94,22 @@ return {
 			vim.fn.sign_define("DapBreakpointRejected", { text = "●", texthl = "DapBreakpointRejected" })
 			vim.fn.sign_define("DapStopped", { text = "▶", texthl = "DapStopped", linehl = "DapStoppedLine" })
 			vim.api.nvim_set_hl(0, "DapStoppedLine", { bg = "#2e3a2e" })
+
+			-- When a breakpoint is hit, DAP opens the source file in the focused window.
+			-- If a terminal split is focused at that moment it gets clobbered.
+			-- Switch to the first normal (non-terminal, non-dap) window beforehand.
+			dap.listeners.before.event_stopped["focus_editor_win"] = function()
+				local skip_ft = { terminal = true, ["dap-view"] = true, ["dap-repl"] = true, ["dap-view-term"] = true }
+				for _, win in ipairs(vim.api.nvim_list_wins()) do
+					local buf = vim.api.nvim_win_get_buf(win)
+					local bt = vim.bo[buf].buftype
+					local ft = vim.bo[buf].filetype
+					if bt ~= "terminal" and not skip_ft[ft] then
+						vim.api.nvim_set_current_win(win)
+						return
+					end
+				end
+			end
 		end,
 	},
 
