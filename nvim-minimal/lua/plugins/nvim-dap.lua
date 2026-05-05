@@ -94,6 +94,9 @@ return {
 			vim.fn.sign_define("DapBreakpointRejected", { text = "●", texthl = "DapBreakpointRejected" })
 			vim.fn.sign_define("DapStopped", { text = "▶", texthl = "DapStopped", linehl = "DapStoppedLine" })
 			vim.api.nvim_set_hl(0, "DapStoppedLine", { bg = "#2e3a2e" })
+			vim.api.nvim_set_hl(0, "NvimDapVirtualText", { fg = "#c8909a", bg = "#2a1020", italic = true })
+			vim.api.nvim_set_hl(0, "NvimDapVirtualTextChanged", { fg = "#f07098", bg = "#2a1020", italic = true })
+			vim.api.nvim_set_hl(0, "NvimDapVirtualTextError", { fg = "#ef8a90", bg = "#2a1020", italic = true })
 
 			-- When a breakpoint is hit, DAP opens the source file in the focused window.
 			-- If a terminal split is focused at that moment it gets clobbered.
