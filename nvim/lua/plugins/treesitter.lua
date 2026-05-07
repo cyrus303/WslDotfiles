@@ -43,7 +43,7 @@ return {
 					-- foldexpr is evaluated before TS attaches; recompute once parser is ready.
 					vim.schedule(function()
 						if vim.api.nvim_buf_is_valid(ev.buf) then
-							vim.cmd("normal! zx")
+							pcall(vim.cmd, "normal! zx")
 						end
 					end)
 				end,
