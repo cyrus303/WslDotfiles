@@ -240,6 +240,15 @@ return {
 				explorer = {
 					hidden = true,
 					ignored = true,
+					actions = {
+						explorer_right = function(picker, item)
+							if item and item.dir then
+								vim.cmd("wincmd l")
+							else
+								picker:action("confirm")
+							end
+						end,
+					},
 					finder = function(o, ctx)
 						local Tree = require("snacks.explorer.tree")
 						local git_nodes = {}
@@ -262,6 +271,7 @@ return {
 						list = {
 							keys = {
 								["<CR>"] = { "edit", mode = "n" },
+								["<C-l>"] = { "explorer_right", mode = "n" },
 								["s"] = { "edit_split", mode = "n" },
 								["v"] = { "edit_vsplit", mode = "n" },
 								["S"] = "toggle_only_git",
