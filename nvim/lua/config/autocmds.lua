@@ -204,6 +204,21 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
+-- Treat comment-bearing JSON files as jsonc so // isn't flagged as a parse error
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  group = augroup("jsonc_filetype"),
+  pattern = {
+    "*.jsonc",
+    "local.settings.json",
+    "tsconfig*.json",
+    "jsconfig.json",
+    ".eslintrc.json",
+  },
+  callback = function()
+    vim.bo.filetype = "jsonc"
+  end,
+})
+
 -- Enable line wrap and spellcheck for prose filetypes
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("wrap_spell"),

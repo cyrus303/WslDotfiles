@@ -12,6 +12,7 @@ return {
       if ok then capabilities = blink.get_lsp_capabilities(capabilities) end
 
       vim.lsp.config("jsonls", {
+        filetypes = { "json", "jsonc" },
         capabilities = capabilities,
         settings = {
           json = {

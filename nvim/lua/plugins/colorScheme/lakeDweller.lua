@@ -76,6 +76,19 @@ return {
 		vim.api.nvim_set_hl(0, "@lsp.type.operator.cs", { fg = "#858d95" })
 		vim.api.nvim_set_hl(0, "@lsp.mod.deprecated", { strikethrough = true })
 
+		-- JSON / JSONC tree-sitter highlights
+		-- Keys use @property, values use @string — scope to json/jsonc so other langs are unaffected
+		local json_key = "#88b8e0"   -- blue  — object keys
+		local json_str = "#8ac8a0"   -- green — string values
+		local json_num = "#e8c878"   -- gold  — numbers
+		for _, lang in ipairs({ "json", "jsonc" }) do
+			vim.api.nvim_set_hl(0, "@property." .. lang,          { fg = json_key })
+			vim.api.nvim_set_hl(0, "@string." .. lang,            { fg = json_str })
+			vim.api.nvim_set_hl(0, "@number." .. lang,            { fg = json_num })
+			vim.api.nvim_set_hl(0, "@boolean." .. lang,           { fg = "#c0a0c8" })
+			vim.api.nvim_set_hl(0, "@constant.builtin." .. lang,  { fg = "#808090" })
+		end
+
 		-- DAP breakpoints
 		vim.api.nvim_set_hl(0, "DapBreakpoint", { fg = "#ef8a90" })
 		vim.api.nvim_set_hl(0, "DapBreakpointCondition", { fg = "#e0903a" })

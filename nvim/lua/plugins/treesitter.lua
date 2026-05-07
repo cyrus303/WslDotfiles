@@ -24,20 +24,28 @@ return {
 				"yaml",
 			})
 
-			-- Enable treesitter highlighting for all filetypes.
-			-- Skip cs: Roslyn LSP handles C# highlighting via semantic tokens.
 			vim.api.nvim_create_autocmd("FileType", {
 				callback = function(ev)
-					if ev.match ~= "cs" then
-						pcall(vim.treesitter.start)
+					if ev.match == "cs" then
+						-- Parser only — Roslyn handles C# highlighting via semantic tokens.
+						-- Needed so foldexpr() and textobjects have a live parse tree.
+						pcall(vim.treesitter.get_parser, ev.buf)
+					elseif ev.match == "jsonc" then
+						-- jsonc.so lives in site/parser but nvim-treesitter main doesn't
+						-- register the language; pass it explicitly so Neovim finds it.
+						pcall(vim.treesitter.start, ev.buf, "jsonc")
+					else
+						pcall(vim.treesitter.start, ev.buf)
 					end
-				end,
-			})
 
-			-- Treesitter-based indentation (experimental but functional for most langs)
-			vim.api.nvim_create_autocmd("FileType", {
-				callback = function()
-					vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+					vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+
+					-- foldexpr is evaluated before TS attaches; recompute once parser is ready.
+					vim.schedule(function()
+						if vim.api.nvim_buf_is_valid(ev.buf) then
+							vim.cmd("normal! zx")
+						end
+					end)
 				end,
 			})
 
