@@ -37,20 +37,6 @@ return {
 				end
 				return { icon = "\u{F204}", color = "grey" }
 			end },
-			{ "<leader>dt", desc = "Toggle AzFunc Terminal", icon = function()
-				local ok, terminal = pcall(require, "azfunc.terminal")
-				if ok then
-					local buf = terminal.get_state().buffer
-					if buf then
-						for _, win in ipairs(vim.api.nvim_list_wins()) do
-							if vim.api.nvim_win_get_buf(win) == buf then
-								return { icon = "\u{F205}", color = "yellow" }
-							end
-						end
-					end
-				end
-				return { icon = "\u{F204}", color = "grey" }
-			end },
 			{ "<leader>dp", group = "packages" },
 			{ "<leader>lr", desc = "Line references (codelens)" },
 			{ "<leader>f", group = "find" },
