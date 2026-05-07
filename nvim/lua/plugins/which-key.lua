@@ -30,13 +30,16 @@ return {
 				return { icon = "\u{F204}", color = "grey" }
 			end },
 			{ "<leader>d", group = "dotnet/debug" },
-			{ "<leader>df", desc = "Toggle AzFunc Debug", icon = function()
-				local ok, terminal = pcall(require, "azfunc.terminal")
-				if ok and terminal.get_state().channel then
-					return { icon = "\u{F205}", color = "yellow" }
-				end
-				return { icon = "\u{F204}", color = "grey" }
-			end },
+			{ "<leader>df", desc = "Start AzFunc Debug",       icon = { icon = "󰐊", color = "green" } },
+			{ "<leader>db", desc = "DAP Toggle Breakpoint",    icon = { icon = "●", color = "red" } },
+			{ "<leader>dc", desc = "DAP Continue to Cursor",   icon = { icon = "󰜿", color = "cyan" } },
+			{ "<leader>dd", desc = "EasyDotnet picker",        icon = { icon = "󰪮", color = "blue" } },
+			{ "<leader>dk", desc = "Kill dotnet processes",    icon = { icon = "󱡠", color = "red" } },
+			{ "<leader>dn", desc = "New .NET item",            icon = { icon = "󰐕", color = "green" } },
+			{ "<leader>dr", desc = "DAP Restart",              icon = { icon = "󰑐", color = "yellow" } },
+			{ "<leader>dw", desc = "DAP Add Watch Expression", icon = { icon = "", color = "purple" } },
+			{ "<leader>dx", desc = "Stop debug session",       icon = { icon = "󰓛", color = "red" } },
+			{ "<leader>dX", desc = "DAP Clear Breakpoints",    icon = { icon = "󱘖", color = "orange" } },
 			{ "<leader>dp", group = "packages" },
 			{ "<leader>lr", desc = "Line references (codelens)" },
 			{ "<leader>f", group = "find" },

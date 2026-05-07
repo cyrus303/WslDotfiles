@@ -40,9 +40,24 @@ return {
 			{
 				"<leader>dx",
 				function()
-					require("dap").terminate()
+					local terminal_ok, terminal = pcall(require, "azfunc.terminal")
+					if terminal_ok and terminal.get_state().channel then
+						require("azfunc").stop()
+						return
+					end
+					local dap = require("dap")
+					local session = dap.session()
+					if session then
+						if session.term_buf and vim.api.nvim_buf_is_valid(session.term_buf) then
+							local job_id = vim.bo[session.term_buf].channel
+							if job_id and job_id > 0 then
+								vim.fn.jobstop(job_id)
+							end
+						end
+						dap.terminate()
+					end
 				end,
-				desc = "DAP Terminate",
+				desc = "Stop debug session",
 			},
 			{
 				"<leader>dX",
