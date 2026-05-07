@@ -1,5 +1,8 @@
 return {
-  "mason-org/mason.nvim", -- Updated from williamboman/mason.nvim
+  "mason-org/mason.nvim",
+  lazy = false,
+  priority = 100,
+  build = ":MasonUpdate",
   opts = {
     registries = {
       "github:Crashdummyy/mason-registry",

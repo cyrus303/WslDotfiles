@@ -1,28 +1,60 @@
 return {
-  {
-    "saghen/blink.cmp",
-    opts = function(_, opts)
-      opts.keymap = opts.keymap or {}
-      opts.cmdline = opts.cmdline or {}
-      opts.cmdline.keymap = opts.cmdline.keymap or {}
-
-      -- Insert mode
-      opts.keymap["<C-j>"] = { "select_next" }
-      opts.keymap["<C-k>"] = { "select_prev" }
-      opts.keymap["<C-l>"] = { "select_and_accept" }
-
-      -- Cmdline
-      opts.cmdline.keymap["<C-j>"] = { "select_next" }
-      opts.cmdline.keymap["<C-k>"] = { "select_prev" }
-      opts.cmdline.keymap["<C-l>"] = { "select_and_accept" }
-
-      -- Ghost text off (both insert and cmdline)
-      opts.completion = opts.completion or {}
-      opts.completion.ghost_text = opts.completion.ghost_text or {}
-      opts.completion.ghost_text.enabled = false
-
-      opts.cmdline.completion = opts.cmdline.completion or {}
-      opts.cmdline.completion.ghost_text = { enabled = false }
-    end,
+  "saghen/blink.cmp",
+  event = "InsertEnter",
+  version = "*",
+  dependencies = { "rafamadriz/friendly-snippets" },
+  opts = {
+    keymap = {
+      preset = "default",
+      ["<C-j>"] = { "select_next" },
+      ["<C-k>"] = { "select_prev" },
+      ["<C-l>"] = { "select_and_accept" },
+    },
+    cmdline = {
+      keymap = {
+        preset = "default",
+        ["<C-j>"] = { "select_next" },
+        ["<C-k>"] = { "select_prev" },
+        ["<C-l>"] = { "select_and_accept" },
+      },
+      completion = {
+        ghost_text = { enabled = false },
+        menu = { auto_show = true },
+      },
+    },
+    appearance = {
+      nerd_font_variant = "mono",
+    },
+    completion = {
+      accept = { auto_brackets = { enabled = true } },
+      menu = {
+        border = "rounded",
+        draw = {
+          treesitter = { "lsp" },
+        },
+      },
+      documentation = {
+        auto_show = true,
+        auto_show_delay_ms = 200,
+        window = { border = "rounded" },
+      },
+      ghost_text = { enabled = false },
+    },
+    sources = {
+      default = { "lsp", "path", "snippets", "buffer", "easy-dotnet" },
+      providers = {
+        ["easy-dotnet"] = {
+          name = "easy-dotnet",
+          module = "easy-dotnet.completion.blink",
+          score_offset = 10,
+          async = true,
+        },
+      },
+    },
+    signature = {
+      enabled = true,
+      window = { border = "rounded" },
+    },
   },
+  opts_extend = { "sources.default" },
 }

@@ -1,51 +1,106 @@
 return {
-  "folke/which-key.nvim",
-  opts = function(_, opts)
-    local wk = require("which-key")
+	"folke/which-key.nvim",
+	event = "VeryLazy",
+	opts = {
+		preset = "helix",
+		spec = {
+			{ "<leader>c", group = "code" },
+			{ "<leader>cf", desc = "Toggle autoformat", icon = function()
+				if vim.g.disable_autoformat then
+					return { icon = "\u{F204}", color = "grey" }
+				end
+				return { icon = "\u{F205}", color = "yellow" }
+			end },
+			{ "<leader>ci", desc = "Toggle inlay hints", icon = function()
+				if vim.lsp.inlay_hint.is_enabled() then
+					return { icon = "\u{F205}", color = "yellow" }
+				end
+				return { icon = "\u{F204}", color = "grey" }
+			end },
+			{ "<leader>cw", desc = "Toggle wrap", icon = function()
+				if vim.wo.wrap then
+					return { icon = "\u{F205}", color = "yellow" }
+				end
+				return { icon = "\u{F204}", color = "grey" }
+			end },
+			{ "<leader>cl", desc = "Toggle codelens", icon = function()
+				if vim.g.codelens_enabled then
+					return { icon = "\u{F205}", color = "yellow" }
+				end
+				return { icon = "\u{F204}", color = "grey" }
+			end },
+			{ "<leader>d", group = "dotnet/debug" },
+			{ "<leader>df", desc = "Toggle AzFunc Debug", icon = function()
+				local ok, terminal = pcall(require, "azfunc.terminal")
+				if ok and terminal.get_state().channel then
+					return { icon = "\u{F205}", color = "yellow" }
+				end
+				return { icon = "\u{F204}", color = "grey" }
+			end },
+			{ "<leader>dt", desc = "Toggle AzFunc Terminal", icon = function()
+				local ok, terminal = pcall(require, "azfunc.terminal")
+				if ok then
+					local buf = terminal.get_state().buffer
+					if buf then
+						for _, win in ipairs(vim.api.nvim_list_wins()) do
+							if vim.api.nvim_win_get_buf(win) == buf then
+								return { icon = "\u{F205}", color = "yellow" }
+							end
+						end
+					end
+				end
+				return { icon = "\u{F204}", color = "grey" }
+			end },
+			{ "<leader>dp", group = "packages" },
+			{ "<leader>lr", desc = "Line references (codelens)" },
+			{ "<leader>f", group = "find" },
+			{ "<leader>s", group = "search" },
+			{ "<leader>g", group = "git" },
+			{ "<leader>gg", desc = "Lazygit" },
+			{ "<leader>q", group = "quit" },
+			{ "<leader>x", group = "diagnostics/symbols" },
+			{ "<leader>E", desc = "Git Status" },
+			{ "<leader>e", desc = "Explorer" },
+			{ "<leader>H", desc = "Harpoon Add File" },
+			{ "<leader>h", desc = "Harpoon Picker" },
+			{ "s", desc = "Flash jump" },
+		},
+	},
+	config = function(_, opts)
+		local wk = require("which-key")
+		wk.setup(opts)
 
-    wk.add({
-      -- Override stale LazyVim descriptions
-      { "<leader>E", desc = "Git Status" },
-      { "<leader>h", desc = "Harpoon Picker" },
-      { "<leader>d", group = "dotnet" },
-      { "<leader>dp", group = "packages" },
-    }, { mode = "n" })
-
-    wk.add({
-      -- Hide Snacks git SOURCES (not your gd)
-      { "<leader>gB", hidden = true },
-      { "<leader>gi", hidden = true },
-      { "<leader>gI", hidden = true },
-      { "<leader>gl", hidden = true },
-      { "<leader>gL", hidden = true },
-      { "<leader>gp", hidden = true },
-      { "<leader>gP", hidden = true },
-      { "<leader>gs", hidden = true },
-      { "<leader>gS", hidden = true },
-      { "<leader>gY", hidden = true },
-      -- DON'T hide gd - let yours win
-      -- Hide gcc since gc is the intended mapping
-      { "gcc", hidden = true },
-      { "[%", hidden = true }, { "]%", hidden = true },
-      { "[(", hidden = true }, { "](", hidden = true },
-      { "[{", hidden = true }, { "]{", hidden = true },
-      { "[<", hidden = true }, { "]<", hidden = true },
-      { "[)", hidden = true }, { "])", hidden = true },
-      { "[}", hidden = true }, { "]}", hidden = true },
-      { "[>", hidden = true }, { "]>", hidden = true },
-    }, { mode = "n" })
-
-    wk.add({
-      -- hidden but still mapped
-      { "<leader>1", "<cmd>Harpoon to File 1<cr>", hidden = true },
-      { "<leader>2", "<cmd>Harpoon to File 2<cr>", hidden = true },
-      { "<leader>3", "<cmd>Harpoon to File 3<cr>", hidden = true },
-      { "<leader>4", "<cmd>Harpoon to File 4<cr>", hidden = true },
-      { "<leader>5", "<cmd>Harpoon to File 5<cr>", hidden = true },
-      { "<leader>6", "<cmd>Harpoon to File 6<cr>", hidden = true },
-      { "<leader>7", "<cmd>Harpoon to File 7<cr>", hidden = true },
-      { "<leader>8", "<cmd>Harpoon to File 8<cr>", hidden = true },
-      { "<leader>9", "<cmd>Harpoon to File 9<cr>", hidden = true },
-    })
-  end,
+		-- Harpoon numeric shortcuts: registered but hidden to keep UI tidy.
+		wk.add({
+			{ "<leader>1", "<cmd>lua require('harpoon'):list():select(1)<cr>", hidden = true },
+			{ "<leader>2", "<cmd>lua require('harpoon'):list():select(2)<cr>", hidden = true },
+			{ "<leader>3", "<cmd>lua require('harpoon'):list():select(3)<cr>", hidden = true },
+			{ "<leader>4", "<cmd>lua require('harpoon'):list():select(4)<cr>", hidden = true },
+			{ "<leader>5", "<cmd>lua require('harpoon'):list():select(5)<cr>", hidden = true },
+			{ "<leader>6", "<cmd>lua require('harpoon'):list():select(6)<cr>", hidden = true },
+			{ "<leader>7", "<cmd>lua require('harpoon'):list():select(7)<cr>", hidden = true },
+			{ "<leader>8", "<cmd>lua require('harpoon'):list():select(8)<cr>", hidden = true },
+			{ "<leader>9", "<cmd>lua require('harpoon'):list():select(9)<cr>", hidden = true },
+			{ "ge", hidden = true },
+			{ "gE", hidden = true },
+			{ "gn", hidden = true },
+			{ "gN", hidden = true },
+			{ "gt", hidden = true },
+			{ "gT", hidden = true },
+			{ "gu", hidden = true },
+			{ "gU", hidden = true },
+			{ "gv", hidden = true },
+			{ "gx", hidden = true },
+			{ "g,", hidden = true },
+			{ "g;", hidden = true },
+			{ "g%", hidden = true },
+			{ "gb", hidden = true },
+			{ "gc", hidden = true },
+			{ "g'", hidden = true },
+			{ "g`", hidden = true },
+			{ "gcc", hidden = true },
+			{ "[D", hidden = true },
+			{ "]D", hidden = true },
+		})
+	end,
 }

@@ -1,48 +1,78 @@
--- Options are automatically loaded before lazy.nvim startup
--- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
--- Add any additional options here
-vim.opt.termguicolors = true
+local opt = vim.opt
 
--- Enable cursorline for the line number only
-vim.opt.cursorline = true -- Enable cursorline
-vim.opt.cursorlineopt = "number" -- Only highlight the line number
-vim.opt.showmode = false
-vim.opt.cmdheight = 2
+-- Line numbers & cursor
+opt.number = true
+opt.relativenumber = true
+opt.cursorline = true
+opt.cursorlineopt = "number" -- only highlight the line number, not the full line
+opt.scrolloff = 4
+opt.sidescrolloff = 8
 
-vim.opt.autoread = true
-vim.opt.autowrite = true
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
-  pattern = "*",
-  callback = function()
-    if vim.fn.mode() ~= "c" then
-      vim.cmd("checktime")
-    end
-  end,
-})
+-- Indent & wrap
+opt.expandtab = true
+opt.tabstop = 2
+opt.shiftwidth = 2
+opt.softtabstop = 2
+opt.smartindent = true
+opt.wrap = false            -- prose filetypes enable wrap via autocmds
+opt.breakindent = true      -- wrapped lines visually indent to match
 
--- Notification after file change
-vim.api.nvim_create_autocmd("FileChangedShellPost", {
-  pattern = "*",
-  callback = function()
-    vim.api.nvim_echo({ { "File changed on disk. Buffer reloaded.", "WarningMsg" } }, false, {})
-  end,
-})
+-- Search
+opt.ignorecase = true
+opt.smartcase = true        -- case-sensitive when query has uppercase
+opt.grepprg = "rg --vimgrep"
+opt.grepformat = "%f:%l:%c:%m"
 
--- Disable all animations
+-- UI
+opt.termguicolors = true
+opt.signcolumn = "auto:1"   -- show when needed, max 1 cell wide
+opt.showmode = false        -- mode shown by lualine instead
+opt.cmdheight = 0           -- hide cmdline when not in use
+opt.laststatus = 3          -- single global statusline
+opt.splitright = true
+opt.splitbelow = true
+opt.splitkeep = "screen"    -- keep text stable when opening splits
+opt.pumheight = 10          -- max completion menu items
+opt.pumblend = 10           -- slight transparency on popup menu
+opt.winminwidth = 5
+opt.conceallevel = 2        -- hide concealed chars (e.g. markdown syntax)
+opt.fillchars:append({ diff = " ", eob = " " }) -- cleaner diff and end-of-buffer display
+
+-- Files & buffers
+opt.autoread = true
+opt.autowrite = true        -- save when switching buffers
+opt.undofile = true
+opt.undolevels = 10000
+opt.confirm = true          -- prompt instead of erroring on unsaved changes
+opt.updatetime = 200        -- faster CursorHold and swap writes
+opt.timeoutlen = 300        -- ms to wait for mapped key sequence
+opt.mouse = "a"
+opt.clipboard = "unnamedplus" -- sync with system clipboard
+
+-- Isolate swap files per NVIM_APPNAME so configs don't share state
+opt.directory = vim.fn.stdpath("state") .. "/swap//"
+
+-- Session
+opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
+
+-- Treesitter-driven folds, open by default
+opt.foldlevel = 99
+opt.foldmethod = "expr"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+opt.foldtext = ""           -- use treesitter's fold display instead of default
+
+-- Show trailing whitespace and non-breaking spaces
+opt.list = true
+opt.listchars = { tab = "  ", trail = "·", nbsp = "␣" }
+
+-- Suppress noisy messages (written, ins-completion, search wrap)
+opt.shortmess:append({ W = true, I = true, c = true, C = true })
+
+-- Disable snacks animations
 vim.g.snacks_animate = false
 
--- Force all swap files into this directory
-vim.opt.directory = "/home/mahesh_s/.local/state/nvim/swap//"
-vim.opt.fillchars:append({ diff = " " })
-
--- Case insensitive for grep
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-
--- Use wl-clipboard, avoiding --primary which WSLg compositor doesn't support
-vim.g.clipboard = {
-  name = "wl-clipboard",
-  copy = { ["+"] = "wl-copy", ["*"] = "wl-copy" },
-  paste = { ["+"] = "wl-paste --no-newline", ["*"] = "wl-paste --no-newline" },
-  cache_enabled = 0,
-}
+-- Disable unused language providers to skip slow startup checks
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_node_provider = 0

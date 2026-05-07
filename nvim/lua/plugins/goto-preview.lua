@@ -1,6 +1,5 @@
 return {
   "rmagatti/goto-preview",
-  event = "LspAttach",
   opts = {
     width = 120,
     height = 25,

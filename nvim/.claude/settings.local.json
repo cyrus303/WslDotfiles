@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(luac -p /home/mahesh_s/.config/nvim-minimal/lua/plugins/catluster.lua)",
+      "Bash(mvim --headless -u NONE -c \"luafile /home/mahesh_s/.config/nvim-minimal/lua/plugins/catluster.lua\" -c \"qa\")"
+    ]
+  }
+}
