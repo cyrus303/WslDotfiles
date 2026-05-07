@@ -224,6 +224,10 @@ return {
 				grep = { live = false, need_search = false },
 				git_status = { layout = { preset = "default" } },
 				buffers = {
+					formatters = { file = { filename_only = true } },
+					transform = function(item)
+						item.pos = nil
+					end,
 					win = {
 						input = {
 							keys = {
