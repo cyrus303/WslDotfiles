@@ -76,18 +76,13 @@ return {
 		vim.api.nvim_set_hl(0, "@lsp.type.operator.cs", { fg = "#858d95" })
 		vim.api.nvim_set_hl(0, "@lsp.mod.deprecated", { strikethrough = true })
 
-		-- JSON / JSONC tree-sitter highlights
-		-- Keys use @property, values use @string — scope to json/jsonc so other langs are unaffected
-		local json_key = "#88b8e0"   -- blue  — object keys
-		local json_str = "#8ac8a0"   -- green — string values
-		local json_num = "#e8c878"   -- gold  — numbers
+		-- JSON keys default to Normal (uncolored) — give them a distinct color.
+		-- Everything else (@string, @number, @boolean) uses the theme's own values.
 		for _, lang in ipairs({ "json", "jsonc" }) do
-			vim.api.nvim_set_hl(0, "@property." .. lang,          { fg = json_key })
-			vim.api.nvim_set_hl(0, "@string." .. lang,            { fg = json_str })
-			vim.api.nvim_set_hl(0, "@number." .. lang,            { fg = json_num })
-			vim.api.nvim_set_hl(0, "@boolean." .. lang,           { fg = "#c0a0c8" })
-			vim.api.nvim_set_hl(0, "@constant.builtin." .. lang,  { fg = "#808090" })
+			vim.api.nvim_set_hl(0, "@property." .. lang, { fg = "#b0c0e0" })
 		end
+		vim.api.nvim_set_hl(0, "Comment",   { fg = "#4e4e68", italic = true })
+		vim.api.nvim_set_hl(0, "@comment", { fg = "#4e4e68", italic = true })
 
 		-- DAP breakpoints
 		vim.api.nvim_set_hl(0, "DapBreakpoint", { fg = "#ef8a90" })
