@@ -155,6 +155,16 @@ return {
 
 		dashboard = {
 			enabled = true,
+			formats = {
+				file = function(item, ctx)
+					local filename = vim.fn.fnamemodify(item.file, ":t")
+					local parent = vim.fn.fnamemodify(item.file, ":h:t")
+					local display = parent ~= "" and (parent .. "/" .. filename) or filename
+					local dir, file = display:match("^(.*)/(.+)$")
+					return dir and { { dir .. "/", hl = "dir" }, { file, hl = "file" } }
+						or { { display, hl = "file" } }
+				end,
+			},
 			preset = {
 				keys = {
 					{ icon = "󰈞", key = "f", desc = "Find file", action = "<leader><leader>" },
