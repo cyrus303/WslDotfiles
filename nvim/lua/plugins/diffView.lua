@@ -19,6 +19,11 @@ return {
       { "<leader>ge", "<cmd>DiffviewToggleFiles<cr>", desc = "Toggle File DiffView" },
     },
     opts = {
+      hooks = {
+        diff_buf_read = function(bufnr)
+          vim.bo[bufnr].buflisted = false
+        end,
+      },
       view = {
         default = {
           layout = "diff2_horizontal",
