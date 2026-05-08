@@ -86,7 +86,6 @@ alias tn='tmux new -s "$(basename "$PWD")"'
 alias ta='tmux attach'
 alias tl='tmux list-sessions'
 alias cat='bat --paging=never'
-alias mvim='NVIM_APPNAME=nvim-minimal nvim'
 # ----- fzf preview -----
 export FZF_DEFAULT_OPTS="
   --preview 'bat --color=always --style=numbers --theme=Catppuccin\ Mocha --line-range=:200 {} 2>/dev/null || ls -la {}'
