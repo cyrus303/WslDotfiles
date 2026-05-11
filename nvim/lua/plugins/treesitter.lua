@@ -41,8 +41,11 @@ return {
 					vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 
 					-- foldexpr is evaluated before TS attaches; recompute once parser is ready.
+					-- Skip in insert mode — `normal! zx` would disrupt the cursor and scramble typing.
 					vim.schedule(function()
-						if vim.api.nvim_buf_is_valid(ev.buf) then
+						if vim.api.nvim_buf_is_valid(ev.buf)
+							and vim.api.nvim_get_mode().mode:sub(1, 1) ~= "i"
+						then
 							pcall(vim.cmd, "normal! zx")
 						end
 					end)
