@@ -1,3 +1,21 @@
+-- Directory names to hide from file/grep/recent pickers (matched anywhere in the path).
+local excluded_dirs = { "Migrations" }
+
+-- Bare names work for both `fd -E` and `rg --glob !`.
+local exclude_globs = excluded_dirs
+
+local function is_excluded(path)
+	if not path then
+		return false
+	end
+	for _, d in ipairs(excluded_dirs) do
+		if path:find("/" .. d .. "/", 1, true) then
+			return true
+		end
+	end
+	return false
+end
+
 local is_git_item = function(item, git_nodes)
 	return vim.iter(git_nodes):any(function(node)
 		if node.dir_status then
@@ -161,15 +179,21 @@ return {
 					local parent = vim.fn.fnamemodify(item.file, ":h:t")
 					local display = parent ~= "" and (parent .. "/" .. filename) or filename
 					local dir, file = display:match("^(.*)/(.+)$")
-					return dir and { { dir .. "/", hl = "dir" }, { file, hl = "file" } }
-						or { { display, hl = "file" } }
+					return dir and { { dir .. "/", hl = "dir" }, { file, hl = "file" } } or { { display, hl = "file" } }
 				end,
 			},
 			preset = {
 				keys = {
 					{ icon = "󰈞", key = "f", desc = "Find file", action = "<leader><leader>" },
 					{ icon = "󰊄", key = "g", desc = "Live grep", action = "<leader>sg" },
-					{ icon = "󰁯", key = "s", desc = "Restore Session", action = function() require("persistence").load() end },
+					{
+						icon = "󰁯",
+						key = "s",
+						desc = "Restore Session",
+						action = function()
+							require("persistence").load()
+						end,
+					},
 					{ icon = "󰒲", key = "l", desc = "Plugins", action = "<cmd>Lazy<CR>" },
 					{ icon = "󰅚", key = "q", desc = "Quit", action = "<cmd>qa<CR>" },
 				},
@@ -230,8 +254,28 @@ return {
 				},
 			},
 			sources = {
-				files = { hidden = true },
-				grep = { live = false, need_search = false },
+				files = {
+					hidden = true,
+					exclude = exclude_globs,
+					transform = function(item)
+						if is_excluded(item.file) then return false end
+					end,
+				},
+				grep = {
+					live = false,
+					need_search = false,
+					exclude = exclude_globs,
+					transform = function(item)
+						if is_excluded(item.file) then return false end
+					end,
+				},
+				recent = {
+					transform = function(item)
+						if is_excluded(item.file) then
+							return false
+						end
+					end,
+				},
 				git_status = { layout = { preset = "default" } },
 				buffers = {
 					formatters = { file = { filename_only = true } },
@@ -291,7 +335,9 @@ return {
 								["S"] = "toggle_only_git",
 								["W"] = function(self)
 									local win_id = self.win
-									if not win_id or not vim.api.nvim_win_is_valid(win_id) then return end
+									if not win_id or not vim.api.nvim_win_is_valid(win_id) then
+										return
+									end
 									if self._fit_width then
 										vim.api.nvim_win_set_width(win_id, self._fit_width)
 										self._fit_width = nil
