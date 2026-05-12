@@ -38,7 +38,11 @@ return {
 						pcall(vim.treesitter.start, ev.buf)
 					end
 
-					vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+					-- C# parser is loaded but treesitter module isn't started (Roslyn handles highlighting),
+					-- so the treesitter indentexpr returns nothing useful — let smartindent handle it.
+					if ev.match ~= "cs" then
+						vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+					end
 
 					-- foldexpr is evaluated before TS attaches; recompute once parser is ready.
 					-- Skip in insert mode — `normal! zx` would disrupt the cursor and scramble typing.
