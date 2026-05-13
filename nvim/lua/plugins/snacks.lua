@@ -177,9 +177,16 @@ return {
 				file = function(item, ctx)
 					local filename = vim.fn.fnamemodify(item.file, ":t")
 					local parent = vim.fn.fnamemodify(item.file, ":h:t")
-					local display = parent ~= "" and (parent .. "/" .. filename) or filename
-					local dir, file = display:match("^(.*)/(.+)$")
-					return dir and { { dir .. "/", hl = "dir" }, { file, hl = "file" } } or { { display, hl = "file" } }
+					local max = 50 -- snacks pane is 60 wide; ~10 taken by indent + icon + number
+					if parent ~= "" then
+						local full = parent .. "/" .. filename
+						if #full > max then
+							local budget = max - #filename - 2 -- 2 for "…/"
+							parent = budget > 0 and ("…" .. parent:sub(-budget)) or "…"
+						end
+						return { { parent .. "/", hl = "dir" }, { filename, hl = "file" } }
+					end
+					return { { filename, hl = "file" } }
 				end,
 			},
 			preset = {
