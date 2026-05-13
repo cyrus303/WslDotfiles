@@ -306,6 +306,22 @@ return {
 					hidden = true,
 					ignored = true,
 					actions = {
+						explorer_del = function(picker)
+							local paths = vim.tbl_map(Snacks.picker.util.path, picker:selected({ fallback = true }))
+							if #paths == 0 then return end
+							local what = #paths == 1 and vim.fn.fnamemodify(paths[1], ":t") or #paths .. " files"
+							local ea = require("snacks.explorer.actions")
+							Snacks.picker.util.confirm("Delete " .. what .. "?", function()
+								for _, path in ipairs(paths) do
+									local ok, err = ea.trash(path)
+									if ok then Snacks.bufdelete({ file = path, force = true })
+									else Snacks.notify.error("Failed to delete `" .. path .. "`:\n" .. err) end
+									require("snacks.explorer.tree"):refresh(vim.fs.dirname(path))
+								end
+								picker.list:set_selected()
+								ea.update(picker)
+							end)
+						end,
 						explorer_right = function(picker, item)
 							if item and item.dir then
 								vim.cmd("wincmd l")
