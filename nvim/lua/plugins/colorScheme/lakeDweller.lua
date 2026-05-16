@@ -99,6 +99,7 @@ return {
 
 		-- Line numbers
 		vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#f07098", bg = "#2a1020", bold = true })
+		vim.api.nvim_set_hl(0, "SnacksStatusColumnMark", { link = "CursorLineNr" })
 
 		vim.api.nvim_set_hl(0, "SnacksPickerListCursorLine", { bg = "#1e2235" })
 		vim.api.nvim_set_hl(0, "SnacksPickerMatch", { fg = "#f07098", bold = true })
