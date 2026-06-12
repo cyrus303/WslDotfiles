@@ -83,8 +83,8 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "l", "<CR>", { buffer = ev.buf, silent = true })
     vim.api.nvim_set_hl(0, "QfError", { link = "DiagnosticError" })
     vim.api.nvim_set_hl(0, "QfWarning", { link = "DiagnosticWarn" })
-    vim.fn.matchadd("QfWarning", "^.*warning|.*$", 10)
-    vim.fn.matchadd("QfError", "^.*error|.*$", 11)
+    vim.fn.matchadd("QfWarning", "\\c^.*warning.*$", 10)
+    vim.fn.matchadd("QfError", "\\c^.*error.*$", 11)
   end,
 })
 

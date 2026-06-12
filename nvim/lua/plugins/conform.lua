@@ -5,7 +5,7 @@ return {
 	opts = {
 		formatters_by_ft = {
 			cs = { "csharpier" },
-			json = { "biome" },
+			json = { "prettierd" },
 			lua = { "stylua" },
 			css = { "prettierd" },
 			javascript = { "prettierd" },

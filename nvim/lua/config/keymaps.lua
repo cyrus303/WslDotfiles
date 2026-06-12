@@ -150,23 +150,23 @@ end
 
 -- Navigate diagnostics with styled float (all severities)
 map("n", "]d", function()
-	vim.diagnostic.goto_next({ float = false })
+	vim.diagnostic.jump({ count = 1, float = false })
 	vim.defer_fn(show_styled_diag_float, 50)
 end, { desc = "Next diagnostic" })
 
 map("n", "[d", function()
-	vim.diagnostic.goto_prev({ float = false })
+	vim.diagnostic.jump({ count = -1, float = false })
 	vim.defer_fn(show_styled_diag_float, 50)
 end, { desc = "Prev diagnostic" })
 
 -- Navigate errors only
 map("n", "]e", function()
-	vim.diagnostic.goto_next({ float = false, severity = vim.diagnostic.severity.ERROR })
+	vim.diagnostic.jump({ count = 1, float = false, severity = vim.diagnostic.severity.ERROR })
 	vim.defer_fn(show_styled_diag_float, 50)
 end, { desc = "Next error" })
 
 map("n", "[e", function()
-	vim.diagnostic.goto_prev({ float = false, severity = vim.diagnostic.severity.ERROR })
+	vim.diagnostic.jump({ count = -1, float = false, severity = vim.diagnostic.severity.ERROR })
 	vim.defer_fn(show_styled_diag_float, 50)
 end, { desc = "Prev error" })
 
