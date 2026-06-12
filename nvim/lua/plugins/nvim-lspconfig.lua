@@ -30,9 +30,43 @@ return {
         vim.lsp.inlay_hint.enable(false)
       end
 
-      -- Store for other modules (Roslyn handles its own setup, so no servers
-      -- are registered here directly)
+      -- Store for other modules (Roslyn handles its own setup)
       vim.g.lsp_capabilities = capabilities
+
+      local ss = require("schemastore")
+
+      -- JSON
+      vim.lsp.config("jsonls", {
+        filetypes = { "json", "jsonc" },
+        capabilities = capabilities,
+        settings = {
+          json = {
+            schemas = ss.json.schemas(),
+            validate = { enable = true },
+          },
+        },
+      })
+      vim.lsp.enable("jsonls")
+
+      -- YAML
+      vim.lsp.config("yamlls", {
+        capabilities = capabilities,
+        settings = {
+          yaml = {
+            schemaStore = { enable = false, url = "" },
+            schemas = ss.yaml.schemas(),
+          },
+        },
+      })
+      vim.lsp.enable("yamlls")
+
+      -- TypeScript / JavaScript (Next.js, React, Node)
+      -- Formatting is delegated to conform (prettierd); vtsls provides
+      -- completion, diagnostics, code actions, go-to-definition, etc.
+      vim.lsp.config("vtsls", {
+        capabilities = capabilities,
+      })
+      vim.lsp.enable("vtsls")
     end,
   },
 }
