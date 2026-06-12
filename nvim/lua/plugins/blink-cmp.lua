@@ -9,6 +9,7 @@ return {
       ["<C-j>"] = { "select_next" },
       ["<C-k>"] = { "select_prev" },
       ["<C-l>"] = { "select_and_accept" },
+      ["<CR>"] = { "select_and_accept", "fallback" },
     },
     cmdline = {
       keymap = {
@@ -16,6 +17,8 @@ return {
         ["<C-j>"] = { "select_next" },
         ["<C-k>"] = { "select_prev" },
         ["<C-l>"] = { "select_and_accept" },
+        ["<CR>"] = { "select_and_accept", "fallback" },
+        ["<Tab>"] = { "select_and_accept", "fallback" },
       },
       completion = {
         ghost_text = { enabled = false },

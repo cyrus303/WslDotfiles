@@ -78,6 +78,18 @@ function y() {
   fi
   rm -f -- "$tmp"
 }
+# ----- nvim: rename tmux window to cwd before opening -----
+function nvim() {
+  if [[ -n "$TMUX" ]]; then
+    tmux set-window-option automatic-rename off
+    tmux rename-window "${PWD:t}"
+  fi
+  command nvim "$@"
+  if [[ -n "$TMUX" ]]; then
+    tmux set-window-option automatic-rename on
+  fi
+}
+
 # ----- Aliases -----
 alias ls='eza'
 alias ll='eza -alh'

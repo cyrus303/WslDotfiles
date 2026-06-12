@@ -8,6 +8,7 @@ return {
     { "}", "<cmd>AerialNext<cr>", desc = "Aerial next symbol" },
   },
   opts = {
+    post_jump_cmd = "normal! zt",
     backends = { "lsp", "treesitter" },
     layout = {
       max_width = { 60, 0.3 },

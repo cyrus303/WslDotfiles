@@ -8,11 +8,11 @@ return {
 			json = { "biome" },
 			lua = { "stylua" },
 		},
-		format_on_save = function(bufnr)
+		format_after_save = function(bufnr)
 			if vim.g.disable_autoformat then
 				return
 			end
-			return { timeout_ms = 3000, lsp_format = "fallback" }
+			return { timeout_ms = 15000, lsp_format = "fallback" }
 		end,
 	},
 }

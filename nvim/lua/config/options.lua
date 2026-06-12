@@ -53,7 +53,7 @@ opt.clipboard = "unnamedplus" -- sync with system clipboard
 opt.directory = vim.fn.stdpath("state") .. "/swap//"
 
 -- Session
-opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
+opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" }
 
 -- Treesitter-driven folds, open by default
 opt.foldlevel = 99

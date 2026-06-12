@@ -99,11 +99,16 @@ return {
 
 		-- Line numbers
 		vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#f07098", bg = "#2a1020", bold = true })
+		vim.api.nvim_set_hl(0, "SnacksStatusColumnMark", { link = "CursorLineNr" })
 
 		vim.api.nvim_set_hl(0, "SnacksPickerListCursorLine", { bg = "#1e2235" })
 		vim.api.nvim_set_hl(0, "SnacksPickerMatch", { fg = "#f07098", bold = true })
 		vim.api.nvim_set_hl(0, "SnacksPickerTree", { fg = "#383848" })
 		vim.api.nvim_set_hl(0, "SnacksPickerSelected", { bg = "#3b4261", bold = true })
+
+		-- Folded line: dim text + faint fill dots
+		vim.api.nvim_set_hl(0, "Folded", { fg = "#3e3e52", bg = "NONE", italic = true })
+		vim.api.nvim_set_hl(0, "FoldColumn", { fg = "#2a2a3a", bg = "NONE" })
 
 		-- Quickfix
 		vim.api.nvim_set_hl(0, "QuickFixLine", { bg = "#2d3855" })

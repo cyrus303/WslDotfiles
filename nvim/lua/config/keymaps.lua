@@ -10,7 +10,8 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 -- Save and quit
-map({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR>", { desc = "Save buffer" })
+map({ "n", "v" }, "<C-s>", "<cmd>w<CR>", { desc = "Save buffer" })
+map("i", "<C-s>", "<Esc><cmd>w<CR>", { desc = "Save buffer" })
 map("n", "<leader>qq", "<cmd>qa<CR>", { desc = "Quit all" })
 map("n", "<leader>qw", "<cmd>q<CR>", { desc = "Close window" })
 
@@ -169,6 +170,22 @@ map("n", "[e", function()
 	vim.defer_fn(show_styled_diag_float, 50)
 end, { desc = "Prev error" })
 
+-- File info: replicates <C-g> output and also yanks it to the system clipboard
+map("n", "<C-g>", function()
+  local path = vim.fn.expand("%:~:.")
+  if path == "" then path = "[No Name]" end
+  local flags = (vim.bo.modified and " [Modified]" or "")
+    .. (vim.bo.readonly and " [readonly]" or "")
+  local line  = vim.fn.line(".")
+  local total = vim.fn.line("$")
+  local col   = vim.fn.col(".")
+  local pct   = total > 0 and math.floor(line * 100 / total) or 0
+  local msg   = string.format('"%s"%s  line %d of %d --%d%%-- col %d',
+    path, flags, line, total, pct, col)
+  vim.fn.setreg("+", msg)
+  vim.notify(msg, vim.log.levels.INFO, { title = "File Info" })
+end, { desc = "File info (copied to clipboard)" })
+
 -- .NET helpers
 map("n", "<leader>dk", function()
 	vim.fn.system("pkill dotnet || true")
@@ -210,7 +227,7 @@ map("n", "<leader>lr", function()
 	vim.lsp.buf.references()
 	vim.api.nvim_win_set_cursor(0, saved)
 end, { desc = "Line references (codelens)" })
-map("n", "gI", vim.lsp.buf.implementation, { desc = "Implementation" })
+map("n", "gi", vim.lsp.buf.implementation, { desc = "Implementation" })
 map("n", "gy", vim.lsp.buf.type_definition, { desc = "Type definition" })
 map("n", "K", function()
 	vim.lsp.buf.hover({ border = "rounded", max_width = 80 })
