@@ -1,6 +1,7 @@
 return {
 	{
 		"mfussenegger/nvim-dap",
+		dependencies = { { "theHamsta/nvim-dap-virtual-text", opts = {} } },
 		keys = {
 			{
 				"<F5>",
@@ -189,9 +190,5 @@ return {
 				end,
 			})
 		end,
-	},
-	{
-		"theHamsta/nvim-dap-virtual-text",
-		opts = {},
 	},
 }
