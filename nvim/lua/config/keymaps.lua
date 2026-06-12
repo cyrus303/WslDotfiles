@@ -265,3 +265,15 @@ map("n", "<leader>cl", function()
 	end
 	vim.notify("Codelens " .. (enabled and "enabled" or "disabled"))
 end, { desc = "Toggle codelens" })
+
+-- Command-line completion is owned by noice/native (blink disabled for ':').
+-- Navigate the wildmenu with the same keys as insert-mode completion:
+-- <C-n>/<C-p> step through matches once the menu is open (the CmdlineChanged
+-- autocmd keeps it open). Guarded with wildmenumode() so they no-op when no
+-- menu is showing — important for <C-j>, whose default in cmdline executes.
+map("c", "<C-j>", function()
+	return vim.fn.wildmenumode() == 1 and "<C-n>" or ""
+end, { expr = true, desc = "Cmdline: next completion" })
+map("c", "<C-k>", function()
+	return vim.fn.wildmenumode() == 1 and "<C-p>" or ""
+end, { expr = true, desc = "Cmdline: prev completion" })

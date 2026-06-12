@@ -194,6 +194,19 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
   end,
 })
 
+-- Auto-show command-line completion as you type. blink no longer drives ':'
+-- (noice owns the cmdline popup), so we use the native menu instead.
+-- wildtrigger() (Neovim 0.11+) pops the completion menu, which noice renders;
+-- `noselect` stops it from auto-inserting the first match while typing.
+vim.o.wildmode = "noselect:lastused,full"
+vim.api.nvim_create_autocmd("CmdlineChanged", {
+  group = augroup("cmdline_autocomplete"),
+  pattern = ":",
+  callback = function()
+    pcall(vim.fn.wildtrigger)
+  end,
+})
+
 -- Return to normal mode when saving from insert mode
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = augroup("insert_leave_on_save"),
