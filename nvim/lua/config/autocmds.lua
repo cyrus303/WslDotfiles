@@ -83,8 +83,8 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "l", "<CR>", { buffer = ev.buf, silent = true })
     vim.api.nvim_set_hl(0, "QfError", { link = "DiagnosticError" })
     vim.api.nvim_set_hl(0, "QfWarning", { link = "DiagnosticWarn" })
-    vim.fn.matchadd("QfWarning", "^.*warning|.*$", 10)
-    vim.fn.matchadd("QfError", "^.*error|.*$", 11)
+    vim.fn.matchadd("QfWarning", "\\c^.*warning.*$", 10)
+    vim.fn.matchadd("QfError", "\\c^.*error.*$", 11)
   end,
 })
 
@@ -191,6 +191,19 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
   pattern = "*",
   callback = function()
     vim.api.nvim_echo({ { "File changed on disk. Buffer reloaded.", "WarningMsg" } }, false, {})
+  end,
+})
+
+-- Auto-show command-line completion as you type. blink no longer drives ':'
+-- (noice owns the cmdline popup), so we use the native menu instead.
+-- wildtrigger() (Neovim 0.11+) pops the completion menu, which noice renders;
+-- `noselect` stops it from auto-inserting the first match while typing.
+vim.o.wildmode = "noselect:lastused,full"
+vim.api.nvim_create_autocmd("CmdlineChanged", {
+  group = augroup("cmdline_autocomplete"),
+  pattern = ":",
+  callback = function()
+    pcall(vim.fn.wildtrigger)
   end,
 })
 

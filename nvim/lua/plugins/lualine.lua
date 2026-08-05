@@ -1,7 +1,6 @@
 return {
 	"nvim-lualine/lualine.nvim",
 	event = "VeryLazy",
-	dependencies = { "nvim-tree/nvim-web-devicons" },
 	opts = function()
 		local bg = "#0e0e16" -- main background
 		local panel = "#252540" -- lifted accent for folder / branch

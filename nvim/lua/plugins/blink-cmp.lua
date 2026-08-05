@@ -11,19 +11,11 @@ return {
       ["<C-l>"] = { "select_and_accept" },
       ["<CR>"] = { "select_and_accept", "fallback" },
     },
+    -- Command-line completion is owned by noice (cmdline_popup view). blink and
+    -- noice can't both drive ':' — with both enabled blink's menu flickers and
+    -- closes instantly. Disable blink for cmdline so noice's popup handles it.
     cmdline = {
-      keymap = {
-        preset = "default",
-        ["<C-j>"] = { "select_next" },
-        ["<C-k>"] = { "select_prev" },
-        ["<C-l>"] = { "select_and_accept" },
-        ["<CR>"] = { "select_and_accept", "fallback" },
-        ["<Tab>"] = { "select_and_accept", "fallback" },
-      },
-      completion = {
-        ghost_text = { enabled = false },
-        menu = { auto_show = true },
-      },
+      enabled = false,
     },
     appearance = {
       nerd_font_variant = "mono",

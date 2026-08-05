@@ -150,23 +150,23 @@ end
 
 -- Navigate diagnostics with styled float (all severities)
 map("n", "]d", function()
-	vim.diagnostic.goto_next({ float = false })
+	vim.diagnostic.jump({ count = 1, float = false })
 	vim.defer_fn(show_styled_diag_float, 50)
 end, { desc = "Next diagnostic" })
 
 map("n", "[d", function()
-	vim.diagnostic.goto_prev({ float = false })
+	vim.diagnostic.jump({ count = -1, float = false })
 	vim.defer_fn(show_styled_diag_float, 50)
 end, { desc = "Prev diagnostic" })
 
 -- Navigate errors only
 map("n", "]e", function()
-	vim.diagnostic.goto_next({ float = false, severity = vim.diagnostic.severity.ERROR })
+	vim.diagnostic.jump({ count = 1, float = false, severity = vim.diagnostic.severity.ERROR })
 	vim.defer_fn(show_styled_diag_float, 50)
 end, { desc = "Next error" })
 
 map("n", "[e", function()
-	vim.diagnostic.goto_prev({ float = false, severity = vim.diagnostic.severity.ERROR })
+	vim.diagnostic.jump({ count = -1, float = false, severity = vim.diagnostic.severity.ERROR })
 	vim.defer_fn(show_styled_diag_float, 50)
 end, { desc = "Prev error" })
 
@@ -265,3 +265,15 @@ map("n", "<leader>cl", function()
 	end
 	vim.notify("Codelens " .. (enabled and "enabled" or "disabled"))
 end, { desc = "Toggle codelens" })
+
+-- Command-line completion is owned by noice/native (blink disabled for ':').
+-- Navigate the wildmenu with the same keys as insert-mode completion:
+-- <C-n>/<C-p> step through matches once the menu is open (the CmdlineChanged
+-- autocmd keeps it open). Guarded with wildmenumode() so they no-op when no
+-- menu is showing — important for <C-j>, whose default in cmdline executes.
+map("c", "<C-j>", function()
+	return vim.fn.wildmenumode() == 1 and "<C-n>" or ""
+end, { expr = true, desc = "Cmdline: next completion" })
+map("c", "<C-k>", function()
+	return vim.fn.wildmenumode() == 1 and "<C-p>" or ""
+end, { expr = true, desc = "Cmdline: prev completion" })
