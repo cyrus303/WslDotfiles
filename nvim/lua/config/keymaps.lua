@@ -277,3 +277,11 @@ end, { expr = true, desc = "Cmdline: next completion" })
 map("c", "<C-k>", function()
 	return vim.fn.wildmenumode() == 1 and "<C-p>" or ""
 end, { expr = true, desc = "Cmdline: prev completion" })
+
+-- Terminal mode escape. Bare <Esc> is deliberately left unmapped so TUIs running
+-- in a terminal buffer (lazygit, the dap console) still receive it; double-tap to
+-- get back to normal mode. Without this the only way out is <C-\><C-n>, which
+-- strands you in the dap terminal after a breakpoint freezes the debuggee --
+-- Ctrl-C can't shut it down there (all threads suspended), so reaching the
+-- normal-mode <leader>dx is the only exit.
+map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
