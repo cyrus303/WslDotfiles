@@ -78,7 +78,12 @@ return {
             actions = {
               harpoon_remove = function(picker, item)
                 harpoon:list():remove({ value = item.file })
-                picker:find({ refresh = true })
+                -- picker:refresh(), not picker:find({ refresh = true }): refresh
+                -- stashes the current cursor row as a target that the list
+                -- restores once the finder has re-run. Calling find directly
+                -- rebuilds the list with no target, so the cursor drops to row 1
+                -- and you lose your place after every removal.
+                picker:refresh()
               end,
             },
             win = {
