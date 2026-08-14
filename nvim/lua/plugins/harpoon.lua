@@ -45,6 +45,14 @@ return {
             -- the preview pane and gives a compact centred list instead of the
             -- default half-screen split.
             layout = { preset = "select" },
+            -- Filename first so it always starts at the same column and the eye
+            -- scans one position instead of a ragged right edge. The path stays
+            -- (dimmed) because it is load bearing here: 11 basenames in this
+            -- solution are duplicated across projects, ClassesController.cs among
+            -- them, so filename_only would make pinned entries indistinguishable.
+            -- truncate = "left" trims the constant "Projects/" head rather than
+            -- gouging the middle, if a path ever outgrows the box.
+            formatters = { file = { filename_first = true, truncate = "left" } },
             actions = {
               harpoon_remove = function(picker, item)
                 harpoon:list():remove({ value = item.file })
