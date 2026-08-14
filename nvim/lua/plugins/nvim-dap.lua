@@ -1,4 +1,59 @@
--- Shared by <leader>dx and the terminal-mode <C-c> below.
+-- Graceful stop, used by <C-c> inside the dap terminal.
+--
+-- Only SIGINT delivered to a *running* process actually shuts the app down
+-- properly and releases the listening socket -- that's the path that worked
+-- before any breakpoint was hit. jobstop() cannot do it: while threads are
+-- suspended the SIGTERM goes unhandled and nvim escalates to SIGKILL, so the
+-- port is left behind. So if the session is stopped, resume it first and signal
+-- once it's running again. Bounded retries in case the breakpoint is re-hit on
+-- the way out; falls back to a DAP terminate request if it can't get clear.
+local function graceful_stop(buf)
+	local dap = require("dap")
+	local timer = assert(vim.uv.new_timer())
+	local resumes = 0
+
+	local function finish()
+		timer:stop()
+		if not timer:is_closing() then
+			timer:close()
+		end
+	end
+
+	timer:start(
+		0,
+		100,
+		vim.schedule_wrap(function()
+			local session = dap.session()
+			if not session then
+				finish()
+				return
+			end
+
+			if session.stopped_thread_id then
+				resumes = resumes + 1
+				if resumes > 5 then
+					finish()
+					dap.terminate()
+					return
+				end
+				dap.continue()
+				return
+			end
+
+			-- Running again: one SIGINT is all the host needs. Repeating it would
+			-- read as a second Ctrl-C and force an ungraceful exit.
+			finish()
+			local chan = vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].channel
+			if chan and chan > 0 then
+				vim.api.nvim_chan_send(chan, "\3")
+			end
+		end)
+	)
+end
+
+-- Hard stop, bound to <leader>dx: kills the job outright. Keep this for when the
+-- app is wedged and you want it gone now, and use <C-c> in the terminal for the
+-- graceful shutdown that clears the port.
 local function stop_session()
 	local terminal_ok, terminal = pcall(require, "azfunc.terminal")
 	if terminal_ok and terminal.get_state().channel then
@@ -188,20 +243,11 @@ return {
 					-- character generates a signal any more -- ^C/^X/^Z just echo as
 					-- text and the app can't be stopped from the terminal at all.
 					-- nvim handles terminal-mode mappings before bytes reach the pty,
-					-- so intercept here: while stopped, terminate through DAP; while
-					-- running, forward a literal 0x03 so the normal graceful shutdown
-					-- ("Press Ctrl+C to shut down") still works as before.
+					-- so intercept here and route to the graceful shutdown either way:
+					-- running gets a plain SIGINT, stopped gets resumed first.
 					vim.keymap.set("t", "<C-c>", function()
-						local session = require("dap").session()
-						if session and session.stopped_thread_id then
-							vim.schedule(stop_session)
-						else
-							local chan = vim.bo[args.buf].channel
-							if chan and chan > 0 then
-								vim.api.nvim_chan_send(chan, "\3")
-							end
-						end
-					end, { buffer = args.buf, desc = "Stop debug session / send SIGINT" })
+						graceful_stop(args.buf)
+					end, { buffer = args.buf, desc = "Graceful stop (SIGINT, resuming first if stopped)" })
 				end,
 			})
 		end,
