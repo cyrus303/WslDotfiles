@@ -1,0 +1,12 @@
+# Pins Lua formatting so conform's stylua run stops silently rewriting indent
+# style. Without this file stylua uses its own default (Tabs), which disagreed
+# with the editor settings in lua/config/options.lua (expandtab, shiftwidth = 2)
+# -- so every file drifted to tabs the first time it was saved, leaving the
+# config split between tab- and space-indented files.
+#
+# Spaces/2 is chosen to match those editor settings. Defaults are stated
+# explicitly rather than relied on, so a future stylua release changing them
+# can't reintroduce the same drift.
+indent_type = "Spaces"
+indent_width = 2
+column_width = 120
