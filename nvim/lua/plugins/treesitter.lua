@@ -36,8 +36,15 @@ return {
 						-- Needed so foldexpr() and textobjects have a live parse tree.
 						pcall(vim.treesitter.get_parser, ev.buf)
 					elseif ev.match == "jsonc" then
-						-- jsonc.so lives in site/parser but nvim-treesitter main doesn't
-						-- register the language; pass it explicitly so Neovim finds it.
+						-- jsonc is not registered in nvim-treesitter main's parsers.lua, so
+						-- it can't be installed or updated by :TSUpdate and the language has
+						-- to be passed explicitly here for Neovim to find a parser at all.
+						--
+						-- The only jsonc.so on disk is a leftover from the old master-branch
+						-- install: lazy/nvim-treesitter/parser/jsonc.so (ABI 13, the minimum
+						-- Neovim supports) -- NOT site/parser, where every managed parser
+						-- lives. Nothing updates it. If Neovim ever raises the ABI floor
+						-- above 13 this breaks and the parser needs building by hand.
 						pcall(vim.treesitter.start, ev.buf, "jsonc")
 					else
 						pcall(vim.treesitter.start, ev.buf)
