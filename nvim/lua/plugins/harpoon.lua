@@ -11,7 +11,9 @@ return {
     keys = {
       {
         "<leader>H",
-        function() require("harpoon"):list():add() end,
+        function()
+          require("harpoon"):list():add()
+        end,
         desc = "Harpoon Add File",
       },
       {

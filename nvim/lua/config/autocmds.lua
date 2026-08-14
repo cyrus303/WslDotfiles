@@ -66,7 +66,9 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   group = augroup("auto_create_dir"),
   callback = function(event)
-    if event.match:match("^%w%w+:[\\/][\\/]") then return end
+    if event.match:match("^%w%w+:[\\/][\\/]") then
+      return
+    end
     local file = vim.uv.fs_realpath(event.match) or event.match
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
@@ -109,15 +111,24 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function()
     vim.schedule(function()
       local ok, cm = pcall(require, "vim.lsp.codelens")
-      if not ok then return end
+      if not ok then
+        return
+      end
 
       local Provider
       for i = 1, 50 do
         local name, val = debug.getupvalue(cm.on_refresh, i)
-        if not name then break end
-        if name == "Provider" then Provider = val; break end
+        if not name then
+          break
+        end
+        if name == "Provider" then
+          Provider = val
+          break
+        end
       end
-      if not Provider then return end
+      if not Provider then
+        return
+      end
 
       local api = vim.api
       local ns = api.nvim_create_namespace("nvim.lsp.codelens")
@@ -125,7 +136,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
       api.nvim_set_decoration_provider(ns, {
         on_win = function(_, _, bufnr, toprow, botrow)
           local p = Provider.active[bufnr]
-          if not p then return end
+          if not p then
+            return
+          end
 
           for row = toprow, botrow do
             if p.row_version[row] ~= p.version then
@@ -260,7 +273,9 @@ vim.api.nvim_create_autocmd("FileType", {
   group = augroup("wrap_spell"),
   pattern = { "text", "plaintex", "typst", "gitcommit", "markdown" },
   callback = function()
-    if vim.api.nvim_win_get_config(0).relative ~= "" then return end
+    if vim.api.nvim_win_get_config(0).relative ~= "" then
+      return
+    end
     vim.opt_local.wrap = true
     vim.opt_local.spell = true
   end,

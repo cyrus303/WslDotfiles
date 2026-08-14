@@ -28,8 +28,11 @@ return {
         local orig_new = tel_pickers.new
         tel_pickers.new = function(p_opts, p_config)
           tel_pickers.new = orig_new
-          if p_config and type(p_config.prompt_title) == "string"
-              and p_config.prompt_title:find(title_pattern, 1, true) then
+          if
+            p_config
+            and type(p_config.prompt_title) == "string"
+            and p_config.prompt_title:find(title_pattern, 1, true)
+          then
             local orig_attach = p_config.attach_mappings
             p_config.attach_mappings = function(prompt_bufnr, map)
               local actions = require("telescope.actions")
@@ -45,7 +48,9 @@ return {
               end
               map("i", "<C-l>", actions.select_default)
               map("n", "<C-l>", actions.select_default)
-              if orig_attach then return orig_attach(prompt_bufnr, map) end
+              if orig_attach then
+                return orig_attach(prompt_bufnr, map)
+              end
               return true
             end
           end

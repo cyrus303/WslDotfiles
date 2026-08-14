@@ -6,7 +6,9 @@ local roslyn_opts = {
       return t:match("%.sln$") or t:match("%.slnx$") or t:match("%.slnf$")
     end, targets)
     local pool = #slns > 0 and slns or targets
-    table.sort(pool, function(a, b) return #a < #b end)
+    table.sort(pool, function(a, b)
+      return #a < #b
+    end)
     return pool[1]
   end,
 }
@@ -28,7 +30,9 @@ return {
     vim.lsp.handlers["textDocument/diagnostic"] = function(err, result, ctx, config)
       if err and err.code == -30099 then
         local client = vim.lsp.get_client_by_id(ctx.client_id)
-        if client and client.name == "roslyn" then return end
+        if client and client.name == "roslyn" then
+          return
+        end
       end
       return orig(err, result, ctx, config)
     end
