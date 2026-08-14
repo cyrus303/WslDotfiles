@@ -217,18 +217,41 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
--- Treat comment-bearing JSON files as jsonc so // isn't flagged as a parse error
+-- Treat comment-bearing JSON files as jsonc so // isn't flagged as a parse error.
+-- jsonls permits comments based on the LSP languageId, which Neovim derives
+-- verbatim from filetype -- so filetype must be jsonc or we get "Comments are
+-- not permitted in JSON. (521)". A fixed filename list can't keep up (appsettings
+-- .json, .vscode/*.json, devcontainer.json, .claude/settings.json all allow
+-- comments), so anything that opens with a line-leading // or /* is treated as
+-- jsonc too. Anchoring to line start keeps "https://..." values from matching.
+local jsonc_names = {
+  ["local.settings.json"] = true,
+  ["jsconfig.json"] = true,
+  [".eslintrc.json"] = true,
+}
+
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   group = augroup("jsonc_filetype"),
-  pattern = {
-    "*.jsonc",
-    "local.settings.json",
-    "tsconfig*.json",
-    "jsconfig.json",
-    ".eslintrc.json",
-  },
-  callback = function()
-    vim.bo.filetype = "jsonc"
+  pattern = { "*.json", "*.jsonc" },
+  callback = function(ev)
+    local name = vim.fs.basename(ev.file or "")
+
+    if name:match("%.jsonc$") or jsonc_names[name] or name:match("^tsconfig.*%.json$") then
+      vim.bo[ev.buf].filetype = "jsonc"
+      return
+    end
+
+    -- Bail on very large files rather than scanning them line by line.
+    if vim.api.nvim_buf_line_count(ev.buf) > 5000 then
+      return
+    end
+
+    for _, line in ipairs(vim.api.nvim_buf_get_lines(ev.buf, 0, -1, false)) do
+      if line:match("^%s*//") or line:match("^%s*/%*") then
+        vim.bo[ev.buf].filetype = "jsonc"
+        return
+      end
+    end
   end,
 })
 
