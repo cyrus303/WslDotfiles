@@ -53,9 +53,15 @@ return {
               local icon, icon_hl = Snacks.util.icon(base, "file")
               local dir = vim.fn.fnamemodify(item.file, ":h")
               dir = vim.fs.relpath(picker:cwd(), dir) or dir
+              -- Not Snacks.picker.util.align here: it returns the text with no
+              -- padding at all once it exceeds the width, so a long filename
+              -- (ExamBuilderQuestionAttemptResponsesController.cs) ended up flush
+              -- against its path with no separator. Pad to the shared column when
+              -- the name fits, and guarantee two spaces when it overflows.
+              local pad = math.max(2, 30 - vim.api.nvim_strwidth(base))
               return {
                 { Snacks.picker.util.align(icon, 2), icon_hl, virtual = true },
-                { Snacks.picker.util.align(base, 30), "SnacksPickerFile", field = "file" },
+                { base .. string.rep(" ", pad), "SnacksPickerFile", field = "file" },
                 { dir == "." and "" or dir, "SnacksPickerDir", field = "file" },
               }
             end,
