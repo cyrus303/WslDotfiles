@@ -4,18 +4,16 @@ return {
   event = "BufWritePre",
   opts = {
     formatters_by_ft = {
-      -- C# is deliberately absent so it falls through to lsp_format = "fallback"
-      -- below, i.e. Roslyn formats it. Visual Studio formats with Roslyn too, so
-      -- using the same engine is what stops every touched file churning against
-      -- teammates who only use VS. csharpier is a different formatter by design
-      -- (Prettier-style: it re-wraps arguments and re-breaks lines) and cannot be
-      -- configured to match VS, so matching meant swapping engines, not settings.
-      --
-      -- Re-enable by uncommenting -- but note it will diverge from VS again unless
-      -- the team adopts csharpier (dotnet-tools.json + the CSharpier VS extension).
-      -- The zero-effort alternative is a committed .editorconfig, which VS reads
-      -- natively and Roslyn honours, making both sides deterministic.
-      -- cs = { "csharpier" },
+      -- Roslyn's LSP formatter was tried here instead (to match teammates who
+      -- format via Visual Studio, which uses Roslyn) and is NOT good enough: on a
+      -- controller with stray blank lines inside a parameter list it changed
+      -- nothing at all -- 126 lines in, 126 out, 24 blank lines unchanged, and a
+      -- 29-space over-indent left as-is. It only normalises already-reasonable
+      -- code; it will not re-join split expressions or drop spurious blank lines.
+      -- csharpier reprints from the syntax tree, which is what actually turns
+      -- messy typing into tidy code, so it stays. Matching VS has to be solved by
+      -- the team adopting csharpier, not by giving up formatting locally.
+      cs = { "csharpier" },
       json = { "prettierd" },
       lua = { "stylua" },
       css = { "prettierd" },
