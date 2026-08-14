@@ -156,33 +156,25 @@ return {
 					buttons = { "play", "step_into", "step_over", "step_out", "terminate" },
 				},
 			},
+			-- dap-view 1.2 made keymaps declarative, which replaces the old FileType +
+			-- vim.schedule block that raced its internal set_keymaps(). Each list here
+			-- fully replaces the plugin default (tbl_deep_extend overwrites arrays), so
+			-- the defaults are restated alongside <C-l>, which mirrors <CR> to match the
+			-- global expand binding. [v/]v/[[/[V/]V are left to the plugin: they now
+			-- ship descriptions, and vim._maxint -- which the old comment claimed was
+			-- gone -- still exists in 0.12, so [V/]V were never actually broken.
+			keymaps = {
+				scopes = { toggle = { "<CR>", "<2-LeftMouse>", "<C-l>" } },
+				watches = { toggle = { "<CR>", "<2-LeftMouse>", "<C-l>" } },
+				hover = { toggle = { "<CR>", "<2-LeftMouse>", "<C-l>" } },
+				threads = { jump_to_frame = { "<CR>", "<2-LeftMouse>", "<C-l>" } },
+				exceptions = { toggle_filter = { "<CR>", "<2-LeftMouse>", "<C-l>" } },
+				sessions = { switch_session = { "<CR>", "<2-LeftMouse>", "<C-l>" } },
+				breakpoints = { jump_to_breakpoint = { "<CR>", "<2-LeftMouse>", "<C-l>" } },
+			},
 		},
 		config = function(_, opts)
-			local dapview = require("dap-view")
-			dapview.setup(opts)
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = "dap-view",
-				callback = function(args)
-					vim.keymap.set("n", "<C-l>", "<CR>", { buffer = args.buf, remap = true, desc = "DAP View Expand" })
-					-- Defer so our overrides land after the plugin's own set_keymaps() call
-					vim.schedule(function()
-						if not vim.api.nvim_buf_is_valid(args.buf) then
-							return
-						end
-						-- Add missing descriptions
-						vim.keymap.set("n", "[v", function()
-							dapview.navigate({ count = -vim.v.count1, wrap = true })
-						end, { buffer = args.buf, desc = "DAP View Prev Tab" })
-						vim.keymap.set("n", "]v", function()
-							dapview.navigate({ count = vim.v.count1, wrap = true })
-						end, { buffer = args.buf, desc = "DAP View Next Tab" })
-						-- Delete broken/undescribed keymaps ([V/]V use vim._maxint which no longer exists)
-						pcall(vim.keymap.del, "n", "[[", { buffer = args.buf })
-						pcall(vim.keymap.del, "n", "[V", { buffer = args.buf })
-						pcall(vim.keymap.del, "n", "]V", { buffer = args.buf })
-					end)
-				end,
-			})
+			require("dap-view").setup(opts)
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = { "dap-view-term", "dap-repl" },
 				callback = function()
