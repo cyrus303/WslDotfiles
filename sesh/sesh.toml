@@ -1,0 +1,23 @@
+# Every new session sesh creates starts in nvim instead of a bare prompt.
+#
+# Reached through the `bind s` popup in tmux/tmux.conf -- all of its modes (^a
+# all, ^t tmux, ^g configs, ^x zoxide, ^f find) funnel into the same
+# `sesh connect`, so this covers them uniformly.
+#
+# Safe to do because sesh runs startup_command with tmux send-keys rather than
+# as the pane's start command: the shell stays underneath, so quitting nvim
+# leaves a zsh prompt in the project root rather than destroying the session.
+# (Verified: a new session's pane_start_command is empty and it survives its
+# startup command exiting.)
+#
+# It also only applies to sessions being *created* -- sesh ignores it when the
+# session already exists, so reattaching to a project where nvim is already open
+# never spawns a second instance.
+#
+# Plain `nvim`, not `nvim .`: this opens the snacks dashboard, which carries the
+# persistence.nvim restore entry. `nvim .` would open a directory listing.
+#
+# A single directory that should stay a shell can override this with its own
+# [[session]] entry and disable_startup_command = true.
+[default_session]
+startup_command = "nvim"
