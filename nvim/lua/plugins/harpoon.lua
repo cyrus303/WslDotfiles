@@ -1,4 +1,6 @@
--- Add Snacks picker for harpoon files (with preview) via <leader>h
+-- Snacks picker for harpoon files via <leader>h. No preview: the list is a
+-- handful of files you already chose, so a preview pane adds nothing to jump to
+-- one and just takes up the screen.
 return {
   {
     "ThePrimeagen/harpoon",
@@ -39,7 +41,10 @@ return {
             title = "Harpoon",
             finder = build_items,
             format = "file",
-            preview = "file",
+            -- The "select" preset declares hidden = { "preview" }, so this drops
+            -- the preview pane and gives a compact centred list instead of the
+            -- default half-screen split.
+            layout = { preset = "select" },
             actions = {
               harpoon_remove = function(picker, item)
                 harpoon:list():remove({ value = item.file })
