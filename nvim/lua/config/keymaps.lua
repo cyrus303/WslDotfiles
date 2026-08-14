@@ -1,13 +1,16 @@
+-- Space as leader, backslash as local leader. Must come before the first
+-- mapping in this file: <leader> is resolved when a mapping is defined, not
+-- when it is pressed, so anything declared above this binds to the old leader.
+-- config.keymaps is required before config.lazy, so plugin `keys` specs see it.
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+
 local map = vim.keymap.set
 
 -- gc toggles comment on current line (disabled keymaps live in config/disabled.lua)
 map("n", "gc", function()
 	return require("vim._comment").operator() .. "_"
 end, { expr = true, desc = "Toggle comment line" })
-
--- Space as leader, backslash as local leader
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
 
 -- Save and quit
 map({ "n", "v" }, "<C-s>", "<cmd>w<CR>", { desc = "Save buffer" })

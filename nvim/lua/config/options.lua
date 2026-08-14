@@ -22,6 +22,7 @@ opt.ignorecase = true
 opt.smartcase = true        -- case-sensitive when query has uppercase
 opt.grepprg = "rg --vimgrep"
 opt.grepformat = "%f:%l:%c:%m"
+opt.inccommand = "split" -- live preview of :s///, with off-screen hits in a split
 
 -- UI
 opt.termguicolors = true
@@ -40,7 +41,11 @@ opt.fillchars:append({ diff = " ", eob = " " }) -- cleaner diff and end-of-buffe
 
 -- Files & buffers
 opt.autoread = true
-opt.autowrite = true        -- save when switching buffers
+-- Writes stay explicit (<C-s>). Buffer and window switching never wrote anyway
+-- -- 'hidden' is on, so an abandoned buffer is hidden rather than written -- but
+-- autowrite still fired on :!, :make, :suspend, :next and CTRL-], silently
+-- writing unsaved work and triggering conform's format-after-save with it.
+opt.autowrite = false
 opt.undofile = true
 opt.undolevels = 10000
 opt.confirm = true          -- prompt instead of erroring on unsaved changes
