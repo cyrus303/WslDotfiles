@@ -319,6 +319,21 @@ return {
         git_status = { layout = { preset = "default" } },
         buffers = {
           formatters = { file = { filename_only = true } },
+          -- The built-in sort compares only `info.lastused`, a whole-second timestamp, so
+          -- buffers entered in the same second tie and Lua's unstable table.sort reshuffles
+          -- them on every refresh — including the one bufdelete triggers. Sorting with bufnr
+          -- as a tiebreaker makes the order total, so the list holds still while deleting.
+          sort_lastused = false,
+          finder = function(opts, ctx)
+            local items = require("snacks.picker.source.buffers").buffers(opts, ctx)
+            table.sort(items, function(a, b)
+              if a.info.lastused ~= b.info.lastused then
+                return a.info.lastused > b.info.lastused
+              end
+              return a.buf < b.buf
+            end)
+            return items
+          end,
           transform = function(item)
             item.pos = nil
           end,
