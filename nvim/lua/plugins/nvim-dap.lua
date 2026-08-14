@@ -1,3 +1,23 @@
+-- Shared by <leader>dx and the terminal-mode <C-c> below.
+local function stop_session()
+	local terminal_ok, terminal = pcall(require, "azfunc.terminal")
+	if terminal_ok and terminal.get_state().channel then
+		require("azfunc").stop()
+		return
+	end
+	local dap = require("dap")
+	local session = dap.session()
+	if session then
+		if session.term_buf and vim.api.nvim_buf_is_valid(session.term_buf) then
+			local job_id = vim.bo[session.term_buf].channel
+			if job_id and job_id > 0 then
+				vim.fn.jobstop(job_id)
+			end
+		end
+		dap.terminate()
+	end
+end
+
 return {
 	{
 		"mfussenegger/nvim-dap",
@@ -40,24 +60,7 @@ return {
 			},
 			{
 				"<leader>dx",
-				function()
-					local terminal_ok, terminal = pcall(require, "azfunc.terminal")
-					if terminal_ok and terminal.get_state().channel then
-						require("azfunc").stop()
-						return
-					end
-					local dap = require("dap")
-					local session = dap.session()
-					if session then
-						if session.term_buf and vim.api.nvim_buf_is_valid(session.term_buf) then
-							local job_id = vim.bo[session.term_buf].channel
-							if job_id and job_id > 0 then
-								vim.fn.jobstop(job_id)
-							end
-						end
-						dap.terminate()
-					end
-				end,
+				stop_session,
 				desc = "Stop debug session",
 			},
 			{
@@ -177,8 +180,28 @@ return {
 			require("dap-view").setup(opts)
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = { "dap-view-term", "dap-repl" },
-				callback = function()
+				callback = function(args)
 					vim.wo.wrap = true
+
+					-- Ctrl-C from inside the dap terminal. Once a breakpoint is hit,
+					-- netcoredbg puts the pty in raw mode (ISIG off), so no control
+					-- character generates a signal any more -- ^C/^X/^Z just echo as
+					-- text and the app can't be stopped from the terminal at all.
+					-- nvim handles terminal-mode mappings before bytes reach the pty,
+					-- so intercept here: while stopped, terminate through DAP; while
+					-- running, forward a literal 0x03 so the normal graceful shutdown
+					-- ("Press Ctrl+C to shut down") still works as before.
+					vim.keymap.set("t", "<C-c>", function()
+						local session = require("dap").session()
+						if session and session.stopped_thread_id then
+							vim.schedule(stop_session)
+						else
+							local chan = vim.bo[args.buf].channel
+							if chan and chan > 0 then
+								vim.api.nvim_chan_send(chan, "\3")
+							end
+						end
+					end, { buffer = args.buf, desc = "Stop debug session / send SIGINT" })
 				end,
 			})
 		end,
