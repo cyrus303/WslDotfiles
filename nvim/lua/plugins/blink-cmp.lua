@@ -35,16 +35,14 @@ return {
       },
       ghost_text = { enabled = false },
     },
+    -- No easy-dotnet source here on purpose. It completed Include="/Version="
+    -- in csproj/fsproj/xml, which easy-dotnet's projx_lsp (an XML language
+    -- server gated to *.csproj) now does through the LSP source instead --
+    -- running both duplicated NuGet completions, and :checkhealth easy-dotnet
+    -- warns "cmp source configured, use projx_lsp instead". Only .fsproj loses
+    -- coverage, since projx_lsp is .csproj-only.
     sources = {
-      default = { "lsp", "path", "snippets", "buffer", "easy-dotnet" },
-      providers = {
-        ["easy-dotnet"] = {
-          name = "easy-dotnet",
-          module = "easy-dotnet.completion.blink",
-          score_offset = 10,
-          async = true,
-        },
-      },
+      default = { "lsp", "path", "snippets", "buffer" },
     },
     signature = {
       enabled = true,
