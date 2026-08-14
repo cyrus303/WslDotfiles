@@ -58,7 +58,8 @@ return {
       { "<leader>dX", desc = "DAP Clear Breakpoints", icon = { icon = "󱘖", color = "orange" } },
       { "<leader>dp", group = "packages" },
       { "<leader>lr", desc = "Line references (codelens)" },
-      { "<leader>f", group = "find" },
+      -- No "<leader>f" group: there are no <leader>f* mappings, so it only ever
+      -- rendered an empty menu. Files are <leader><leader>, grep is <leader>/.
       { "<leader>s", group = "search" },
       { "<leader>g", group = "git" },
       { "<leader>gg", desc = "Lazygit" },

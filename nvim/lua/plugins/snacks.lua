@@ -107,6 +107,15 @@ return {
       end,
       desc = "Keymaps",
     },
+    -- Reopens the last picker with its query and selection intact, which is the
+    -- difference between losing a long grep to a stray <Esc> and carrying on.
+    {
+      "<leader>sR",
+      function()
+        Snacks.picker.resume()
+      end,
+      desc = "Resume last picker",
+    },
     {
       "<leader>/",
       function()
@@ -210,7 +219,9 @@ return {
       preset = {
         keys = {
           { icon = "󰈞", key = "f", desc = "Find file", action = "<leader><leader>" },
-          { icon = "󰊄", key = "g", desc = "Live grep", action = "<leader>sg" },
+          -- <leader>/ is the actual live grep; <leader>sg is fuzzy grep
+          -- (live = false), which this button used to fire despite its label.
+          { icon = "󰊄", key = "g", desc = "Live grep", action = "<leader>/" },
           {
             icon = "󰁯",
             key = "s",
