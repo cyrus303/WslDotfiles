@@ -68,13 +68,18 @@ map("n", "<leader>bo", function()
   end
 end, { desc = "Close other buffers" })
 
--- Folds: `za` (default) toggles the fold under cursor (method/block).
--- `<leader>z` toggles VS-style method folding: collapses methods only,
--- keeps class/namespace structure visible.
--- If folding isn't at the right depth, change the `1` below:
---   0 = fold everything including class
---   1 = fold methods, keep class + namespace open (C# default)
---   2 = fold nested blocks inside methods, keep methods visible
+-- Folds: `za` (default) toggles the fold under the cursor. `<leader>z` is
+-- Collapse to Definitions -- every member down to one signature line, class
+-- still open.
+--
+-- foldlevel 1 only means that because queries/c_sharp/folds.scm folds
+-- declarations and deliberately does not fold (namespace_declaration). With
+-- upstream's body-node query this same keymap folded method bodies in a
+-- file-scoped-namespace file but the entire class body in a braced one, since
+-- the braces added a level. Depths for reference, under the local query:
+--   0 = fold the types too
+--   1 = fold members, keep the type declaration open
+--   2 = fold blocks nested inside members
 map("n", "<leader>z", function()
   if vim.wo.foldlevel > 1 then
     vim.wo.foldlevel = 1

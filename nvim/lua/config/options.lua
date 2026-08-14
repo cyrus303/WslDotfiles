@@ -60,11 +60,33 @@ opt.directory = vim.fn.stdpath("state") .. "/swap//"
 -- Session
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" }
 
--- Treesitter-driven folds, open by default
+-- Treesitter-driven folds, open by default. C# folds come from the local
+-- queries/c_sharp/folds.scm override, which folds declarations rather than the
+-- upstream body nodes -- see the comment at the top of that file.
 opt.foldlevel = 99
 opt.foldmethod = "expr"
 opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-opt.foldtext = "" -- use treesitter's fold display instead of default
+opt.foldtext = "" -- render the fold's first line with its real highlighting
+
+-- Fold markers in the gutter. snacks' statuscolumn draws the icon, but it gates
+-- the whole fold component on `foldcolumn ~= "0"` (snacks/statuscolumn.lua), so
+-- leaving foldcolumn at its "0" default meant no fold indicator ever appeared --
+-- neither a chevron on foldable lines nor a marker on folded ones. This costs
+-- one gutter column. Pair with folds.open in the snacks statuscolumn opts,
+-- otherwise only *closed* folds get an icon and there is still nothing showing
+-- what is foldable in the first place.
+opt.foldcolumn = "1"
+-- fold = "·" keeps the dotted tail this config showed before: with foldtext = ""
+-- a folded line renders as its own source text, so without the tail a collapsed
+-- method is indistinguishable from a normal signature row apart from the gutter.
+-- ("·" is also the fillchars default -- set explicitly so the trio reads as one
+-- deliberate choice.)
+--
+-- The chevrons are U+F47C and U+F460, the Nerd Font octicon pair this config
+-- used to render before LazyVim was dropped -- recovered from LazyVim's own
+-- fillchars in ~/.cache/nvim/luac. Written as escapes rather than literal glyphs
+-- so the codepoints survive editors and fonts that cannot show them.
+opt.fillchars:append({ foldopen = "\u{f47c}", foldclose = "\u{f460}", fold = "·" })
 
 -- Show trailing whitespace and non-breaking spaces
 opt.list = true

@@ -192,7 +192,13 @@ return {
     -- that the LSP is up. "latex" is quickfile's own default; keep it.
     quickfile = { enabled = true, exclude = { "latex", "c_sharp" } },
     scope = { enabled = true },
-    statuscolumn = { enabled = true },
+    -- folds.open defaults to false, which draws an icon only once a fold is
+    -- already closed -- so nothing ever hints that a line *can* be folded.
+    -- Turning it on gives the VS-Code affordance: a chevron on every foldable
+    -- header, not just on collapsed ones. Both glyphs come from fillchars
+    -- foldopen/foldclose, and this needs foldcolumn ~= "0" to render at all --
+    -- both set in config/options.lua.
+    statuscolumn = { enabled = true, folds = { open = true } },
     words = { enabled = true },
     scratch = { enabled = true },
     scroll = { enabled = false },
