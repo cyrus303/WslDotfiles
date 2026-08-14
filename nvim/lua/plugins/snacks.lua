@@ -142,6 +142,20 @@ return {
       end,
       desc = "Select Scratch Buffer",
     },
+    -- Renames the file on disk and moves the buffer with it, sending
+    -- workspace/willRenameFiles first so the LSP can fix anything that depends on
+    -- the path. Roslyn does advertise that method, but note what it does NOT do:
+    -- tested on a throwaway class, the file was renamed and the class name was
+    -- left alone. C# does not couple the two, so Roslyn returns no edit for it.
+    -- To rename the type as well, use <leader>cr (rename symbol) on the class
+    -- name afterwards -- this map is purely the file half.
+    {
+      "<leader>cR",
+      function()
+        Snacks.rename.rename_file()
+      end,
+      desc = "Rename file (LSP-aware)",
+    },
   },
   opts = {
     lazygit = {
