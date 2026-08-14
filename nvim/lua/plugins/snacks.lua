@@ -163,7 +163,11 @@ return {
 		},
 		input = { enabled = true },
 		notifier = { enabled = true, timeout = 3000 },
-		quickfile = { enabled = true },
+		-- quickfile calls vim.treesitter.start itself before plugins load, which
+		-- bypasses the cs exclusion in the treesitter FileType handler. Excluding
+		-- c_sharp keeps C# unstyled until Roslyn attaches -- that's the signal
+		-- that the LSP is up. "latex" is quickfile's own default; keep it.
+		quickfile = { enabled = true, exclude = { "latex", "c_sharp" } },
 		scope = { enabled = true },
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
