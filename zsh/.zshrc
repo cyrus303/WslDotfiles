@@ -23,6 +23,7 @@ plugins=(
   git
   zsh-autosuggestions
   zsh-syntax-highlighting
+  azure
 )
 source "$ZSH/oh-my-zsh.sh"
 autoload -U +X bashcompinit && bashcompinit
@@ -167,6 +168,51 @@ azlog() {
   name=$(awk '{print $1}' <<< "$selection")
   rg=$(awk '{print $2}' <<< "$selection")
   az webapp log tail --name "$name" --resource-group "$rg" 2>&1 | tspin
+}
+
+# ----- Azure app start/stop toggle (fzf picker) -----
+# aztoggle [resource-group] — Tab to multi-select, Enter toggles, Esc quits
+aztoggle() {
+  setopt LOCAL_OPTIONS
+  unsetopt MONITOR
+  local rg=$1 selection line state name kind
+  if [[ -z "$rg" ]]; then
+    rg=$(printf '%s\n' rg-ie-dev rg-ie-test |
+      fzf --prompt="Resource group: " --preview '' --preview-window=hidden --layout=reverse)
+    [[ -z "$rg" ]] && return
+  fi
+  while true; do
+    selection=$(
+      {
+        az webapp list -g "$rg" --query "[].[state, name, 'webapp']" -o tsv 2>/dev/null &
+        az functionapp list -g "$rg" --query "[].[state, name, 'functionapp']" -o tsv 2>/dev/null &
+        wait
+      } | tr -d '\r' | sort -u -k2,2 |
+        awk -F'\t' '
+          { st[NR] = $1; nm[NR] = $2; kd[NR] = $3; if (length($2) > w) w = length($2) }
+          END {
+            for (i = 1; i <= NR; i++) {
+              c = (st[i] == "Running") ? "32" : "31"
+              k = (kd[i] == "functionapp") ? "func" : "web"
+              printf "\033[%sm● %-8s\033[0m  %-*s  \033[90m%s\033[0m\t%s\t%s\t%s\n", c, st[i], w, nm[i], k, st[i], nm[i], kd[i]
+            }
+          }' |
+        fzf --ansi --multi --delimiter='\t' --with-nth=1 --prompt="$rg > " \
+          --header="Tab: multi-select  Enter: toggle  Esc: quit" \
+          --preview '' --preview-window=hidden --layout=reverse
+    )
+    [[ -z "$selection" ]] && return
+    while IFS=$'\t' read -r _ state name kind; do
+      if [[ "$state" == "Running" ]]; then
+        echo "Stopping $name..."
+        az $kind stop -g "$rg" -n "$name" -o none &
+      else
+        echo "Starting $name..."
+        az $kind start -g "$rg" -n "$name" -o none &
+      fi
+    done <<< "$selection"
+    wait
+  done
 }
 
 # ----- zoxide (must be last) -----
